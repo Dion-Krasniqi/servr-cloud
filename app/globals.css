@@ -40,5 +40,10 @@ body {
     justify-content:center;
     height: 100dvh;
 }
+  .h1 {
+    font-size: 34px;
+    line-height: 42px;
+    font-style: bold;
+  }
 
 }
