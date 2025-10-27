@@ -8,7 +8,6 @@ import { Button } from "@/components/ui/button"
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -19,21 +18,25 @@ import { useState } from "react"
 import Image from "next/image"
 import Link from "next/link"
 
- 
-const formSchema = z.object({
-  username: z.string().min(2).max(50),
-})
-
 type FormType = 'sign-in' | 'sign-up';
+
+const AuthFormSchema = (formType:FormType) => {
+  return z.object({
+    email: z.email(),
+    name: formType === 'sign-up' ? z.string().min(2).max(50) : z.string().optional(),
+  })
+}
 
 const AuthForm = ({ type }:{ type:FormType }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [errMsg, setErrMsg] = useState('');
 
+  const formSchema = AuthFormSchema(type);
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      username: "",
+      name: "",
+      email:"",
     },
   })
  
@@ -51,13 +54,13 @@ const AuthForm = ({ type }:{ type:FormType }) => {
         </h1>
         {type==='sign-up' && <FormField
           control={form.control}
-          name="fullName"
+          name="name"
           render={({ field }) => (
-            <FormItem>
+            <FormItem className="w-full">
               <div >
                 <FormLabel className="text-ring">Name</FormLabel>
                 <FormControl>
-                  <Input placeholder="Enter your name" {...field} className="rounded-sm border-ring mt-2"/>
+                  <Input placeholder="Enter your name" {...field} className="rounded-sm border-ring mt-2 w-full"/>
                 </FormControl>
               </div>
                 <FormMessage />
@@ -68,11 +71,11 @@ const AuthForm = ({ type }:{ type:FormType }) => {
           control={form.control}
           name="email"
           render={({ field }) => (
-            <FormItem>
+            <FormItem className="w-full">
               <div >
                 <FormLabel className="text-ring">Email</FormLabel>
                 <FormControl>
-                  <Input placeholder="Enter your email" {...field} className="rounded-sm border-ring mt-2"/>
+                  <Input placeholder="Enter your email" {...field} className="rounded-sm border-ring mt-2 w-full"/>
                 </FormControl>
               </div>
                 <FormMessage />
