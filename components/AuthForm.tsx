@@ -18,6 +18,7 @@ import { useState } from "react"
 import Image from "next/image"
 import Link from "next/link"
 import { createAcconut } from "@/lib/actions/user.actions"
+import OTPModal from "./OTPModal"
 
 type FormType = 'sign-in' | 'sign-up';
 
@@ -108,8 +109,11 @@ const AuthForm = ({ type }:{ type:FormType }) => {
           <Link href={type === 'sign-in' ? "/sign-up":"/sign-in"} className="font-medium ml-1 text-red">{type === 'sign-in' ? "Sign Up":"Sign In"}</Link>
         </div>
       </form>
+      
     </Form>
+    {true && <OTPModal />}
     </>
+
   )
 }
 
