@@ -18,9 +18,9 @@ export const createSessionClient = async() => {
         get account(){
             return new Account(client);
         },
-        get databases(){
-            return new Databases(client);
-        }
+        get tablesDB(){
+            return new TablesDB(client);
+        },
     }
 }
 

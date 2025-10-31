@@ -1,10 +1,11 @@
 "use server";
 
-import { Avatars, ID, Query } from "node-appwrite";
+import { Avatars, ID, Query, TablesDB } from "node-appwrite";
 import { createAdminClient, createSessionClient } from "../appwrite";
 import { appwriteConfig } from "../appwrite/config";
 import { parseStringify } from "../utils";
 import { cookies } from "next/headers";
+import { profilePlaceholder } from "@/constants";
 
 const getUserByEmail = async(email:string) => {
 
@@ -55,7 +56,7 @@ export const createAcconut = async({name, email}:{name:string;email:string}) => 
             ID.unique(),
             {   "Name":name,
                 "Email":email,
-                "Profile":'https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png',
+                "Profile":profilePlaceholder,
                 "AccountId":accountId,
             }
         )
@@ -86,5 +87,25 @@ export const verifySecret = async({accountId,password}:{accountId:string;passwor
         handleError(error,'Failed to verify OTP');
 
     }
+
+}
+
+export const getCurrentUser = async()=> {
+
+    const {tablesDB,account} = await createSessionClient();
+    const result = await account.get();
+
+    const user = await tablesDB.listRows(
+        appwriteConfig.databaseId,
+        appwriteConfig.usersId,
+        [Query.equal('AccountId', result.$id)],
+    );
+
+    if (user.total <= 0) {
+        return null;
+    }
+
+    return parseStringify(user.rows[0]);
+
 
 }

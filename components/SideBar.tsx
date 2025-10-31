@@ -5,13 +5,19 @@ import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import React from 'react'
 
-const SideBar = () => {
+interface Props {
+  Name:string;
+  Profile:string;
+  Email:string;
+  }
+
+const SideBar = ({Name,Profile,Email}: Props) => {
 
   const pathname = usePathname();
 
   return (
     <aside>
-      <Link href='/'>
+      <Link href='/' className='flex justify-center'>
         <Image src="/logo.png" 
                alt="logo" 
                width={60} 
@@ -34,14 +40,31 @@ const SideBar = () => {
                           hover:scale-102 hover:rotate-2 hover:mb-4"/>
       </Link>
       <nav>
-        <ul className='flex flex-1 flex-col gap-6'>
+        <ul className='flex flex-1 flex-col gap-6 px-4 mt-4'>
           {navItems.map(({ url, name })=>{
             const active = (pathname === url);
-            return (<Link key={name} href={url} className='lg:w-full'><li><p>{name}</p></li></Link>)
+            return (<Link key={name} href={url} className='lg:w-full text-start'>
+              <li>
+                <p className=
+                    {(pathname==url) ? 'text-white bg-red rounded-md px-2 hidden lg:block'
+                                        :'text-red px-2 hidden lg:block'}>{name}
+                </p>
+                <p className=
+                    {(pathname==url) ? 'text-white bg-red rounded-md px-2 text-center lg:hidden'
+                                        :'text-red px-2  text-center lg:hidden'}>{name.charAt(0)}
+                </p>
+              </li></Link>)
           })}
 
         </ul>
       </nav>
+      <div>
+        <Image src={Profile} alt='Profile' width={44} height={44} className='rounded-4xl'/>
+        <div className='hidden lg:block'>
+          <p className='subtitle-2 capitalize'>{Name}</p>
+          <p className='subtitle-2'>{Email}</p>
+        </div>
+      </div>
     </aside>
   )
 }
