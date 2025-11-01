@@ -16,7 +16,7 @@ const SideBar = ({Name,Profile,Email}: Props) => {
   const pathname = usePathname();
 
   return (
-    <aside>
+    <aside className='hidden lg:block'>
       <Link href='/' className='flex justify-center'>
         <Image src="/logo.png" 
                alt="logo" 

@@ -5,7 +5,7 @@ import FileUploader from './FileUploader'
 
 const Header = () => {
   return (
-    <header className='flex flex-row justify-between items-center'>
+    <header className='flex flex-row justify-between items-center hidden lg:block'>
         <Search />
         <div className='flex flex-row gap-4 items-center'>
             <FileUploader />
