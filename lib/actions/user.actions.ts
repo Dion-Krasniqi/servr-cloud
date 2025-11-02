@@ -6,6 +6,7 @@ import { appwriteConfig } from "../appwrite/config";
 import { parseStringify } from "../utils";
 import { cookies } from "next/headers";
 import { profilePlaceholder } from "@/constants";
+import { redirect } from "next/navigation";
 
 const getUserByEmail = async(email:string) => {
 
@@ -108,4 +109,18 @@ export const getCurrentUser = async()=> {
     return parseStringify(user.rows[0]);
 
 
+}
+
+export const signOutUser = async() => {
+
+    const { account } = await createSessionClient();
+
+    try {
+        await account.deleteSessions();
+        (await cookies()).delete('appwrite-session');
+    } catch (error) {
+        handleError(error,'Failed to sign out')
+    } finally {
+        redirect('/sign-in');
+    }
 }

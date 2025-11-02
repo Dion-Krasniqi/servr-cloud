@@ -15,6 +15,7 @@ import { navItems } from "@/constants";
 import Link from "next/link";
 import { Button } from "./ui/button";
 import FileUploader from "./FileUploader";
+import { signOutUser } from "@/lib/actions/user.actions";
 
 interface Props {
   ownerId:string;
@@ -65,7 +66,7 @@ const MobileNav = ({ownerId, AccountId, Name,Profile,Email}: Props) => {
               <div className="flex flex-col gap-5 justify-between">
                 <FileUploader />
                 <form className='self-center'>
-                    <Button type='submit' className='text-sm'>Sign Out</Button>
+                    <Button type='submit' className='text-sm' onClick={async()=>{await signOutUser();}}>Sign Out</Button>
                 </form>
 
               </div>
