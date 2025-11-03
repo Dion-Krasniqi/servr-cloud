@@ -65,12 +65,12 @@ const OTPModal = ({accountId, email}:{accountId:string;email:string}) => {
             </AlertDialogHeader>
         <InputOTP maxLength={6} value={password} onChange={setpassword}>
             <InputOTPGroup >
+                <InputOTPSlot index={0} className=" font-smbold text-red rounded-md "/>
                 <InputOTPSlot index={1} className=" font-smbold text-red rounded-md "/>
                 <InputOTPSlot index={2} className=" font-smbold text-red rounded-md "/>
                 <InputOTPSlot index={3} className=" font-smbold text-red rounded-md "/>
                 <InputOTPSlot index={4} className=" font-smbold text-red rounded-md "/>
                 <InputOTPSlot index={5} className=" font-smbold text-red rounded-md "/>
-                <InputOTPSlot index={6} className=" font-smbold text-red rounded-md "/>
             </InputOTPGroup>
         </InputOTP>
     <AlertDialogFooter>

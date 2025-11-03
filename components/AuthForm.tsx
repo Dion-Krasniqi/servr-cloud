@@ -47,7 +47,10 @@ const AuthForm = ({ type }:{ type:FormType }) => {
     setErrMsg('');
     setIsLoading(true);
     try {
-      const user = type==='sign-up' ? await createAcconut({name:values.name || '',email:values.email}) : await signInUser({email:values.email})
+      const user = (type==='sign-up') ?
+        await createAcconut({name:values.name || '',email:values.email}):
+        await signInUser({email:values.email});
+      console.log(user.accountId)
       setAccountId(user.accountId);
 
     } catch(error) {

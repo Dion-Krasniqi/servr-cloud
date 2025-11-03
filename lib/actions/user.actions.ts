@@ -72,12 +72,13 @@ export const verifySecret = async({accountId,password}:{accountId:string;passwor
     try {
 
         const { account } = await createAdminClient();
-        const session = await account.createSession(accountId, password);
+        const session = await account.createSession(accountId,password);
+        console.log(session);
 
-        (await cookies()).set("appwrite-session", session.secret, {
+        (await cookies()).set('appwrite-session', session.secret, {
             path: "/",
             httpOnly: true,
-            sameSite: "strict",
+            sameSite: 'strict',
             secure: true,
         });
 
@@ -115,6 +116,7 @@ export const signOutUser = async() => {
 
     const { account } = await createSessionClient();
 
+    /*
     try {
         await account.deleteSessions();
         (await cookies()).delete('appwrite-session');
@@ -123,17 +125,18 @@ export const signOutUser = async() => {
     } finally {
         redirect('/sign-in');
     }
+     */
 }
 export const signInUser = async({email}:{email:string}) => {
     try {
         const existingUser = await getUserByEmail(email);
         if (existingUser) {
             await sendEmailOTP({email});
-            return parseStringify({accountId: existingUser.accountId});
+            return parseStringify({accountId: existingUser.AccountId});
         }
         return parseStringify({accountId: null, error:'User not found!'});
 
     } catch (error) {
         handleError(error,'Failed to sign in');
-    }
+    } 
 }
