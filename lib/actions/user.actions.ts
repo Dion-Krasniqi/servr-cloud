@@ -1,4 +1,4 @@
-"use server";
+'use server';
 
 import { Avatars, ID, Query, TablesDB } from "node-appwrite";
 import { createAdminClient, createSessionClient } from "../appwrite";
@@ -44,7 +44,7 @@ export const sendEmailOTP = async({email}:{email:string}) => {
     }
 }
 
-export const createAcconut = async({name, email}:{name:string;email:string}) => {
+export const createAccount = async({name, email}:{name:string;email:string}) => {
 
     const existingUser = await getUserByEmail(email);
     const accountId = await sendEmailOTP({email});
@@ -73,13 +73,12 @@ export const verifySecret = async({accountId,password}:{accountId:string;passwor
 
         const { account } = await createAdminClient();
         const session = await account.createSession(accountId,password);
-        console.log(session);
-
-        (await cookies()).set('appwrite-session', session.secret, {
-            path: "/",
+        const cookieStore = await cookies();
+        cookieStore.set('appwrite-session', session.secret,{
+            path:'/',
             httpOnly: true,
-            sameSite: 'strict',
-            secure: true,
+            secure:true,
+            sameSite:"strict",
         });
 
         return parseStringify({sessionId: session.$id});
@@ -116,7 +115,6 @@ export const signOutUser = async() => {
 
     const { account } = await createSessionClient();
 
-    /*
     try {
         await account.deleteSessions();
         (await cookies()).delete('appwrite-session');
@@ -125,7 +123,6 @@ export const signOutUser = async() => {
     } finally {
         redirect('/sign-in');
     }
-     */
 }
 export const signInUser = async({email}:{email:string}) => {
     try {

@@ -66,7 +66,7 @@ const MobileNav = ({ownerId, AccountId, Name,Profile,Email}: Props) => {
               <div className="flex flex-col gap-5 justify-between">
                 <FileUploader />
                 <form className='self-center'>
-                    <Button type='submit' className='text-sm' onClick={async()=>{await signOutUser();}}>Sign Out</Button>
+                    <Button type='submit' className='text-sm' onClick={async()=>await signOutUser()}>Sign Out</Button>
                 </form>
 
               </div>

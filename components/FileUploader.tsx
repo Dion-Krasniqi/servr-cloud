@@ -1,17 +1,25 @@
 'use client';
-import {useCallback, useState} from 'react'
+import {MouseEvent, useCallback, useState} from 'react'
 import {useDropzone} from 'react-dropzone'
 import { Button } from './ui/button';
 import { cn, convertFileToUrl, getFileType } from '@/lib/utils';
 import { Files } from 'lucide-react';
 import Thumbnail from './Thumbnail';
+import Image from 'next/image';
+import { MAX_FILE_SIZE } from '@/constants';
 
 
 
 const FileUploader = ({OwnerId, AccountId, className}:{OwnerId:string;AccountId:string;className?:string}) => {
   const [file, setFile] = useState<File[]>([]);
-  const onDrop = useCallback((acceptedFiles:File[]) => {
+  const onDrop = useCallback(async(acceptedFiles:File[]) => {
     setFile(acceptedFiles);
+
+    const uploadPromises = acceptedFiles.map(async (file)=> {
+      if (file.size > MAX_FILE_SIZE) {
+        setFile((prevFile)=>prevFile.filter((f)=>f.name != file.name))
+      }
+    })
     acceptedFiles.forEach((file) => {
       const reader = new FileReader()
 
@@ -27,6 +35,13 @@ const FileUploader = ({OwnerId, AccountId, className}:{OwnerId:string;AccountId:
     
   }, [])
   const {getRootProps, getInputProps} = useDropzone({onDrop})
+  // maybe add mousevent mrena
+  const handleRemoveFile = (e:React.MouseEvent<HTMLParagraphElement>, filename:string)=> {
+
+    e.stopPropagation();
+    setFile((prevFile)=>prevFile.filter((file)=>file.name != filename));
+
+  }
 
   return (
     <div {...getRootProps()} className='cursor-pointer'>
@@ -45,7 +60,7 @@ const FileUploader = ({OwnerId, AccountId, className}:{OwnerId:string;AccountId:
                                   </div>
 
                                 </div>
-
+                                <p onClick={(e)=>handleRemoveFile(e,f.name)}>X</p>
                               </li>
                             )
                           })}

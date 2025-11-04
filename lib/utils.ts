@@ -18,7 +18,8 @@ export const getFileType = (filename:string) => {
     'pdf'
   ]
   const imageExtensions = [
-    'jpg'
+    'jpg',
+    'png'
   ]
 
   if (documentExtensions.includes(extension)){
@@ -48,3 +49,7 @@ export const getFileIcon = (extension:string,type:string) => {
 }
 
 export const convertFileToUrl = (file:File) => URL.createObjectURL(file);
+
+export const constructFileUrl = (bucketFileId: string) => {
+  return `${process.env.NEXT_PUBLIC_APPWRITE_ENDPOINT}/storage/buckets/${process.env.NEXT_PUBLIC_APPWRITE_BUCKET}/files/${bucketFileId}/view?project=${process.env.NEXT_PUBLIC_APPWRITE_PROJECT}`;
+};

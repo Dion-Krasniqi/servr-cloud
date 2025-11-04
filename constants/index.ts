@@ -6,3 +6,5 @@ export const navItems = [
 ]
 
 export const profilePlaceholder = 'https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png';
+
+export const MAX_FILE_SIZE = 50 * 1024 * 1024
