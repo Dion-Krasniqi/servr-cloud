@@ -1,7 +1,7 @@
-export interface UploadFileProps {
-    file: File;
-    ownerId: string;
-    accountId: string;
-    path: string;
+interface UploadFileProps {
+    file:File;
+    OwnerId:string;
+    AccountId:string;
+    path:string;
 
 }

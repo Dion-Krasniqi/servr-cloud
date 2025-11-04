@@ -2,8 +2,6 @@
 import {
   Sheet,
   SheetContent,
-  SheetDescription,
-  SheetHeader,
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet"
@@ -18,19 +16,19 @@ import FileUploader from "./FileUploader";
 import { signOutUser } from "@/lib/actions/user.actions";
 
 interface Props {
-  ownerId:string;
+  $id:string;
   AccountId:string;
   Name:string;
   Profile:string;
   Email:string;
 }
 
-const MobileNav = ({ownerId, AccountId, Name,Profile,Email}: Props) => {
+const MobileNav = ({$id, AccountId, Name,Profile,Email}: Props) => {
   const [open, setOpen] = useState(false);
   const pathname = usePathname();
 
   return (
-    <header className="flex flex-row justify-between items-center my-1 px-2">
+    <header className="flex flex-row justify-between items-center my-1 px-2 lg:hidden">
       <Image src="/logo.png" 
                alt="logo" 
                width={50} 
@@ -64,7 +62,7 @@ const MobileNav = ({ownerId, AccountId, Name,Profile,Email}: Props) => {
               </nav>
               <Separator className="mb-4"/>
               <div className="flex flex-col gap-5 justify-between">
-                <FileUploader />
+                <FileUploader OwnerId={$id} AccountId={AccountId}/>
                 <form className='self-center'>
                     <Button type='submit' className='text-sm' onClick={async()=>await signOutUser()}>Sign Out</Button>
                 </form>
