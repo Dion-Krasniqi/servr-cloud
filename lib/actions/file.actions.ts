@@ -29,7 +29,7 @@ export const uploadFile = async({file, OwnerId, AccountId, path}:UploadFileProps
             Url: constructFileUrl(bucketFile.$id),
             Extension: getFileType(bucketFile.name).extension,
             Size: bucketFile.sizeOriginal,
-            owner: OwnerId,
+            Owner: OwnerId,
             AccountId,
             Users: [],
             BucketFileId: bucketFile.$id,
@@ -75,7 +75,7 @@ export const getFiles = async()=> {
         const files = await tablesDB.listRows(
             appwriteConfig.databaseId,
             appwriteConfig.filesId,
-            [Query.or([Query.equal('owner', [currentUser.$id]), Query.contains('Users',[currentUser.Email])])],
+            [Query.or([Query.equal('Owner', [currentUser.$id]), Query.contains('Users',[currentUser.Email])])],
         );
         
 
