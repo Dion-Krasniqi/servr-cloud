@@ -11,7 +11,7 @@ const Card = ({file}:{ file:Models.Document}) => {
       <div className='flex justify-between'>
         <Thumbnail type={file.Type} extension={file.Extension} url={file.Url} className='!size-20' imageClassName='!size-11'/>
         <div className='flex flex-col items-end justify-between'>
-          <ActionDropdown />
+          <ActionDropdown file={file}/>
           <p>
           {file.Size/*convertFileSize(file.size)*/}
         </p>
