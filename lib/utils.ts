@@ -55,5 +55,5 @@ export const constructFileUrl = (bucketFileId: string) => {
 };
 
 export const constructFileDownloadUrl = (bucketFileId: string) => {
-  return `${process.env.NEXT_PUBLIC_APPWRITE_ENDPOINT}/storage/bucket-${process.env.NEXT_PUBLIC_APPWRITE_BUCKET}/file-${bucketFileId}/download?project=${process.env.NEXT_PUBLIC_APPWRITE_PROJECT}`;
+  return `${process.env.NEXT_PUBLIC_APPWRITE_ENDPOINT}/storage/buckets/${process.env.NEXT_PUBLIC_APPWRITE_BUCKET}/files/${bucketFileId}/download?project=${process.env.NEXT_PUBLIC_APPWRITE_PROJECT}`;
 };

@@ -32,7 +32,7 @@ const ActionDropdown = ({ file } : {file: Models.Document}) => {
                                              if (item.value!='delete'){
                                                   setIsModalOpen(true)}}}>
              {item.value === 'download' ? 
-             <Link href={constructFileDownloadUrl(file.bucketFileId)} download={file.Name}>{item.label}</Link>
+             <Link href={constructFileDownloadUrl(file.BucketFileId)} download={file.Name}>{item.label}</Link>
              :<p>{item.label}</p>}
              
              </DropdownMenuItem>))}
