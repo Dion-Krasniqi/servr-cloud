@@ -5,3 +5,8 @@ interface UploadFileProps {
     path:string;
 
 }
+
+interface ActionType {
+    value:string;
+    label:string;
+}
