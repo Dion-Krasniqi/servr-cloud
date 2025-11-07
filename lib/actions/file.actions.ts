@@ -84,3 +84,24 @@ export const getFiles = async()=> {
         handleError(error, 'Failed to get files!');
     }
 }
+
+export const renameFile = async({fileId, name, extension, path}:RenameFileProps)=> {
+    const { tablesDB } = await createAdminClient();
+
+    try {
+        console.log('maroon');
+        const newName = `${name}.${extension}`;
+        const updatedFile = await tablesDB.updateRow(
+            appwriteConfig.databaseId,
+            appwriteConfig.filesId,
+            fileId,
+            {Name: newName},
+
+        )
+        revalidatePath(path);
+        return parseStringify(updatedFile);
+    } catch (error){
+        handleError(error, "Failed to rename file!")
+    }
+
+}

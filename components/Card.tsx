@@ -7,9 +7,12 @@ import ActionDropdown from './ActionDropdown'
 
 const Card = ({file}:{ file:Models.Document}) => {
   return (
-    <Link href={file.Url} target='_blank'>
+    <div>
+    
       <div className='flex justify-between'>
+        <Link href={file.Url} target='_blank'>
         <Thumbnail type={file.Type} extension={file.Extension} url={file.Url} className='!size-20' imageClassName='!size-11'/>
+        </Link>
         <div className='flex flex-col items-end justify-between'>
           <ActionDropdown file={file}/>
           <p>
@@ -23,7 +26,7 @@ const Card = ({file}:{ file:Models.Document}) => {
         {/*I think its the databases fault here */}
         <p className='text-black line-clamp-1'>Uploaded by:{(file.Owner)}</p>
       </div>
-    </Link>
+    </div>
   )
 }
 
