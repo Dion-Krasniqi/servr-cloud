@@ -1,3 +1,5 @@
+import { Models } from "node-appwrite";
+
 interface UploadFileProps {
     file:File;
     OwnerId:string;
@@ -16,4 +18,10 @@ interface RenameFileProps {
     name:string;
     extension:string;
     path:string;
+}
+
+interface ShareProps {
+    file:Models.Document;
+    onInputChange: React.Dispatch<React.SetStateAction<string[]>>;
+    onRemove:(email:string)=>void;
 }
