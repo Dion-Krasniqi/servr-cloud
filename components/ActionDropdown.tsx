@@ -17,7 +17,7 @@ import { useState } from "react"
 import { Input } from "./ui/input";
 import { Button } from "./ui/button";
 import Image from "next/image";
-import { renameFile } from "@/lib/actions/file.actions";
+import { renameFile, updateFileUsers } from "@/lib/actions/file.actions";
 import { usePathname } from "next/navigation";
 import { FileDetails, ShareInput } from "./ActionsModalContent";
 
@@ -44,15 +44,22 @@ const ActionDropdown = ({ file } : {file: Models.Document}) => {
     let success = false;
     const actions = {
       rename: ()=>renameFile({fileId:file.$id, name, extension:file.Extension, path}),
-      share: ()=>{},
+      share: ()=>updateFileUsers({fileId:file.$id, emails, path}),
       delete: ()=>{},
     }
     success = await actions[action.value as keyof typeof actions]();
     if (success) closeAllModals();
+    setLoading(false);
 
   } 
 
-  const handleRemoveUser = ()=> {}
+  const handleRemoveUser = async(email:string)=> {
+    const updatedEmails = emails.filter((e)=>e != email);
+    const success = await updateFileUsers({fileId:file.$id,emails:updatedEmails, path});
+
+    if (success) setEmails(updatedEmails);
+    closeAllModals;
+  }
 
   const renderDialogContent = ()=> {
     if (!action) return null;

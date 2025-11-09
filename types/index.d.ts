@@ -25,3 +25,9 @@ interface ShareProps {
     onInputChange: React.Dispatch<React.SetStateAction<string[]>>;
     onRemove:(email:string)=>void;
 }
+
+interface UpdateFileUsersProps {
+    fileId:string;
+    emails:string[];
+    path:string;
+}
