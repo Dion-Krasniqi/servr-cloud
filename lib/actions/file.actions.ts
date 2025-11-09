@@ -7,7 +7,7 @@ import { ID, Models, Query } from "node-appwrite";
 import { constructFileUrl, getFileType, parseStringify } from "../utils";
 import { revalidatePath } from "next/cache";
 import { getCurrentUser } from "./user.actions";
-import { RenameFileProps, UpdateFileUsersProps, UploadFileProps } from "@/types";
+import { DeleteFileProps, RenameFileProps, UpdateFileUsersProps, UploadFileProps } from "@/types";
 
 const handleError = (error:unknown, message:string) => {
 
@@ -123,6 +123,28 @@ export const updateFileUsers = async({fileId, emails, path}:UpdateFileUsersProps
         return parseStringify(updatedFile);
     } catch (error){
         handleError(error, "Failed update file users!")
+    }
+
+}
+
+export const deleteFile = async({fileID, BucketFileID, path}:DeleteFileProps)=> {
+    const { tablesDB, storage } = await createAdminClient();
+
+    try {
+        
+        const deletedFile = await tablesDB.deleteRow(
+            appwriteConfig.databaseId,
+            appwriteConfig.filesId,
+            fileID,
+
+        )
+        if (deletedFile){
+            await storage.deleteFile({bucketId:appwriteConfig.bucketId, fileId:BucketFileID});
+        }
+        revalidatePath(path);
+        return parseStringify({status: 'success'});
+    } catch (error){
+        handleError(error, "Failed to delete file!")
     }
 
 }

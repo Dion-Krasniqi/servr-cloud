@@ -31,3 +31,9 @@ interface UpdateFileUsersProps {
     emails:string[];
     path:string;
 }
+
+interface DeleteFileProps {
+    fileID:string;
+    BucketFileID:string;
+    path:string;
+}
