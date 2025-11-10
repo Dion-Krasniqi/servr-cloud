@@ -7,10 +7,13 @@ import { SearchParams } from 'next/dist/server/request/search-params'
 import { Models } from 'node-appwrite';
 import React from 'react'
 
-const Page = async({ params } : SearchParamProps) => {
+const Page = async({ searchParams, params } : SearchParamProps) => {
+
+  const searchText = ((await searchParams)?.query as string) || "";
+  const sort = ((await searchParams)?.sort as string) || "";
   const type = ((await params)?.type as string) || "";
   const types = getFileTypeParams(type) as FileType[];
-  const files = await getFiles({types:types});
+  const files = await getFiles({types, searchText, sort});
   return (
     <div style={{backgroundColor:'#b7b7b7ff'}}>
         <section className='w-full'>

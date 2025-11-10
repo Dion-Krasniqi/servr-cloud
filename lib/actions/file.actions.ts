@@ -52,23 +52,29 @@ export const uploadFile = async({file, OwnerId, AccountId, path}:UploadFileProps
     }
 }
 
-const createQueries = async(currentUser:Models.Document, types:string[])=> {
+const createQueries = async(currentUser:Models.Document, types:string[], searchText:string, sort:string, limit?:number)=> {
     const queries = [Query.or([Query.equal('Owner', [currentUser.$id]), Query.contains('Users',[currentUser.Email])])]
 
     if (types.length>0) queries.push(Query.equal('Type',types));
-    
+    if (searchText) queries.push(Query.contains('Name',searchText));
+    if (limit) queries.push(Query.limit(limit));
+
+    if (sort){
+        const [sortBy, orderBy] = sort.split('-');
+        queries.push(orderBy==='asc' ? Query.orderAsc(sortBy) : Query.orderDesc(sortBy))
+    }
     
 
     return queries;
 
 }
 
-export const getFiles = async({types=[]}:GetFilesProps)=> {
+export const getFiles = async({types=[], searchText='', sort='$createdAt-desc',limit}:GetFilesProps)=> {
     const { tablesDB } = await createAdminClient();
     try {
         const currentUser = await getCurrentUser();
         if (!currentUser) throw new Error('User not found!');
-        const queries = await createQueries(currentUser, types);
+        const queries = await createQueries(currentUser, types, searchText, sort, limit);
         const files = await tablesDB.listRows(
             appwriteConfig.databaseId,
             appwriteConfig.filesId,
