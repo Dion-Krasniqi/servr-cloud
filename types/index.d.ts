@@ -37,3 +37,17 @@ interface DeleteFileProps {
     BucketFileID:string;
     path:string;
 }
+
+type FileType = "document" | "image" | "video" | "audio" | "other";
+
+interface GetFilesProps {
+  types: FileType[];
+  searchText?: string;
+  sort?: string;
+  limit?: number;
+}
+
+interface SearchParamProps {
+  params?: Promise<SegmentParams>;
+  searchParams?: Promise<{ [key: string]: string | string[] | undefined }>;
+}

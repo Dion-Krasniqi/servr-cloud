@@ -15,7 +15,7 @@ export const getFileType = (filename:string) => {
   if (!extension) return {type: 'other', extension:''};
 
   const documentExtensions = [
-    'pdf'
+    'pdf',
   ]
   const imageExtensions = [
     'jpg',
@@ -37,8 +37,6 @@ export const getFileIcon = (extension:string,type:string) => {
 
   if (!extension) return './globe.svg';
 
-  
-
   switch(type){
     case 'document':
       return './file.svg'
@@ -47,6 +45,18 @@ export const getFileIcon = (extension:string,type:string) => {
   return './globe.svg';
 
 }
+
+export const getFileTypeParams = (type:string)=> {
+  switch (type){
+    case "documents":
+      return ["document"];
+    case "media":
+      return ["image"];
+    default:
+      return ["document"];
+  }
+
+};
 
 export const convertFileToUrl = (file:File) => URL.createObjectURL(file);
 

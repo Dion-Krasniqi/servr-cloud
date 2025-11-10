@@ -7,7 +7,7 @@ import { ID, Models, Query } from "node-appwrite";
 import { constructFileUrl, getFileType, parseStringify } from "../utils";
 import { revalidatePath } from "next/cache";
 import { getCurrentUser } from "./user.actions";
-import { DeleteFileProps, RenameFileProps, UpdateFileUsersProps, UploadFileProps } from "@/types";
+import { DeleteFileProps, GetFilesProps, RenameFileProps, UpdateFileUsersProps, UploadFileProps } from "@/types";
 
 const handleError = (error:unknown, message:string) => {
 
@@ -52,14 +52,10 @@ export const uploadFile = async({file, OwnerId, AccountId, path}:UploadFileProps
     }
 }
 
-const createQueries = async(currentUser:Models.Document)=> {
-    const queries = 
-    [
-        Query.or([
-                Query.equal('Owner', [currentUser.$id]),
-            
-        ])
-    ];
+const createQueries = async(currentUser:Models.Document, types:string[])=> {
+    const queries = [Query.or([Query.equal('Owner', [currentUser.$id]), Query.contains('Users',[currentUser.Email])])]
+
+    if (types.length>0) queries.push(Query.equal('Type',types));
     
     
 
@@ -67,16 +63,16 @@ const createQueries = async(currentUser:Models.Document)=> {
 
 }
 
-export const getFiles = async()=> {
+export const getFiles = async({types=[]}:GetFilesProps)=> {
     const { tablesDB } = await createAdminClient();
     try {
         const currentUser = await getCurrentUser();
         if (!currentUser) throw new Error('User not found!');
-        const queries = createQueries(currentUser);
+        const queries = await createQueries(currentUser, types);
         const files = await tablesDB.listRows(
             appwriteConfig.databaseId,
             appwriteConfig.filesId,
-            [Query.or([Query.equal('Owner', [currentUser.$id]), Query.contains('Users',[currentUser.Email])])],
+            queries,
         );
         
 
@@ -90,7 +86,6 @@ export const renameFile = async({fileId, name, extension, path}:RenameFileProps)
     const { tablesDB } = await createAdminClient();
 
     try {
-        console.log('maroon');
         const newName = `${name}.${extension}`;
         const updatedFile = await tablesDB.updateRow(
             appwriteConfig.databaseId,
