@@ -1,11 +1,13 @@
 "use client";
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Input } from './ui/input'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { getFiles } from '@/lib/actions/file.actions';
 import { Models } from 'node-appwrite';
 import Thumbnail from './Thumbnail';
 import FormattedDateTime from './FormattedDateTime';
+import { useDebounce } from 'use-debounce';
+
 
 const Search = () => {
   const [query, setQuery] = useState("");
@@ -13,24 +15,25 @@ const Search = () => {
   const [open, setOpen] = useState(false);
   const searchParams = useSearchParams();
   const searchQuery = searchParams.get("query") || "";
+  const [delayedQuery] = useDebounce(query,300);
   const router = useRouter();
   const path = usePathname();
 
   useEffect(()=>{
     const fetchFiles = async()=> {
-      if (!query){
+      if (delayedQuery.length==0){
         setResults([]);
         setOpen(false);
-        router.push(path.replace(searchParams.toString(),''))
+        router.push(path.replace(searchParams.toString(),""));
       }
-      const files = await getFiles({searchText:query});
+      const files = await getFiles({types:[],searchText:delayedQuery});
       setResults(files?.rows);
       setOpen(true);
 
     }
     fetchFiles();
 
-  },[query]);
+  },[delayedQuery]);
 
   useEffect(()=>{
     if(!searchQuery){
