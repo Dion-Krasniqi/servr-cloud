@@ -46,7 +46,7 @@ const chartConfig = {
   },
 } satisfies ChartConfig
 
-const PChart = ({item1,item2,item3,item4,item5,item6}:{item1:number;item2:number;item3:number;item4:number;item5:number;item6:number}) => {
+const PChart = ({item1,item2,item3,item4,item5}:{item1:number;item2:number;item3:number;item4:number;item5:number}) => {
   const chartData = [
   { type: "document", size: item1, fill: "#6366F1" },
   { type: "image", size: item2, fill: "#00f61dff" },

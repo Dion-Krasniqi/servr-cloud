@@ -12,7 +12,7 @@ const Page = async({ searchParams, params } : SearchParamProps) => {
   const sort = ((await searchParams)?.sort as string) || "";
   const type = ((await params)?.type as string) || "";
   const types = getFileTypeParams(type) as FileType[];
-  const [ files, totalSpace ] = await Promise.all([getFiles({types:[], limit:10}), getTotalSpaceUsed()]);
+  const [ files, totalSpace ] = await Promise.all([getFiles({types:[type.slice(0,-1) as FileType], limit:10}), getTotalSpaceUsed()]);
   return (
     <div style={{backgroundColor:'#b7b7b7ff'}}>
         <section className='w-full'>
