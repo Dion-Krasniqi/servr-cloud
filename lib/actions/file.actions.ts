@@ -52,7 +52,7 @@ export const uploadFile = async({file, OwnerId, AccountId, path}:UploadFileProps
     }
 }
 
-const createQueries = async(currentUser:Models.Document, types:string[], searchText:string, sort:string, limit?:number)=> {
+const createQueries = async(currentUser:Models.Document, types:string[], searchText:string, sort?:string, limit?:number)=> {
     const queries = [Query.or([Query.equal('Owner', [currentUser.$id]), Query.contains('Users',[currentUser.Email])])]
 
     if (types.length>0) queries.push(Query.equal('Type',types));
@@ -150,16 +150,17 @@ export const deleteFile = async({fileID, BucketFileID, path}:DeleteFileProps)=> 
 
 }
 
-export async function getTotalSpaceUsed (){
+export async function getTotalSpaceUsed (types:string[]){
     try {
         const { tablesDB } = await createSessionClient();
         const currentUser = await getCurrentUser();
         if (!currentUser) throw new Error('User not found!');
+        const queries = await createQueries(currentUser, types,'')
 
         const files = await tablesDB.listRows(
             appwriteConfig.databaseId,
             appwriteConfig.filesId,
-            [Query.equal('Owner', [currentUser.$id])],
+            queries,
         )
         const totalSpace = {
             document : {size:0, latestDate: ""},
