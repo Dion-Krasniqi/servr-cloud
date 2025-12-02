@@ -25,7 +25,9 @@ type FormType = 'sign-in' | 'sign-up';
 const AuthFormSchema = (formType:FormType) => {
   return z.object({
     email: z.email(),
-    name: formType === 'sign-up' ? z.string().min(2).max(50) : z.string().optional(),
+    password: z.string().min(1).max(50), 
+    username: formType === 'sign-up' ? z.string().min(2).max(50) : z.string().optional(),
+    
   })
 }
 
@@ -38,8 +40,9 @@ const AuthForm = ({ type }:{ type:FormType }) => {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      name: "",
+      username: "",
       email:"",
+      password:"",
     },
   })
  
@@ -47,9 +50,8 @@ const AuthForm = ({ type }:{ type:FormType }) => {
     setErrMsg('');
     setIsLoading(true);
     try {
-      const user = type==='sign-up' ? await createAccount({name:values.name || '', email:values.email}) :
-      await signInUser({email:values.email});
-      setAccountId(user.accountId);
+      const user = type==='sign-up' ? await createAccount({username:values.username || values.email, email:values.email, password:values.password}) :
+      await signInUser({email:values.email, password:values.password});
 
     } catch(error) {
       setErrMsg('Failed to create account, please try again!')
@@ -68,13 +70,13 @@ const AuthForm = ({ type }:{ type:FormType }) => {
         </h1>
         {type==='sign-up' && <FormField
           control={form.control}
-          name="name"
+          name="username"
           render={({ field }) => (
             <FormItem className="w-full">
               <div >
-                <FormLabel className="text-ring">Name</FormLabel>
+                <FormLabel className="text-ring">Username</FormLabel>
                 <FormControl>
-                  <Input placeholder="Enter your name" {...field} className="rounded-sm border-ring mt-2 w-full"/>
+                  <Input placeholder="Enter your username" {...field} className="rounded-sm border-ring mt-2 w-full"/>
                 </FormControl>
               </div>
                 <FormMessage />
@@ -90,6 +92,21 @@ const AuthForm = ({ type }:{ type:FormType }) => {
                 <FormLabel className="text-ring">Email</FormLabel>
                 <FormControl>
                   <Input placeholder="Enter your email" {...field} className="rounded-sm border-ring mt-2 w-full"/>
+                </FormControl>
+              </div>
+                <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="password"
+          render={({ field }) => (
+            <FormItem className="w-full">
+              <div >
+                <FormLabel className="text-ring">Passowrd</FormLabel>
+                <FormControl>
+                  <Input placeholder="Enter your password(min 6 characters)" {...field} className="rounded-sm border-ring mt-2 w-full" type="password"/>
                 </FormControl>
               </div>
                 <FormMessage />
@@ -112,7 +129,6 @@ const AuthForm = ({ type }:{ type:FormType }) => {
       </form>
       
     </Form>
-    {accountId && <OTPModal email={form.getValues('email')} accountId={accountId}/>}
     </>
 
   )

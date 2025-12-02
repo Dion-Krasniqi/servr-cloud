@@ -2,7 +2,7 @@
 
 import { Avatars, ID, Query, TablesDB } from "node-appwrite";
 import { createAdminClient, createSessionClient } from "../appwrite";
-import { appwriteConfig } from "../appwrite/config";
+import { appwriteConfig, fastapiConfig } from "../appwrite/config";
 import { parseStringify } from "../utils";
 import { cookies } from "next/headers";
 import { profilePlaceholder } from "@/constants";
@@ -44,7 +44,7 @@ export const sendEmailOTP = async({email}:{email:string}) => {
     }
 }
 
-export const createAccount = async({name, email}:{name:string;email:string}) => {
+export const createAccount = async({username, email, password}:{username:string;email:string, password:string}) => {
 
     const existingUser = await getUserByEmail(email);
     const accountId = await sendEmailOTP({email});
@@ -124,16 +124,27 @@ export const signOutUser = async() => {
         redirect('/sign-in');
     }
 }
-export const signInUser = async({email}:{email:string}) => {
+export const signInUser = async({email, password}:{email:string, password:string}) => {
     try {
-        const existingUser = await getUserByEmail(email);
+        const existingUser = await sendLoginRequest({email, password});
         if (existingUser) {
-            await sendEmailOTP({email});
-            return parseStringify({accountId: existingUser.AccountId});
+            return parseStringify({accountId: existingUser.id});
+            await createSessionClient();
         }
         return parseStringify({accountId: null, error:'User not found!'});
 
     } catch (error) {
         handleError(error,'Failed to sign in');
     } 
+}
+
+const sendLoginRequest = async({email, password}:{email:string, password:string}) =>{
+    const user = [{'user':'user'}];
+    // move from the appwrite config eventually
+    const response = await fetch(`http://127.0.0.1:8000/token`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email, password }),
+    })
+    return parseStringify(response.json());
 }
