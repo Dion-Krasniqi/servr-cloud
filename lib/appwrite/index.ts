@@ -6,23 +6,12 @@ import { redirect } from "next/navigation";
 
 
 export const createSessionClient = async () => {
-    const client = new Client().setEndpoint(appwriteConfig.endpointUrl).setProject(appwriteConfig.projectId);
     const cookieStore = await cookies();
-    let sessionId = cookieStore.get('appwrite-session')?.value;
+    let sessionId = cookieStore.get('session')?.value;
     if (!sessionId) {
         redirect('/sign-in');
     }
-
-    client.setSession(sessionId);
-
-    return {
-        get account(){
-            return new Account(client);
-        },
-        get tablesDB(){
-            return new TablesDB(client);
-        },
-    }
+    return sessionId;
 }
 
 export const createAdminClient = async() => {

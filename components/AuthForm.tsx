@@ -19,6 +19,8 @@ import Image from "next/image"
 import Link from "next/link"
 import { createAccount, signInUser } from "@/lib/actions/user.actions"
 import OTPModal from "./OTPModal"
+import { redirect } from "next/navigation"
+import { useRouter } from "next/router"
 
 type FormType = 'sign-in' | 'sign-up';
 
@@ -52,11 +54,11 @@ const AuthForm = ({ type }:{ type:FormType }) => {
     try {
       const user = type==='sign-up' ? await createAccount({username:values.username || values.email, email:values.email, password:values.password}) :
       await signInUser({email:values.email, password:values.password});
-
     } catch(error) {
       setErrMsg('Failed to create account, please try again!')
     } finally {
       setIsLoading(false);
+      
     }
 
   }
@@ -104,7 +106,7 @@ const AuthForm = ({ type }:{ type:FormType }) => {
           render={({ field }) => (
             <FormItem className="w-full">
               <div >
-                <FormLabel className="text-ring">Passowrd</FormLabel>
+                <FormLabel className="text-ring">Password</FormLabel>
                 <FormControl>
                   <Input placeholder="Enter your password(min 6 characters)" {...field} className="rounded-sm border-ring mt-2 w-full" type="password"/>
                 </FormControl>
