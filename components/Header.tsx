@@ -5,13 +5,13 @@ import Search from './Search'
 import FileUploader from './FileUploader'
 import { signOutUser } from '@/lib/actions/user.actions'
 
-const Header = ({userId, AccountId}:{userId:string;AccountId:string}) => {
+const Header = ({userId}:{userId:string}) => {
   return (
     <header className='lg:block'>
         <div className='flex flex-row justify-between items-center py-4 px-4'>
           <Search />
           <div className='flex flex-row gap-4'>
-            <FileUploader OwnerId={userId} AccountId={AccountId}/>
+            <FileUploader ownerId={userId}/>
             <form className='self-center' action={async()=>{'use server';await signOutUser();}}>
                 <Button type='submit' className='text-sm'>Sign Out</Button>
             </form>

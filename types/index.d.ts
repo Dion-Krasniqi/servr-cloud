@@ -2,8 +2,7 @@ import { Models } from "node-appwrite";
 
 interface UploadFileProps {
     file:File;
-    OwnerId:string;
-    AccountId:string;
+    ownerId:string;
     path:string;
 
 }
@@ -21,7 +20,7 @@ interface RenameFileProps {
 }
 
 interface ShareProps {
-    file:Models.Document;
+    file:Document;
     onInputChange: React.Dispatch<React.SetStateAction<string[]>>;
     onRemove:(email:string)=>void;
 }
@@ -50,4 +49,24 @@ interface GetFilesProps {
 interface SearchParamProps {
   params?: Promise<SegmentParams>;
   searchParams?: Promise<{ [key: string]: string | string[] | undefined }>;
+}
+
+interface User {
+    id: string;
+    username: string;
+    email: string;
+}
+
+interface Document {
+    id: string;
+    name: string;
+    createdAt:string;
+    lastModified:string;
+    url:string;
+    type:FileType;
+    extension:string;
+    size:number;
+    ownerName:string;
+    bucket:string;
+    sharedWith:string[];
 }

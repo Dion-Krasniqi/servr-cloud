@@ -16,14 +16,12 @@ import FileUploader from "./FileUploader";
 import { signOutUser } from "@/lib/actions/user.actions";
 
 interface Props {
-  $id:string;
-  AccountId:string;
-  Name:string;
-  Profile:string;
-  Email:string;
+  id:string;
+  username:string;
+  email:string;
 }
 
-const MobileNav = ({$id, AccountId, Name,Profile,Email}: Props) => {
+const MobileNav = ({id, username, email}: Props) => {
   const [open, setOpen] = useState(false);
   const pathname = usePathname();
 
@@ -38,10 +36,10 @@ const MobileNav = ({$id, AccountId, Name,Profile,Email}: Props) => {
           <SheetContent>
               <SheetTitle className="mt-2 px-2">
                 <div className="flex flex-row items-center">
-                  <Image src={Profile} alt='Profile' width={44} height={44} className='rounded-4xl'/>
+                  {/*<Image src={Profile} alt='Profile' width={44} height={44} className='rounded-4xl'/>*/}
                   <div className="sm:hidden lg:block px-2">
-                    <p className="capitalize">{Name}</p>
-                    <p className="text-xs">{Email}</p>
+                    <p className="capitalize">{username}</p>
+                    <p className="text-xs">{email}</p>
                   </div>
                 </div>
                 
@@ -62,7 +60,7 @@ const MobileNav = ({$id, AccountId, Name,Profile,Email}: Props) => {
               </nav>
               <Separator className="mb-4"/>
               <div className="flex flex-col gap-5 justify-between">
-                <FileUploader OwnerId={$id} AccountId={AccountId}/>
+                <FileUploader ownerId={id} />
                 <form className='self-center'>
                     <Button type='submit' className='text-sm' onClick={async()=>await signOutUser()}>Sign Out</Button>
                 </form>

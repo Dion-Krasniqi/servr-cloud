@@ -7,7 +7,7 @@ import { ID, Models, Query } from "node-appwrite";
 import { constructFileUrl, getFileType, parseStringify } from "../utils";
 import { revalidatePath } from "next/cache";
 import { getCurrentUser } from "./user.actions";
-import { DeleteFileProps, FileType, GetFilesProps, RenameFileProps, UpdateFileUsersProps, UploadFileProps } from "@/types";
+import { DeleteFileProps, FileType, GetFilesProps, RenameFileProps, UpdateFileUsersProps, UploadFileProps, User, Document } from "@/types";
 
 const handleError = (error:unknown, message:string) => {
 
@@ -17,43 +17,28 @@ const handleError = (error:unknown, message:string) => {
 }
 
 
-export const uploadFile = async({file, OwnerId, AccountId, path}:UploadFileProps)=> {
-    const { storage, tablesDB } = await createAdminClient();
+export const uploadFile = async({file, ownerId,  path}:UploadFileProps)=> {
 
     try {
         const inputFile = InputFile.fromBuffer(file, file.name);
-        const bucketFile = await storage.createFile(appwriteConfig.bucketId, ID.unique(), inputFile)
-
-        const fileDocument = {
-            Type: getFileType(bucketFile.name).type,
-            Name: bucketFile.name,
-            Url: constructFileUrl(bucketFile.$id),
-            Extension: getFileType(bucketFile.name).extension,
-            Size: bucketFile.sizeOriginal,
-            Owner: OwnerId,
-            AccountId,
-            Users: [],
-            BucketFileId: bucketFile.$id,
-
-        }
-
-        const newFile = await tablesDB.createRow(appwriteConfig.databaseId,
-                                                 appwriteConfig.filesId,
-                                                 ID.unique(),
-                                                 fileDocument).catch(async(error:unknown)=>{
-                                                    await storage.deleteFile(appwriteConfig.bucketId, bucketFile.$id);
-                                                    handleError(error,'Failed to create file document')
-                                                 });
+        const token = await createSessionClient();
+        const response = await fetch(`http://127.0.0.1:8000/upload_file`, {
+                                      method: 'POST',
+                                      headers: { 'Content-Type': 'application/json',
+                                                 'Authorization': `Bearer ${token}`, },
+                                      body: JSON.stringify({ file:inputFile, dir_path:'' }),
+                                    })
+        const data = await response.json();
         revalidatePath(path);
-        return parseStringify(newFile);
+        return parseStringify(data);
 
     } catch (error) {
         handleError(error, 'Failed to upload files')
     }
 }
 
-const createQueries = async(currentUser:Models.Document, types:string[], searchText:string, sort?:string, limit?:number)=> {
-    const queries = [Query.or([Query.equal('Owner', [currentUser.$id]), Query.contains('Users',[currentUser.Email])])]
+const createQueries = async(currentUser:User, types:string[], searchText:string, sort?:string, limit?:number)=> {
+    const queries = [Query.or([Query.equal('Owner', [currentUser.id]), Query.contains('Users',[currentUser.email])])]
 
     if (types.length>0) queries.push(Query.equal('Type',types));
     if (searchText) queries.push(Query.contains('Name',searchText));
@@ -69,20 +54,20 @@ const createQueries = async(currentUser:Models.Document, types:string[], searchT
 
 }
 
-export const getFiles = async({types=[], searchText='', sort='$createdAt-desc',limit}:GetFilesProps)=> {
-    const { tablesDB } = await createAdminClient();
+export const getFiles = async({types=[], searchText='', sort='createdAt-desc',limit}:GetFilesProps)=> {
+    const token = await createSessionClient();
     try {
         const currentUser = await getCurrentUser();
         if (!currentUser) throw new Error('User not found!');
         const queries = await createQueries(currentUser, types, searchText, sort, limit);
-        const files = await tablesDB.listRows(
-            appwriteConfig.databaseId,
-            appwriteConfig.filesId,
-            queries,
-        );
+        const response = await fetch(`http://127.0.0.1:8000/files`, {
+                                      method: 'GET',
+                                      headers: { 'Authorization': `Bearer ${token}`, },
+                                    })
         
+        const files: Document[] = [];
 
-        return parseStringify(files);
+        return files;
     } catch (error){
         handleError(error, 'Failed to get files!');
     }
@@ -152,16 +137,11 @@ export const deleteFile = async({fileID, BucketFileID, path}:DeleteFileProps)=> 
 
 export async function getTotalSpaceUsed (types:string[]){
     try {
-        const { tablesDB } = await createSessionClient();
         const currentUser = await getCurrentUser();
         if (!currentUser) throw new Error('User not found!');
         const queries = await createQueries(currentUser, types,'')
 
-        const files = await tablesDB.listRows(
-            appwriteConfig.databaseId,
-            appwriteConfig.filesId,
-            queries,
-        )
+        const files = [1]
         const totalSpace = {
             document : {size:0, latestDate: ""},
             image: {size:0, latestDate: ""},
@@ -171,13 +151,13 @@ export async function getTotalSpaceUsed (types:string[]){
             used: 0,
             all: 2 * 1024*1024*1024, // 2GB
         }
-        files.rows.forEach((file) => {
-        const fileType = file.Type as FileType;
-        totalSpace[fileType].size += file.Size;
-        totalSpace.used += file.Size;
+        files.forEach((file) => {
+        const fileType = 'image';
+        totalSpace[fileType].size += 0;
+        totalSpace.used += 0;
 
-        if (!totalSpace[fileType].latestDate || new Date(file.$updatedAt) > new Date(totalSpace[fileType].latestDate)) {
-            totalSpace[fileType].latestDate = file.$updatedAt;
+        if (!totalSpace[fileType].latestDate || new Date() > new Date(totalSpace[fileType].latestDate)) {
+            totalSpace[fileType].latestDate = '2017';
         }
     });
 

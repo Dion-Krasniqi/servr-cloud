@@ -6,12 +6,11 @@ import { usePathname } from 'next/navigation'
 import React from 'react'
 
 interface Props {
-  Name:string;
-  Profile:string;
-  Email:string;
+  username:string;
+  email:string;
   }
 
-const SideBar = ({Name,Profile,Email}: Props) => {
+const SideBar = ({username, email}: Props) => {
 
   const pathname = usePathname();
 
@@ -58,13 +57,13 @@ const SideBar = ({Name,Profile,Email}: Props) => {
 
         </ul>
       </nav>
-      <div>
+      {/*<div>
         <Image src={Profile} alt='Profile' width={44} height={44} className='rounded-4xl'/>
         <div className='hidden lg:block'>
           <p className='subtitle-2 capitalize'>{Name}</p>
           <p className='subtitle-2'>{Email}</p>
         </div>
-      </div>
+      </div>*/}
     </aside>
   )
 }

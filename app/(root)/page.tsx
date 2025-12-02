@@ -2,7 +2,7 @@ import Card from "@/components/Card";
 import PChart from "@/components/PieChart";
 import Sort from "@/components/Sort";
 import { getFiles, getTotalSpaceUsed } from "@/lib/actions/file.actions";
-import { Models } from "node-appwrite";
+import { Document } from "@/types";
 
 
 const Dashboard = async()=> {
@@ -17,8 +17,8 @@ const Dashboard = async()=> {
                 <p className='hidden sm:block'>Sort by:</p>
                 <Sort />
             </div>
-            {files.rows.map((file:Models.Document)=>{
-                return (<Card key={file.$id} file={file}/>)
+            {files?.map((file:Document)=>{
+                return (<Card key={file.id} file={file}/>)
             })}
         </section>
         <section className='w-[50%]'>   

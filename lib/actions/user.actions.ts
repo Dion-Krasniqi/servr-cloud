@@ -7,6 +7,7 @@ import { parseStringify } from "../utils";
 import { cookies } from "next/headers";
 import { profilePlaceholder } from "@/constants";
 import { redirect } from "next/navigation";
+import { User } from "@/types";
 
 
 
@@ -48,9 +49,10 @@ export const getCurrentUser = async()=> {
       headers: { 'Authorization': `Bearer ${token}` },
     })
 
-    const user = await response.json()
+    const user: User = await response.json()
 
     console.log(user.email);
+    return user;
 
 
 }
@@ -71,7 +73,7 @@ export const signInUser = async({email, password}:{email:string, password:string
     try {
         const token = await sendLoginRequest({email, password});
         if (token) {
-            redirect('/')
+            return 1
         }
         return parseStringify({accountId: null, error:'User not found!'});
 

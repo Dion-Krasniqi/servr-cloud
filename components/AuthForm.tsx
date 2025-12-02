@@ -18,9 +18,7 @@ import { useState } from "react"
 import Image from "next/image"
 import Link from "next/link"
 import { createAccount, signInUser } from "@/lib/actions/user.actions"
-import OTPModal from "./OTPModal"
-import { redirect } from "next/navigation"
-import { useRouter } from "next/router"
+import { useRouter } from "next/navigation"
 
 type FormType = 'sign-in' | 'sign-up';
 
@@ -34,9 +32,9 @@ const AuthFormSchema = (formType:FormType) => {
 }
 
 const AuthForm = ({ type }:{ type:FormType }) => {
+  const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
   const [errMsg, setErrMsg] = useState('');
-  const [accountId, setAccountId] = useState(null);
 
   const formSchema = AuthFormSchema(type);
   const form = useForm<z.infer<typeof formSchema>>({
@@ -52,12 +50,17 @@ const AuthForm = ({ type }:{ type:FormType }) => {
     setErrMsg('');
     setIsLoading(true);
     try {
-      const user = type==='sign-up' ? await createAccount({username:values.username || values.email, email:values.email, password:values.password}) :
-      await signInUser({email:values.email, password:values.password});
+      if (type==='sign-up') {
+        await createAccount({username:values.username || values.email, email:values.email, password:values.password})
+      } else {
+        await signInUser({email:values.email, password:values.password});
+      }
+      
     } catch(error) {
       setErrMsg('Failed to create account, please try again!')
     } finally {
       setIsLoading(false);
+      router.push('/');
       
     }
 

@@ -13,7 +13,7 @@ const Layout = async ({ children }: {children:React.ReactNode}) => {
         <SideBar { ...currentUser } />
         <section className='flex h-full flex-1 flex-col'>
             <MobileNav { ...currentUser } />
-            <Header userId = {currentUser.$id} AccountId = {currentUser.AccountId}/>
+            <Header userId = {currentUser.id} />
             <div className='rounded-xl'>{ children }</div>
         </section>
 

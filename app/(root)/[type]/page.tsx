@@ -4,7 +4,7 @@ import { Button } from '@/components/ui/button';
 import { getFiles, getTotalSpaceUsed } from '@/lib/actions/file.actions';
 import { signOutUser } from '@/lib/actions/user.actions';
 import { getFileTypeParams } from '@/lib/utils';
-import { FileType, SearchParamProps } from '@/types';
+import { Document, FileType, SearchParamProps } from '@/types';
 import { SearchParams } from 'next/dist/server/request/search-params'
 import { Models } from 'node-appwrite';
 
@@ -32,8 +32,8 @@ const Page = async({ searchParams, params } : SearchParamProps) => {
             </div>
         </section>  
         <section>
-            {files.rows.map((file:Models.Document)=>{
-                return (<Card key={file.$id} file={file}/>)
+            {files.rows.map((file:Document)=>{
+                return (<Card key={file.id} file={file}/>)
             })}
         </section>
 

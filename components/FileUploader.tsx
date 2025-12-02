@@ -13,7 +13,7 @@ import { usePathname } from 'next/navigation';
 
 
 
-const FileUploader = ({OwnerId, AccountId, className}:{OwnerId:string;AccountId:string;className?:string}) => {
+const FileUploader = ({ownerId, className}:{ownerId:string;className?:string}) => {
   const path = usePathname();
   const [file, setFile] = useState<File[]>([]);
   const onDrop = useCallback(async(acceptedFiles:File[]) => {
@@ -25,7 +25,7 @@ const FileUploader = ({OwnerId, AccountId, className}:{OwnerId:string;AccountId:
         return toast(<p><span className='font-semibold'>
           {file.name}</span>  is too large. Max size is {MAX_FILE_SIZE}MB</p>)
       }
-      return uploadFile({file,OwnerId,AccountId,path}).then((uploadedFile)=>{
+      return uploadFile({file,ownerId,path}).then((uploadedFile)=>{
         if(uploadedFile){
           setFile((prevfile)=>prevfile.filter((f)=>f.name!=file.name))
         }
@@ -45,7 +45,7 @@ const FileUploader = ({OwnerId, AccountId, className}:{OwnerId:string;AccountId:
     });*/
     await Promise.all(uploadPromises);
     
-  }, [OwnerId,AccountId,path])
+  }, [ownerId,path])
   const {getRootProps, getInputProps} = useDropzone({onDrop})
   // maybe add mousevent mrena
   const handleRemoveFile = (e:React.MouseEvent<HTMLParagraphElement>, filename:string)=> {
