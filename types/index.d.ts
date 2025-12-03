@@ -67,6 +67,6 @@ interface Document {
     extension:string;
     size:number;
     ownerName:string;
-    bucket:string;
     sharedWith:string[];
+    bucket:string;
 }

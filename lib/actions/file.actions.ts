@@ -20,13 +20,14 @@ const handleError = (error:unknown, message:string) => {
 export const uploadFile = async({file, ownerId,  path}:UploadFileProps)=> {
 
     try {
-        const inputFile = InputFile.fromBuffer(file, file.name);
+        const body = new FormData();
+        body.append("file", file);
+        body.append("dir_path", "");
         const token = await createSessionClient();
         const response = await fetch(`http://127.0.0.1:8000/upload_file`, {
                                       method: 'POST',
-                                      headers: { 'Content-Type': 'application/json',
-                                                 'Authorization': `Bearer ${token}`, },
-                                      body: JSON.stringify({ file:inputFile, dir_path:'' }),
+                                      headers: { 'Authorization': `Bearer ${token}`, },
+                                      body,
                                     })
         const data = await response.json();
         revalidatePath(path);
@@ -65,7 +66,9 @@ export const getFiles = async({types=[], searchText='', sort='createdAt-desc',li
                                       headers: { 'Authorization': `Bearer ${token}`, },
                                     })
         
-        const files: Document[] = [];
+        const files: Document[] = []
+        const data: Document[] = await response.json();
+        console.log(data)
 
         return files;
     } catch (error){

@@ -50,8 +50,6 @@ export const getCurrentUser = async()=> {
     })
 
     const user: User = await response.json()
-
-    console.log(user.email);
     return user;
 
 
