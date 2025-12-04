@@ -57,8 +57,6 @@ export const getCurrentUser = async()=> {
 
 export const signOutUser = async() => {
 
-    const token = await createSessionClient();
-
     try {
         (await cookies()).delete('session');
     } catch (error) {
@@ -81,8 +79,7 @@ export const signInUser = async({email, password}:{email:string, password:string
 }
 
 const sendLoginRequest = async({email, password}:{email:string, password:string}) =>{
-    const user = [{'user':'user'}];
-    // move from the appwrite config eventually
+    
     const response = await fetch(`http://127.0.0.1:8000/token`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -96,5 +93,5 @@ const sendLoginRequest = async({email, password}:{email:string, password:string}
             secure:true,
             sameSite:"strict",
         });
-    return parseStringify({token:data.access_token, type:data.token_type});
+    return parseStringify({token:data.access_token});
 }

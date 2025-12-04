@@ -1,7 +1,6 @@
 'use server';
 
 import { createAdminClient, createSessionClient } from "../appwrite";
-import { InputFile } from "node-appwrite/file";
 import { appwriteConfig } from "../appwrite/config";
 import { ID, Models, Query } from "node-appwrite";
 import { constructFileUrl, getFileType, parseStringify } from "../utils";
@@ -20,14 +19,14 @@ const handleError = (error:unknown, message:string) => {
 export const uploadFile = async({file, ownerId,  path}:UploadFileProps)=> {
 
     try {
-        const body = new FormData();
-        body.append("file", file);
-        body.append("dir_path", "");
+        const formData = new FormData();
+        formData.append("file", file);
+        formData.append("dir_path", "");
         const token = await createSessionClient();
         const response = await fetch(`http://127.0.0.1:8000/upload_file`, {
                                       method: 'POST',
-                                      headers: { 'Authorization': `Bearer ${token}`, },
-                                      body,
+                                      headers: { 'Authorization': `Bearer ${token}` },
+                                      body: formData,
                                     })
         const data = await response.json();
         revalidatePath(path);
@@ -64,12 +63,10 @@ export const getFiles = async({types=[], searchText='', sort='createdAt-desc',li
         const response = await fetch(`http://127.0.0.1:8000/files`, {
                                       method: 'GET',
                                       headers: { 'Authorization': `Bearer ${token}`, },
+                                      // body : customqueries
                                     })
         
-        const files: Document[] = []
-        const data: Document[] = await response.json();
-        console.log(data)
-
+        const files: Document[] =  await response.json();
         return files;
     } catch (error){
         handleError(error, 'Failed to get files!');

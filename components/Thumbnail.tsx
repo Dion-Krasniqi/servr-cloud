@@ -7,10 +7,10 @@ const Thumbnail = ({type, extension, url='', className, imageClassName}
 
   const isImage = (type==='image' && extension != 'svg')
   return (
-    <figure className={className}><Image src={isImage ? url : getFileIcon(extension, type)} 
+    <figure className={className}><img src={isImage ? url : getFileIcon(extension, type)} 
                                   alt='thumbnail' 
                                   width={100} 
-                                  height={100} className={cn('size-8 object-contain',imageClassName)}></Image></figure>
+                                  height={100} className={cn('size-8 object-contain',imageClassName)}></img></figure>
   )
 }
 

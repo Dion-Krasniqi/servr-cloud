@@ -10,12 +10,18 @@ const nextConfig: NextConfig = {
     remotePatterns: [
       {
         protocol: 'https',
+        hostname: 'play.min.io'
+      },
+      {
+        protocol: 'https',
         hostname: 'upload.wikimedia.org'
       },
       {
         protocol: 'https',
         hostname: 'cloud.appwrite.io'
-      }
+      },
+      
+     
     ]
   }
 };
