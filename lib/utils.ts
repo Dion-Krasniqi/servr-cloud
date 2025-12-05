@@ -52,7 +52,7 @@ export const getFileTypeParams = (type:string)=> {
     case "documents":
       return ["document"];
     case "media":
-      return ["image"];
+      return ["media"];
     default:
       return ["document"];
   }

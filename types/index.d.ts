@@ -37,7 +37,7 @@ interface DeleteFileProps {
     path:string;
 }
 
-type FileType = "document" | "image" | "video" | "audio" | "other";
+type FileType = "document" | "media" | "other";
 
 interface GetFilesProps {
   types: FileType[];

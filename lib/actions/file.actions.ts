@@ -38,15 +38,15 @@ export const uploadFile = async({file, ownerId,  path}:UploadFileProps)=> {
 }
 
 const createQueries = async(currentUser:User, types:string[], searchText:string, sort?:string, limit?:number)=> {
-    const queries = [Query.or([Query.equal('Owner', [currentUser.id]), Query.contains('Users',[currentUser.email])])]
+    const queries: Record<string,any> = { 'owner' :currentUser }
 
-    if (types.length>0) queries.push(Query.equal('Type',types));
-    if (searchText) queries.push(Query.contains('Name',searchText));
-    if (limit) queries.push(Query.limit(limit));
+    if (types.length>0) queries['types'] = types;
+    if (searchText) queries['searchText'] = searchText;
+    if (limit) queries['limit'] = limit
 
     if (sort){
         const [sortBy, orderBy] = sort.split('-');
-        queries.push(orderBy==='asc' ? Query.orderAsc(sortBy) : Query.orderDesc(sortBy))
+        queries['sort'] = (orderBy==='asc' ? '' : '-') + sortBy
     }
     
 
@@ -54,18 +54,21 @@ const createQueries = async(currentUser:User, types:string[], searchText:string,
 
 }
 
-export const getFiles = async({types=[], searchText='', sort='createdAt-desc',limit}:GetFilesProps)=> {
+export const getFiles = async({types=[], searchText='', sort='date-desc',limit}:GetFilesProps)=> {
     const token = await createSessionClient();
     try {
         const currentUser = await getCurrentUser();
         if (!currentUser) throw new Error('User not found!');
         const queries = await createQueries(currentUser, types, searchText, sort, limit);
-        const response = await fetch(`http://127.0.0.1:8000/files`, {
+        let link = 'http://127.0.0.1:8000/files?';
+        link = link + '?sort=' + queries['sort']
+        if (types.length>0){
+            link = link + '&queries=' + queries['types']
+        }
+        const response = await fetch(link, {
                                       method: 'GET',
                                       headers: { 'Authorization': `Bearer ${token}`, },
-                                      // body : customqueries
                                     })
-        
         const files: Document[] =  await response.json();
         return files;
     } catch (error){

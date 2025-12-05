@@ -20,26 +20,26 @@ export const MAX_FILE_SIZE = 50 * 1024 * 1024
 export const sortTypes = [
   {
     label: "Date created (newest)",
-    value: "$createdAt-desc",
+    value: "date-desc",
   },
   {
     label: "Created Date (oldest)",
-    value: "$createdAt-asc",
+    value: "date-asc",
   },
   {
     label: "Name (A-Z)",
-    value: "Name-asc",
+    value: "name-asc",
   },
   {
     label: "Name (Z-A)",
-    value: "Name-desc",
+    value: "name-desc",
   },
   {
     label: "Size (Highest)",
-    value: "Size-desc",
+    value: "size-desc",
   },
   {
     label: "Size (Lowest)",
-    value: "Size-asc",
+    value: "size-asc",
   },
 ];
