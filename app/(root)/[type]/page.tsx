@@ -32,7 +32,7 @@ const Page = async({ searchParams, params } : SearchParamProps) => {
         </section>  
         <section>
             {files?.map((file:Document)=>{
-                return (<Card key={file.id} file={file}/>)
+                return (<Card key={file.file_id} file={file}/>)
             })}
         </section>
 

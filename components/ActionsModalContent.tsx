@@ -10,8 +10,8 @@ const ImageThumbnail = ({ file }:{ file: Document })=>(
     <div>
         <Thumbnail type={file.type} extension={file.extension} url={file.url}/>
         <div className='flex flex-col'>
-            <p>{file.name}</p>
-            <FormattedDateTime date={file.createdAt} className='caption'/>
+            <p>{file.file_name}</p>
+            <FormattedDateTime date={file.created_at} className='caption'/>
 
         </div>
     </div>
@@ -31,8 +31,8 @@ export const FileDetails = ({ file }:{ file: Document }) => {
         <div>
             <DetailRow label="Format:" value={file.extension} />
             <DetailRow label="Size:" value={String(file.size)} />
-            <DetailRow label="Owner:" value={file.ownerName} />
-            <DetailRow label="Last edit:" value={file.lastModified} />
+            <DetailRow label="Owner:" value={file.owner_id} />
+            <DetailRow label="Last edit:" value={file.last_modified} />
         </div>
     </>
   )

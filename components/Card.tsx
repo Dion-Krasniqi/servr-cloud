@@ -22,10 +22,10 @@ const Card = ({file}:{ file:Document}) => {
         </div>
       </div>
       <div>
-        <p className='line-clamp-1'>{file.name}</p>
-        <FormattedDateTime date={file.createdAt}/>
+        <p className='line-clamp-1'>{file.file_name}</p>
+        <FormattedDateTime date={file.created_at}/>
         {/*I think its the databases fault here */}
-        <p className='text-black line-clamp-1'>Uploaded by:{(file.ownerName)}</p>
+        <p className='text-black line-clamp-1'>Uploaded by:{(file.owner_id)}</p>
       </div>
     </div>
   )

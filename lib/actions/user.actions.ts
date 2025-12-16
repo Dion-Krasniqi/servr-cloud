@@ -3,7 +3,7 @@
 import { Avatars, ID, Query, TablesDB } from "node-appwrite";
 import { createAdminClient, createSessionClient } from "../appwrite";
 import { appwriteConfig} from "../appwrite/config";
-import { parseStringify } from "../utils";
+import { baseLink, parseStringify } from "../utils";
 import { cookies } from "next/headers";
 import { profilePlaceholder } from "@/constants";
 import { redirect } from "next/navigation";
@@ -22,7 +22,7 @@ const handleError = (error:unknown, message:string) => {
 
 export const createAccount = async({username, email, password}:{username:string;email:string, password:string}) => {
 
-    const response = await fetch(`http://127.0.0.1:8000/create_user`, {
+    const response = await fetch(`${baseLink}/sign-up`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ username, email, password }),
@@ -44,7 +44,7 @@ export const createAccount = async({username, email, password}:{username:string;
 export const getCurrentUser = async()=> {
 
     const token = await createSessionClient();
-    const response = await fetch(`http://127.0.0.1:8000/users/me`, {
+    const response = await fetch('http://localhost:8001/users-me', {
       method: 'GET',
       headers: { 'Authorization': `Bearer ${token}` },
     })
@@ -80,7 +80,7 @@ export const signInUser = async({email, password}:{email:string, password:string
 
 const sendLoginRequest = async({email, password}:{email:string, password:string}) =>{
     
-    const response = await fetch(`http://127.0.0.1:8000/token`, {
+    const response = await fetch(`${baseLink}/sign-in`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ email, password }),

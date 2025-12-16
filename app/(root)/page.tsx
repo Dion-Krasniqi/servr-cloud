@@ -18,7 +18,7 @@ const Dashboard = async()=> {
                 <Sort />
             </div>
             {files?.map((file:Document)=>{
-                return (<Card key={file.id} file={file}/>)
+                return (<Card key={file.file_id} file={file}/>)
             })}
         </section>
         <section className='w-[50%]'>   

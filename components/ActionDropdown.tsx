@@ -26,7 +26,7 @@ const ActionDropdown = ({ file } : {file: Document}) => {
   const [isModalOpen,setIsModalOpen] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [action, setAction] = useState<ActionType | null>(null);
-  const [name, setName] = useState(file.name);
+  const [name, setName] = useState(file.file_name);
   const [loading, setLoading] = useState(false);
   const path = usePathname();
   const [emails, setEmails] = useState<string[]>([]);
@@ -35,7 +35,7 @@ const ActionDropdown = ({ file } : {file: Document}) => {
     setIsModalOpen(false);
     setDropdownOpen(false);
     setAction(null);
-    setName(file.name);
+    setName(file.file_name);
     setEmails([]);
   }
 
@@ -44,9 +44,9 @@ const ActionDropdown = ({ file } : {file: Document}) => {
     setLoading(true);
     let success = false;
     const actions = {
-      rename: ()=>renameFile({fileId:file.id, name, extension:file.extension, path}),
-      share: ()=>updateFileUsers({fileId:file.id, emails, path}),
-      delete: ()=>deleteFile({fileID:file.id, BucketFileID:file.bucket, path}),
+      rename: ()=>renameFile({fileId:file.file_id, name, extension:file.extension, path}),
+      share: ()=>updateFileUsers({fileId:file.file_id, emails, path}),
+      delete: ()=>deleteFile({owner:file.owner_id, file:file.file_id, path}),
     }
     
     success = await actions[action.value as keyof typeof actions]();
@@ -57,7 +57,7 @@ const ActionDropdown = ({ file } : {file: Document}) => {
 
   const handleRemoveUser = async(email:string)=> {
     const updatedEmails = emails.filter((e)=>e != email);
-    const success = await updateFileUsers({fileId:file.id,emails:updatedEmails, path});
+    const success = await updateFileUsers({fileId:file.file_id,emails:updatedEmails, path});
 
     if (success) setEmails(updatedEmails);
     closeAllModals;
@@ -77,7 +77,7 @@ const ActionDropdown = ({ file } : {file: Document}) => {
           { value === 'share' && <ShareInput file={file} onInputChange={setEmails} onRemove={handleRemoveUser}/>}
           { value === 'delete' && (<>
                                       <p>Are you sure you want to delete {` `}
-                                      <span>{file.name}</span>?</p>
+                                      <span>{file.file_name}</span>?</p>
 
                  </>)}
         </DialogHeader>
@@ -100,7 +100,7 @@ const ActionDropdown = ({ file } : {file: Document}) => {
       <DropdownMenu open={dropdownOpen} onOpenChange={setDropdownOpen}>
         <DropdownMenuTrigger className="font-bold text-xl">...</DropdownMenuTrigger>
         <DropdownMenuContent>
-          <DropdownMenuLabel className="max-w-[200px] truncate">{file.name}</DropdownMenuLabel>
+          <DropdownMenuLabel className="max-w-[200px] truncate">{file.file_name}</DropdownMenuLabel>
           <DropdownMenuSeparator />
           {actionsDropDownItems.map((item)=>
             (<DropdownMenuItem key={item.value} 
@@ -108,7 +108,7 @@ const ActionDropdown = ({ file } : {file: Document}) => {
                                              if (item.value!='download'){
                                                   setIsModalOpen(true)}}}>
              {item.value === 'download' ? 
-             <Link href={constructFileDownloadUrl(file.bucket)} download={file.name}>{item.label}</Link>
+             <Link href={constructFileDownloadUrl(file.url)} download={file.file_name}>{item.label}</Link>
              :<p>{item.label}</p>}
              
              </DropdownMenuItem>))}

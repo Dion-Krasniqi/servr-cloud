@@ -32,8 +32,8 @@ interface UpdateFileUsersProps {
 }
 
 interface DeleteFileProps {
-    fileID:string;
-    BucketFileID:string;
+    owner:string;
+    file:string;
     path:string;
 }
 
@@ -58,15 +58,15 @@ interface User {
 }
 
 interface Document {
-    id: string;
-    name: string;
-    createdAt:string;
-    lastModified:string;
-    url:string;
-    type:FileType;
+    file_id: string;
+    owner_id: string;
+    parent_id: string;
+    file_name: string;
     extension:string;
     size:number;
-    ownerName:string;
+    type:FileType;
+    created_at:string;
+    last_modified:string;
     sharedWith:string[];
-    bucket:string;
+    url:string;
 }

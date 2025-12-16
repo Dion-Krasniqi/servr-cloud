@@ -3,7 +3,7 @@
 import { createAdminClient, createSessionClient } from "../appwrite";
 import { appwriteConfig } from "../appwrite/config";
 import { ID, Models, Query } from "node-appwrite";
-import { constructFileUrl, getFileType, parseStringify } from "../utils";
+import { baseLink, constructFileUrl, getFileType, parseStringify } from "../utils";
 import { revalidatePath } from "next/cache";
 import { getCurrentUser } from "./user.actions";
 import { DeleteFileProps, FileType, GetFilesProps, RenameFileProps, UpdateFileUsersProps, UploadFileProps, User, Document } from "@/types";
@@ -23,7 +23,7 @@ export const uploadFile = async({file, ownerId,  path}:UploadFileProps)=> {
         formData.append("file", file);
         formData.append("dir_path", "");
         const token = await createSessionClient();
-        const response = await fetch(`http://127.0.0.1:8000/upload_file`, {
+        const response = await fetch(`${baseLink}/upload_file`, {
                                       method: 'POST',
                                       headers: { 'Authorization': `Bearer ${token}` },
                                       body: formData,
@@ -60,16 +60,17 @@ export const getFiles = async({types=[], searchText='', sort='date-desc',limit}:
         const currentUser = await getCurrentUser();
         if (!currentUser) throw new Error('User not found!');
         const queries = await createQueries(currentUser, types, searchText, sort, limit);
-        let link = 'http://127.0.0.1:8000/files?';
-        link = link + '?sort=' + queries['sort']
-        if (types.length>0){
-            link = link + '&queries=' + queries['types']
-        }
-        const response = await fetch(link, {
+        let link = `http://localhost:8001/get-files`;
+        //link = link + '?sort=' + queries['sort']
+        //f (types.length>0){
+        //   link = link + '&queries=' + queries['types']
+        //}
+        const response = await fetch('http://localhost:8001/get-files', {
                                       method: 'GET',
                                       headers: { 'Authorization': `Bearer ${token}`, },
                                     })
         const files: Document[] =  await response.json();
+        console.log(files);
         return files;
     } catch (error){
         handleError(error, 'Failed to get files!');
@@ -116,20 +117,10 @@ export const updateFileUsers = async({fileId, emails, path}:UpdateFileUsersProps
 
 }
 
-export const deleteFile = async({fileID, BucketFileID, path}:DeleteFileProps)=> {
+export const deleteFile = async({owner,file,path}:DeleteFileProps)=> {
     const { tablesDB, storage } = await createAdminClient();
 
     try {
-        
-        const deletedFile = await tablesDB.deleteRow(
-            appwriteConfig.databaseId,
-            appwriteConfig.filesId,
-            fileID,
-
-        )
-        if (deletedFile){
-            await storage.deleteFile({bucketId:appwriteConfig.bucketId, fileId:BucketFileID});
-        }
         revalidatePath(path);
         return parseStringify({status: 'success'});
     } catch (error){

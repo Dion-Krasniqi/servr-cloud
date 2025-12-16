@@ -55,12 +55,12 @@ const Search = () => {
        <Input value={query} placeholder='Search...' onChange={(e)=>setQuery(e.target.value)}/>
        {open && (<ul>
                     {results.length>0 ? (
-                      results.map((file)=>(<li className='flex items-center justify-between' key={file.id}
+                      results.map((file)=>(<li className='flex items-center justify-between' key={file.file_id}
                                                onClick={()=>handleClickItem(file)}>
                         <div className='flex cursor-pointer items-center gap-4'>
                           <Thumbnail type={file.type} extension={file.extension} url={file.url} className='size-9 min-w-9'/>
-                          <p className='line-clamp-1'>{file.name}</p>
-                        </div><FormattedDateTime date={file.createdAt} className='line-clamp-1'/>
+                          <p className='line-clamp-1'>{file.file_name}</p>
+                        </div><FormattedDateTime date={file.created_at} className='line-clamp-1'/>
 
                         </li>))
                     ):(<p>No results</p>)}
