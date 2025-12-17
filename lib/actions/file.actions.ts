@@ -153,7 +153,7 @@ export async function getTotalSpaceUsed (types:string[]){
             audio: {size:0, latestDate: ""},
             other: {size:0, latestDate: ""},
             used: currentUser.storage_used,
-            all: 2 * 1024*1024*1024, // 2GB
+            all: 2 * 1024*1024, // 2MB
         }
         files.forEach((file) => {
         const fileType = 'image';

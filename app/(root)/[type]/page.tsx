@@ -18,20 +18,19 @@ const Page = async({ searchParams, params } : SearchParamProps) => {
     console.log(typeFilter)
     const [ files, totalSpace ] = await Promise.all([getFiles({types:typeFilter, limit:10}), getTotalSpaceUsed(typeFilter)]);
     return (
-     <div style={{backgroundColor:'#b7b7b7ff'}}>
+     <div style={{backgroundColor:'#e0e0e0ff', borderRadius:10, padding:10}}>
         <section className='w-full'>
             <h1 className='h1 capitalize'>
                 {type}
             </h1>    
             <div>
-                <p>Total:<span>{totalSpace.used} MB</span></p>
                 <div>
                     <p className='hidden sm:block'>Sort by:</p>
                     <Sort />
                 </div>
             </div>
         </section>  
-        <section>
+        <section className='flex md:flex-col gap-4 sm:flex-row'>
             {files?.map((file:Document)=>{
                 return (<Card key={file.file_id} file={file}/>)
             })}

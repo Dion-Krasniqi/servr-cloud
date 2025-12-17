@@ -24,35 +24,22 @@ const chartConfig = {
   size: {
     label: "Size",
   },
-  document: {
+  used: {
     label: "Document",
     color: "#6366F1",
   },
-  image: {
+  all: {
     label: "Image",
     color: "var(--chart-2)",
   },
-  video: {
-    label: "Video",
-    color: "var(--chart-3)",
-  },
-  audio: {
-    label: "Audio",
-    color: "var(--chart-4)",
-  },
-  other: {
-    label: "Other",
-    color: "var(--chart-5)",
-  },
+  
 } satisfies ChartConfig
 
-const PChart = ({item1,item2,item3,item4,item5}:{item1:number;item2:number;item3:number;item4:number;item5:number}) => {
+const PChart = ({item1,item2}:{item1:number;item2:number;}) => {
   const chartData = [
-  { type: "document", size: item1, fill: "#6366F1" },
-  { type: "image", size: item2, fill: "#00f61dff" },
-  { type: "video", size: item3, fill: "#f16363ff" },
-  { type: "audio", size: item4, fill: "#ff00eaff" },
-  { type: "other", size: item5, fill: "var(--color-other)" },
+  { type: "used", size: item1, fill: "#6366F1" },
+  { type: "all", size: item2, fill: "#e1e1e1ff" },
+  
 ]
   return (
     <Card className="flex flex-col">
@@ -80,7 +67,7 @@ const PChart = ({item1,item2,item3,item4,item5}:{item1:number;item2:number;item3
       </CardContent>
       <CardFooter className="flex-col gap-2 text-sm">
         <div className="flex items-center gap-2 leading-none font-medium">
-          <p>Storage left: 300 MB</p>
+          <p>Storage left: {Math.round(item2 - item1)}KB</p>
         </div>
         
       </CardFooter>
