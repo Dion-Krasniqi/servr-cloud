@@ -21,7 +21,6 @@ export const uploadFile = async({file, ownerId,  path}:UploadFileProps)=> {
     try {
         const formData = new FormData();
         formData.append("file", file);
-        formData.append("dir_path", "");
         const token = await createSessionClient();
         const response = await fetch(`${baseLink}/upload-file`, {
                                       method: 'POST',
@@ -87,22 +86,22 @@ export const getFiles = async({types=[], searchText='', sort='date-desc',limit}:
     }
 }
 
-export const renameFile = async({fileId, name, extension, path}:RenameFileProps)=> {
-    const { tablesDB } = await createAdminClient();
+export const renameFile = async({file_id, file_name, path}:RenameFileProps)=> {
 
+    const id = file_id;
     try {
-        const newName = `${name}.${extension}`;
-        const updatedFile = await tablesDB.updateRow(
-            appwriteConfig.databaseId,
-            appwriteConfig.filesId,
-            fileId,
-            {Name: newName},
+        const token = await createSessionClient();
+        const response = await fetch(`http://localhost:8001/rename-file`, {
+                                      method: 'POST',
+                                      headers: { 'Authorization': `Bearer ${token}`,
+                                                 'Content-Type': 'application/json' },
+                                      body: JSON.stringify({file_id:id, file_name}),
+                                    })
 
-        )
+        const data = await response.json();
         revalidatePath(path);
-        return parseStringify(updatedFile);
-    } catch (error){
-        handleError(error, "Failed to rename file!")
+    } catch (error) {
+        handleError(error, 'Failed to rename file')
     }
 
 }
@@ -127,14 +126,24 @@ export const updateFileUsers = async({fileId, emails, path}:UpdateFileUsersProps
 
 }
 
-export const deleteFile = async({owner,file,path}:DeleteFileProps)=> {
-    const { tablesDB, storage } = await createAdminClient();
-
+export const deleteFile = async({file_id, path}:DeleteFileProps)=> {
+    const id = file_id;
     try {
+        const token = await createSessionClient();
+        const response = await fetch(`http://localhost:8001/delete-file`, {
+                                      method: 'POST',
+                                      headers: { 'Authorization': `Bearer ${token}`,
+                                                 'Content-Type': 'application/json' },
+                                      body: JSON.stringify({file_id:id}),
+                                    })
+
+        const data = await response.json();
+        console.log(data);
         revalidatePath(path);
-        return parseStringify({status: 'success'});
-    } catch (error){
-        handleError(error, "Failed to delete file!")
+        return parseStringify(data);
+
+    } catch (error) {
+        handleError(error, 'Failed to delete file')
     }
 
 }

@@ -44,9 +44,9 @@ const ActionDropdown = ({ file } : {file: Document}) => {
     setLoading(true);
     let success = false;
     const actions = {
-      rename: ()=>renameFile({fileId:file.file_id, name, extension:file.extension, path}),
+      rename: ()=>renameFile({file_id:file.file_id, file_name:file.file_name, path}),
       share: ()=>updateFileUsers({fileId:file.file_id, emails, path}),
-      delete: ()=>deleteFile({owner:file.owner_id, file:file.file_id, path}),
+      delete: ()=>deleteFile({file_id:file.file_id, path}),
     }
     
     success = await actions[action.value as keyof typeof actions]();

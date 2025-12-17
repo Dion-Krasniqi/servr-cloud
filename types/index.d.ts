@@ -13,9 +13,8 @@ interface ActionType {
 }
 
 interface RenameFileProps {
-    fileId:string;
-    name:string;
-    extension:string;
+    file_id:string;
+    file_name:string;
     path:string;
 }
 
@@ -32,8 +31,7 @@ interface UpdateFileUsersProps {
 }
 
 interface DeleteFileProps {
-    owner:string;
-    file:string;
+    file_id:string;
     path:string;
 }
 

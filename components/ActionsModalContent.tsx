@@ -1,5 +1,3 @@
-import { Models } from 'node-appwrite'
-import React from 'react'
 import Thumbnail from './Thumbnail'
 import FormattedDateTime from './FormattedDateTime'
 import { Document, ShareProps } from '@/types'
@@ -8,7 +6,7 @@ import { Button } from './ui/button'
 
 const ImageThumbnail = ({ file }:{ file: Document })=>(
     <div>
-        <Thumbnail type={file.type} extension={file.extension} url={file.url}/>
+        <Thumbnail type={file.file_type} extension={file.extension} url={file.url}/>
         <div className='flex flex-col'>
             <p>{file.file_name}</p>
             <FormattedDateTime date={file.created_at} className='caption'/>
