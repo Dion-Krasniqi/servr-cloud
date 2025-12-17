@@ -23,7 +23,7 @@ export const uploadFile = async({file, ownerId,  path}:UploadFileProps)=> {
         formData.append("file", file);
         formData.append("dir_path", "");
         const token = await createSessionClient();
-        const response = await fetch(`${baseLink}/upload_file`, {
+        const response = await fetch(`${baseLink}/upload-file`, {
                                       method: 'POST',
                                       headers: { 'Authorization': `Bearer ${token}` },
                                       body: formData,
@@ -55,24 +55,34 @@ const createQueries = async(currentUser:User, types:string[], searchText:string,
 }
 
 export const getFiles = async({types=[], searchText='', sort='date-desc',limit}:GetFilesProps)=> {
+    const type = types[0];
     const token = await createSessionClient();
+    let files: Document[] = [];
     try {
         const currentUser = await getCurrentUser();
         if (!currentUser) throw new Error('User not found!');
-        const queries = await createQueries(currentUser, types, searchText, sort, limit);
-        let link = `http://localhost:8001/get-files`;
-        //link = link + '?sort=' + queries['sort']
-        //f (types.length>0){
-        //   link = link + '&queries=' + queries['types']
-        //}
         const response = await fetch('http://localhost:8001/get-files', {
                                       method: 'GET',
                                       headers: { 'Authorization': `Bearer ${token}`, },
                                     })
-        const files: Document[] =  await response.json();
-        console.log(files);
+        if (!response.ok) {
+            return files;
+        }
+        const data = await response.json();
+        if (!Array.isArray(data)){
+            return files;
+        }
+        files =  data as Document[];
+        if(type) {
+            console.log(type)
+            files = files.filter((f)=>f.file_type==type)
+        }
+        if(searchText){
+            files = files.filter((f)=>f.file_name.includes(searchText))
+        }
         return files;
     } catch (error){
+        return files;
         handleError(error, 'Failed to get files!');
     }
 }
@@ -133,7 +143,7 @@ export async function getTotalSpaceUsed (types:string[]){
     try {
         const currentUser = await getCurrentUser();
         if (!currentUser) throw new Error('User not found!');
-        const queries = await createQueries(currentUser, types,'')
+        //const queries = await createQueries(currentUser, types,'')
 
         const files = [1]
         const totalSpace = {
@@ -142,7 +152,7 @@ export async function getTotalSpaceUsed (types:string[]){
             video: {size:0, latestDate: ""},
             audio: {size:0, latestDate: ""},
             other: {size:0, latestDate: ""},
-            used: 0,
+            used: currentUser.storage_used,
             all: 2 * 1024*1024*1024, // 2GB
         }
         files.forEach((file) => {

@@ -52,9 +52,9 @@ interface SearchParamProps {
 }
 
 interface User {
-    id: string;
-    username: string;
+    user_id: string;
     email: string;
+    storage_used: number;
 }
 
 interface Document {
@@ -64,7 +64,7 @@ interface Document {
     file_name: string;
     extension:string;
     size:number;
-    type:FileType;
+    file_type:string;
     created_at:string;
     last_modified:string;
     sharedWith:string[];

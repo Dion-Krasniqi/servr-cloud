@@ -12,7 +12,7 @@ const Card = ({file}:{ file:Document}) => {
     
       <div className='flex justify-between'>
         <Link href={file.url} target='_blank'>
-        <Thumbnail type={file.type} extension={file.extension} url={file.url} className='!size-20' imageClassName='!size-11'/>
+        <Thumbnail type={file.file_type} extension={file.extension} url={file.url} className='!size-20' imageClassName='!size-11'/>
         </Link>
         <div className='flex flex-col items-end justify-between'>
           <ActionDropdown file={file}/>

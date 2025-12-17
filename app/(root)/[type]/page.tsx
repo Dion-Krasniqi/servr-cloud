@@ -15,6 +15,7 @@ const Page = async({ searchParams, params } : SearchParamProps) => {
   const type = ((await params)?.type as string) || "";
   if (type!='user'){
     const typeFilter = type != 'documents' ? ['media'] as FileType[] : ['document'] as FileType[];
+    console.log(typeFilter)
     const [ files, totalSpace ] = await Promise.all([getFiles({types:typeFilter, limit:10}), getTotalSpaceUsed(typeFilter)]);
     return (
      <div style={{backgroundColor:'#b7b7b7ff'}}>

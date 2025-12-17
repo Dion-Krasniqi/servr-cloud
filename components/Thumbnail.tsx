@@ -5,7 +5,7 @@ import React from 'react'
 const Thumbnail = ({type, extension, url='', className, imageClassName}
                   :{type:string;extension:string;url?:string, className?:string, imageClassName?:string}) => {
 
-  const isImage = (type==='image' && extension != 'svg')
+  const isImage = (type=='media');
   return (
     <figure className={className}><img src={isImage ? url : getFileIcon(extension, type)} 
                                   alt='thumbnail' 

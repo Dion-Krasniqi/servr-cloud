@@ -21,13 +21,14 @@ const Search = () => {
 
   useEffect(()=>{
     const fetchFiles = async()=> {
-      if (delayedQuery.length==0){
+      if (!delayedQuery.trim()){
         setResults([]);
         setOpen(false);
-        router.push(path.replace(searchParams.toString(),""));
+        router.push(path);
+        return;
       }
       const files = await getFiles({types:[],searchText:delayedQuery});
-      setResults(files || []);
+      setResults(files ?? []);
       setOpen(true);
 
     }
@@ -38,13 +39,14 @@ const Search = () => {
   useEffect(()=>{
     if(!searchQuery){
       setQuery("");
+    
     }
   },[searchQuery]);
 
   const handleClickItem = (file:Document)=> {
     setOpen(false);
     setResults([]);
-    router.push(`/${(file.type === 'document') ? file.type + 's' : 'media'}?query=${query}`);
+    router.push(`/${(file.file_type === 'document') ? file.file_type + 's' : 'media'}?query=${query}`);
 
   }
 
@@ -58,7 +60,7 @@ const Search = () => {
                       results.map((file)=>(<li className='flex items-center justify-between' key={file.file_id}
                                                onClick={()=>handleClickItem(file)}>
                         <div className='flex cursor-pointer items-center gap-4'>
-                          <Thumbnail type={file.type} extension={file.extension} url={file.url} className='size-9 min-w-9'/>
+                          <Thumbnail type={file.file_type} extension={file.extension} url={file.url} className='size-9 min-w-9'/>
                           <p className='line-clamp-1'>{file.file_name}</p>
                         </div><FormattedDateTime date={file.created_at} className='line-clamp-1'/>
 
