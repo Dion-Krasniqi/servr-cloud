@@ -23,18 +23,21 @@ const Page = async({ searchParams, params } : SearchParamProps) => {
             <h1 className='h1 capitalize'>
                 {type}
             </h1>    
+        {files.length>0 ? (<div>
             <div>
-                <div>
-                    <p className='hidden sm:block'>Sort by:</p>
-                    <Sort />
-                </div>
+             <div>
+              <p className='hidden sm:block'>Sort by:</p>
+              <Sort />
+             </div>
             </div>
-        </section>  
-        <section className='flex md:flex-col gap-4 sm:flex-row'>
-            {files?.map((file:Document)=>{
-                return (<Card key={file.file_id} file={file}/>)
-            })}
-        </section>
+          <section className='flex md:flex-col gap-4 sm:flex-row'>
+            {files?.map((file:Document)=>{return (<Card key={file.file_id} file={file}/>)})}
+          </section></div>):
+          (<div className="flex h-full w-full items-center justify-center">
+            <p className="text-lg font-medium my-15">No files found</p>
+           </div>)}
+           </ section>
+        
 
      </div>)}
   //maybe make this its own, but works fine for now

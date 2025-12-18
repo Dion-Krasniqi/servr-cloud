@@ -66,11 +66,11 @@ const FileUploader = ({ownerId, className}:{ownerId:string;className?:string}) =
                             return (
                               <li key={`${f.name}-${index}`}>
                                 <div className='flex items-center gap-3'>
-                                  <Thumbnail type={type} extension={extension} url={convertFileToUrl(f)}/>
+                                  
                                   <div>
                                     {f.name}
                                   </div>
-
+                                  <Image src='/spinner.png' alt="loader" width={24} height={24} className="ml-2 animate-spin"/>
                                 </div>
                                 <p onClick={(e)=>handleRemoveFile(e,f.name)}>X</p>
                               </li>

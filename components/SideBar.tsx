@@ -6,11 +6,10 @@ import { usePathname } from 'next/navigation'
 import React from 'react'
 
 interface Props {
-  username:string;
   email:string;
   }
 
-const SideBar = ({username, email}: Props) => {
+const SideBar = ({email}: Props) => {
 
   const pathname = usePathname();
 

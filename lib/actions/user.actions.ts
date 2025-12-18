@@ -25,7 +25,7 @@ export const createAccount = async({username, email, password}:{username:string;
     const response = await fetch(`${baseLink}/sign-up`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ username, email, password }),
+      body: JSON.stringify({ email, password }),
     })
     if (!response.ok) throw new Error("Failed create account");
     try {

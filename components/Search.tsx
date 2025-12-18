@@ -62,7 +62,7 @@ const Search = () => {
                         <div className='flex cursor-pointer items-center gap-4'>
                           <Thumbnail type={file.file_type} extension={file.extension} url={file.url} className='size-9 min-w-9'/>
                           <p className='line-clamp-1'>{file.file_name}</p>
-                        </div><FormattedDateTime date={file.created_at} className='line-clamp-1'/>
+                        </div>
 
                         </li>))
                     ):(<p>No results</p>)}

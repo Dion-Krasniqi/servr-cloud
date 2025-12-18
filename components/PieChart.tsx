@@ -25,11 +25,11 @@ const chartConfig = {
     label: "Size",
   },
   used: {
-    label: "Document",
+    label: "Used Storage",
     color: "#6366F1",
   },
   all: {
-    label: "Image",
+    label: "Total",
     color: "var(--chart-2)",
   },
   
@@ -37,7 +37,7 @@ const chartConfig = {
 
 const PChart = ({item1,item2}:{item1:number;item2:number;}) => {
   const chartData = [
-  { type: "used", size: item1, fill: "#6366F1" },
+  { type: "used", size: Math.floor(item1), fill: "#6366F1" },
   { type: "all", size: item2, fill: "#e1e1e1ff" },
   
 ]

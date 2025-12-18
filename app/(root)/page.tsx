@@ -12,7 +12,7 @@ const Dashboard = async()=> {
       <div style={{padding:10}} className="flex flex-row gap-4">
         
         <section style={{backgroundColor:'#e0e0e0ff', padding:10, borderRadius:10}} className="w-[50%]"> 
-            <div className="mb-4">
+            {files.length>0 ? (<div><div className="mb-4">
                 <p>Latest Files</p>
                 <p className='hidden sm:block'>Sort by:</p>
                 <Sort />
@@ -21,11 +21,12 @@ const Dashboard = async()=> {
               {files?.map((file:Document)=>{
                 return (<Card key={file.file_id} file={file}/>)
             })}
-            </section>
+            </section></div>):(<div className="flex h-full w-full items-center justify-center">
+                                <p className="text-lg font-medium">No files found</p>
+                               </div>)}
         </section>
         <section className='w-[50%]'>   
             <div style={{backgroundColor:'#e0e0e0ff', padding:10, borderRadius:10}}>
-                <p>Total:<span>{Math.floor(totalSpace.used/1024)} / {totalSpace.all/1024} KB</span></p>
                 <PChart item1={totalSpace.used/1024} 
                         item2={totalSpace.all/1024} 
                         />

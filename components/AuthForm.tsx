@@ -124,7 +124,7 @@ const AuthForm = ({ type }:{ type:FormType }) => {
                                          bg-red 
                                          w-full
                                          transition-all duration-300 ease-in-out hover:scale-105">{type === 'sign-in' ? "Sign In":"Sign Up"}
-        {isLoading && (<Image src='/globe.svg' alt="loader" width={24} height={24} className="ml-2 animate-spin"/>)}
+        {isLoading && (<Image src='/spinner.png' alt="loader" width={24} height={24} className="ml-2 animate-spin"/>)}
         </Button>
         {errMsg && (<p>*{errMsg}</p>)}
         <div className="flex justify-center">

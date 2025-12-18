@@ -88,7 +88,7 @@ const ActionDropdown = ({ file } : {file: Document}) => {
                   </Button>
                   <Button onClick={handleAction}>
                     <p className="capitalize">{value}</p>
-                    {loading && (<Image src='/globe.svg' alt="loader" width={24} height={24} className="ml-2 animate-spin"/>)}
+                    {loading && (<Image src='/spinner.png' alt="loader" width={24} height={24} className="ml-2 animate-spin"/>)}
                   </Button>
                 </DialogFooter>)}
       </DialogContent>
