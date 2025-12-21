@@ -22,7 +22,7 @@ export const uploadFile = async({file, ownerId,  path}:UploadFileProps)=> {
         const formData = new FormData();
         formData.append("file", file);
         const token = await createSessionClient();
-        const response = await fetch('http://localhost:8001/upload-file', {
+        const response = await fetch(`${baseLink}/upload-file`, {
                                       method: 'POST',
                                       headers: { 'Authorization': `Bearer ${token}` },
                                       body: formData,
@@ -89,13 +89,14 @@ export const getFiles = async({types=[], searchText='', sort='date-desc',limit}:
 export const renameFile = async({file_id, file_name, path}:RenameFileProps)=> {
 
     const id = file_id;
+    const new_name = file_name;
     try {
         const token = await createSessionClient();
         const response = await fetch(`http://localhost:8001/rename-file`, {
                                       method: 'POST',
                                       headers: { 'Authorization': `Bearer ${token}`,
                                                  'Content-Type': 'application/json' },
-                                      body: JSON.stringify({file_id:id, file_name}),
+                                      body: JSON.stringify({file_id:id, file_name:new_name}),
                                     })
 
         const data = await response.json();

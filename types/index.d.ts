@@ -60,7 +60,7 @@ interface Document {
     owner_id: string;
     parent_id: string;
     file_name: string;
-    extension:string;
+    extension: string;
     size:number;
     file_type:string;
     created_at:string;
