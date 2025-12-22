@@ -9,10 +9,9 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import { actionsDropDownItems } from "@/constants";
-import { constructFileDownloadUrl, constructFileUrl } from "@/lib/utils";
+import { constructFileDownloadUrl } from "@/lib/utils";
 import { DialogContent, DialogTitle } from "@radix-ui/react-dialog";
 import Link from "next/link";
-import { Models } from "node-appwrite";
 import { useState } from "react"
 import { Input } from "./ui/input";
 import { Button } from "./ui/button";
@@ -44,7 +43,7 @@ const ActionDropdown = ({ file } : {file: Document}) => {
     setLoading(true);
     let success = false;
     const actions = {
-      rename: ()=>renameFile({file_id:file.file_id, file_name:file.file_name, path}),
+      rename: ()=>renameFile({file_id:file.file_id, file_name:name, path}),
       share: ()=>updateFileUsers({fileId:file.file_id, emails, path}),
       delete: ()=>deleteFile({file_id:file.file_id, path}),
     }

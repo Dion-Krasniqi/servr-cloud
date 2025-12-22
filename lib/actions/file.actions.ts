@@ -2,11 +2,10 @@
 
 import { createAdminClient, createSessionClient } from "../appwrite";
 import { appwriteConfig } from "../appwrite/config";
-import { ID, Models, Query } from "node-appwrite";
-import { baseLink, constructFileUrl, getFileType, parseStringify } from "../utils";
+import { baseLink, parseStringify } from "../utils";
 import { revalidatePath } from "next/cache";
 import { getCurrentUser } from "./user.actions";
-import { DeleteFileProps, FileType, GetFilesProps, RenameFileProps, UpdateFileUsersProps, UploadFileProps, User, Document } from "@/types";
+import { DeleteFileProps, GetFilesProps, RenameFileProps, UpdateFileUsersProps, UploadFileProps, User, Document } from "@/types";
 
 const handleError = (error:unknown, message:string) => {
 
@@ -92,6 +91,7 @@ export const renameFile = async({file_id, file_name, path}:RenameFileProps)=> {
     const new_name = file_name;
     try {
         const token = await createSessionClient();
+        console.log(JSON.stringify({file_id:id, file_name:new_name}));
         const response = await fetch(`http://localhost:8001/rename-file`, {
                                       method: 'POST',
                                       headers: { 'Authorization': `Bearer ${token}`,

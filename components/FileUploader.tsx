@@ -2,7 +2,7 @@
 import {MouseEvent, useCallback, useState} from 'react'
 import {useDropzone} from 'react-dropzone'
 import { Button } from './ui/button';
-import { cn, convertFileToUrl, getFileType } from '@/lib/utils';
+import { cn, convertFileToUrl, } from '@/lib/utils';
 import { Files } from 'lucide-react';
 import Thumbnail from './Thumbnail';
 import Image from 'next/image';
@@ -62,7 +62,6 @@ const FileUploader = ({ownerId, className}:{ownerId:string;className?:string}) =
       {file.length>0 && <ul>
                           <h4>Uploading</h4>
                           {file.map((f, index) => {
-                            const { type, extension} = getFileType(f.name);
                             return (
                               <li key={`${f.name}-${index}`}>
                                 <div className='flex items-center gap-3'>
