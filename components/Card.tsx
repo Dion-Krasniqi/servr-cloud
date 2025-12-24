@@ -28,7 +28,7 @@ const Card = ({ file }: { file: Document }) => {
       {/* File Details */}
       <div className="flex flex-row items-center justify-between  gap-1 mb-3">
         <p className="truncate text-sm font-semibold text-gray-900 pl-1" title={file.file_name}>
-          {file.file_name}
+          {file.file_name}{file.extension.length > 0 ? (`.${file.extension}`):('')}
         </p>
         <p className="text-[12px] font-medium text-gray-500">{(file.size > 516) ? (`${Math.round(file.size/1024)}KB`):
         (`${(file.size)}B`)}</p>
