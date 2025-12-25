@@ -4,6 +4,7 @@ import { Button } from './ui/button'
 import Search from './Search'
 import FileUploader from './FileUploader'
 import { signOutUser } from '@/lib/actions/user.actions'
+import FolderCreator from './FolderCreator'
 
 const Header = ({userId}:{userId:string}) => {
   return (
@@ -12,6 +13,7 @@ const Header = ({userId}:{userId:string}) => {
           <Search />
           <div className='flex flex-row gap-4'>
             <FileUploader ownerId={userId}/>
+            <FolderCreator ownerId={userId}/>
             <form className='self-center' action={async()=>{'use server';await signOutUser();}}>
                 <Button type='submit' className='text-sm'>Sign Out</Button>
             </form>

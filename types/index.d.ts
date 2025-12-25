@@ -4,7 +4,11 @@ interface UploadFileProps {
     file:File;
     ownerId:string;
     path:string;
+}
 
+interface CreateFolderProps {
+    ownerId:string;
+    path:string;
 }
 
 interface ActionType {

@@ -5,7 +5,7 @@ import { appwriteConfig } from "../appwrite/config";
 import { baseLink, parseStringify } from "../utils";
 import { revalidatePath } from "next/cache";
 import { getCurrentUser } from "./user.actions";
-import { DeleteFileProps, GetFilesProps, RenameFileProps, UpdateFileUsersProps, UploadFileProps, User, Document } from "@/types";
+import { DeleteFileProps, GetFilesProps, RenameFileProps, UpdateFileUsersProps, UploadFileProps, User, Document, CreateFolderProps } from "@/types";
 
 const handleError = (error:unknown, message:string) => {
 
@@ -179,4 +179,23 @@ export async function getTotalSpaceUsed (types:string[]){
     } catch (error) {
     handleError(error, "Error calculating total space used:, ");
   }
+}
+
+export const createFolder = async({ ownerId,  path}:CreateFolderProps)=> {
+    
+    const id = ownerId;
+    try {
+        const token = await createSessionClient();
+        const response = await fetch(`${baseLink}/create-folder`, {
+                                      method: 'POST',
+                                      headers: { 'Authorization': `Bearer ${token}` },
+                                      body:  JSON.stringify({user_id:ownerId})
+                                    })
+        const data = await response.json();
+        revalidatePath(path);
+        return parseStringify(data);
+
+    } catch (error) {
+        handleError(error, 'Failed to create folder')
+    }
 }
