@@ -10,7 +10,7 @@ export const parseStringify = (value:unknown) => {
 }
 
 export const getFileIcon = (extension:string,type:string) => {
-
+  if (type=='folder') return './folder.png';
   if (!extension) return './globe.svg';
 
   switch(type){
@@ -28,6 +28,8 @@ export const getFileTypeParams = (type:string)=> {
       return ["document"];
     case "media":
       return ["media"];
+    case "folder":
+      return ["folder"];
     default:
       return ["document"];
   }

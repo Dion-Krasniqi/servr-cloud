@@ -184,12 +184,14 @@ export async function getTotalSpaceUsed (types:string[]){
 export const createFolder = async({ ownerId,  path}:CreateFolderProps)=> {
     
     const id = ownerId;
+    const name = "Folder_1";
     try {
         const token = await createSessionClient();
-        const response = await fetch(`${baseLink}/create-folder`, {
+        const response = await fetch('http://localhost:8001/create-folder', {
                                       method: 'POST',
-                                      headers: { 'Authorization': `Bearer ${token}` },
-                                      body:  JSON.stringify({user_id:ownerId})
+                                      headers: { 'Authorization': `Bearer ${token}`,
+                                                 'Content-Type': 'application/json' },
+                                      body:  JSON.stringify({folder_name:name}),
                                     })
         const data = await response.json();
         revalidatePath(path);
