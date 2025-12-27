@@ -43,10 +43,11 @@ interface DeleteFileProps {
 type FileType = "document" | "media" | "other";
 
 interface GetFilesProps {
-  types: FileType[];
+  types: string[];
   searchText?: string;
   sort?: string;
   limit?: number;
+  folder?:string;
 }
 
 interface SearchParamProps {

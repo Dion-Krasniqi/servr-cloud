@@ -16,6 +16,7 @@ const Sort = () => {
     router.push(`${path}?sort=${value}`)
 
   }
+  
   return (
     <Select onValueChange={handleSort} defaultValue={sortTypes[0].value}>
   <SelectTrigger className="w-[180px]">

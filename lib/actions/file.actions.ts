@@ -7,6 +7,7 @@ import { revalidatePath } from "next/cache";
 import { getCurrentUser } from "./user.actions";
 import { DeleteFileProps, GetFilesProps, RenameFileProps, UpdateFileUsersProps, UploadFileProps, User, Document, CreateFolderProps } from "@/types";
 
+
 const handleError = (error:unknown, message:string) => {
 
     console.log(error, message);
@@ -35,29 +36,13 @@ export const uploadFile = async({file, ownerId,  path}:UploadFileProps)=> {
     }
 }
 
-const createQueries = async(currentUser:User, types:string[], searchText:string, sort?:string, limit?:number)=> {
-    const queries: Record<string,any> = { 'owner' :currentUser }
-
-    if (types.length>0) queries['types'] = types;
-    if (searchText) queries['searchText'] = searchText;
-    if (limit) queries['limit'] = limit
-
-    if (sort){
-        const [sortBy, orderBy] = sort.split('-');
-        queries['sort'] = (orderBy==='asc' ? '' : '-') + sortBy
-    }
-    
-
-    return queries;
-
-}
-
 const sortFiles = async (files:Document[], sort:string) => {
+    console.log(sort);
     let filestoSort : Document[] = files;
     const sorting = sort;
     switch (sorting) {
         case 'date-desc':
-            filestoSort = filestoSort.sort((a,b) => a.last_modified> b.last_modified ? -1 : 1)
+            filestoSort = files.sort((a,b) => a.last_modified> b.last_modified ? -1 : 1)
         case 'date-asc':
             filestoSort = filestoSort.sort((a,b) => a.last_modified> b.last_modified ? 1 : -1)
         case 'name-asc':
@@ -65,18 +50,16 @@ const sortFiles = async (files:Document[], sort:string) => {
         case 'name-desc':
             filestoSort = filestoSort.sort((a,b) => a.file_name> b.file_name ? -1 : 1)
         case 'size-desc':
-            filestoSort = filestoSort.sort((a,b) => a.size> b.size ? -1 : 1)
+            filestoSort = files.sort((a,b) => a.size> b.size ? -1 : 1)
         case 'size-asc':
-            filestoSort = filestoSort.sort((a,b) => a.size> b.size ? 1 : -11)
-        default:
-            filestoSort = filestoSort;
+            filestoSort = files.sort((a,b) => a.size> b.size ? 1 : -11)
         
     }
     return filestoSort
 
 }
 
-export const getFiles = async({types=[], searchText='', sort='date-desc',limit}:GetFilesProps)=> {
+export const getFiles = async({types=[], searchText='', sort='date-desc',limit, folder=''}:GetFilesProps)=> {
     const type = types[0];
     const token = await createSessionClient();
     let files: Document[] = [];
@@ -95,6 +78,10 @@ export const getFiles = async({types=[], searchText='', sort='date-desc',limit}:
             return files;
         }
         files =  data as Document[];
+        if (folder) {
+            files = files.filter((f)=>f.parent_id == folder)
+            return files;
+        }
         if(type) {
             console.log(type)
             files = files.filter((f)=>f.file_type==type)
@@ -103,7 +90,7 @@ export const getFiles = async({types=[], searchText='', sort='date-desc',limit}:
             files = files.filter((f)=>f.file_name.includes(searchText))
         }
         if (files.length>0){
-            files = await sortFiles(files, sort);
+            return await sortFiles(files, sort);
         }
         return files;
     } catch (error){

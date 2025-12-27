@@ -10,7 +10,7 @@ const Card = ({ file }: { file: Document }) => {
     return (<div className="flex flex-col gap-8 rounded-xl border border-gray-100 bg-white p-4 shadow-sm transition-shadow hover:shadow-md w-full">
       
       <div className="flex items-start justify-between">
-        <Link href={''} target="_blank">
+        <Link href={`/folders/${file.file_id}`} >
           <Thumbnail 
             type={file.file_type} 
             extension={file.extension} 
