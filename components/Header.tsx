@@ -11,11 +11,11 @@ const Header = ({userId}:{userId:string}) => {
     <header className='lg:block'>
         <div className='flex flex-row justify-between items-center py-4 px-4'>
           <Search />
-          <div className='flex flex-row gap-4'>
+          <div className='flex flex-row items-center'>
             <FileUploader ownerId={userId}/>
             <FolderCreator ownerId={userId}/>
             <form className='self-center' action={async()=>{'use server';await signOutUser();}}>
-                <Button type='submit' className='text-sm'>Sign Out</Button>
+                <Button type='submit' className='text-sm cursor-pointer'>Sign Out</Button>
             </form>
         </div>
         </div>

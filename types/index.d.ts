@@ -8,6 +8,7 @@ interface UploadFileProps {
 
 interface CreateFolderProps {
     ownerId:string;
+    folderName:string;
     path:string;
 }
 
