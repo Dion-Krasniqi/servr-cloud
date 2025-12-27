@@ -52,6 +52,30 @@ const createQueries = async(currentUser:User, types:string[], searchText:string,
 
 }
 
+const sortFiles = async (files:Document[], sort:string) => {
+    let filestoSort : Document[] = files;
+    const sorting = sort;
+    switch (sorting) {
+        case 'date-desc':
+            filestoSort = filestoSort.sort((a,b) => a.last_modified> b.last_modified ? -1 : 1)
+        case 'date-asc':
+            filestoSort = filestoSort.sort((a,b) => a.last_modified> b.last_modified ? 1 : -1)
+        case 'name-asc':
+            filestoSort = filestoSort.sort((a,b) => a.file_name> b.file_name ? 1 : -1)
+        case 'name-desc':
+            filestoSort = filestoSort.sort((a,b) => a.file_name> b.file_name ? -1 : 1)
+        case 'size-desc':
+            filestoSort = filestoSort.sort((a,b) => a.size> b.size ? -1 : 1)
+        case 'size-asc':
+            filestoSort = filestoSort.sort((a,b) => a.size> b.size ? 1 : -11)
+        default:
+            filestoSort = filestoSort;
+        
+    }
+    return filestoSort
+
+}
+
 export const getFiles = async({types=[], searchText='', sort='date-desc',limit}:GetFilesProps)=> {
     const type = types[0];
     const token = await createSessionClient();
@@ -78,10 +102,13 @@ export const getFiles = async({types=[], searchText='', sort='date-desc',limit}:
         if(searchText){
             files = files.filter((f)=>f.file_name.includes(searchText))
         }
+        if (files.length>0){
+            files = await sortFiles(files, sort);
+        }
         return files;
     } catch (error){
-        return files;
         handleError(error, 'Failed to get files!');
+        return files;
     }
 }
 
