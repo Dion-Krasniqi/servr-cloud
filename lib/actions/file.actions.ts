@@ -16,11 +16,17 @@ const handleError = (error:unknown, message:string) => {
 }
 
 
-export const uploadFile = async({file, ownerId,  path}:UploadFileProps)=> {
-
+export const uploadFile = async({file, parentId,  path}:UploadFileProps)=> {
+    let parental = '';
+    if (parentId){
+        parental = parentId;
+    }
     try {
         const formData = new FormData();
         formData.append("file", file);
+        if (parental){
+            formData.append("parent_id", parental)
+        }
         const token = await createSessionClient();
         const response = await fetch(`${baseLink}/upload-file`, {
                                       method: 'POST',
@@ -89,9 +95,7 @@ export const getFiles = async({types=[], searchText='', sort='date-desc',limit, 
         if(searchText){
             files = files.filter((f)=>f.file_name.includes(searchText))
         }
-        if (files.length>0){
-            return await sortFiles(files, sort);
-        }
+        console.log(files)
         return files;
     } catch (error){
         handleError(error, 'Failed to get files!');
@@ -196,16 +200,14 @@ export async function getTotalSpaceUsed (types:string[]){
 }
 
 export const createFolder = async({ ownerId, folderName, path}:CreateFolderProps)=> {
-    
-    const id = ownerId;
-    const name = folderName;
+
     try {
         const token = await createSessionClient();
         const response = await fetch('http://localhost:8001/create-folder', {
                                       method: 'POST',
                                       headers: { 'Authorization': `Bearer ${token}`,
                                                  'Content-Type': 'application/json' },
-                                      body:  JSON.stringify({folder_name:name}),
+                                      body:  JSON.stringify({folder_name:folderName}),
                                     })
         const data = await response.json();
         revalidatePath(path);

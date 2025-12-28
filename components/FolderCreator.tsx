@@ -30,25 +30,32 @@ const FolderCreator = ({ownerId}:{ownerId:string}) =>{
           Create Folder
         </Button>
       </DialogTrigger>
-      <form>
         <DialogContent className="sm:max-w-[425px]">
+          <form onSubmit={async (e) => {e.preventDefault();
+                                    if (!folderName) return;
+
+                                    await createFolder({ownerId,folderName,path});
+                                    setModalOpen(false);
+      }}>
           <DialogHeader>
             <DialogTitle>New Folder</DialogTitle>
           </DialogHeader>
           <div className="grid gap-4">
             <div className="grid gap-3">
               <Input id="name-1" name="foldername" placeholder='Folder Name' 
-                                             onChange={e=>setFolderName(e.target.value.trim())} />
+                                             onChange={(e)=>{setFolderName(e.target.value)}} />
             </div>
           </div>
           <DialogFooter>
             <DialogClose asChild>
               <Button variant="outline" onClick={()=>setModalOpen(false)}>Cancel</Button>
             </DialogClose>
-            <Button type="submit" onClick={()=>{createFolder({ownerId,folderName, path});setModalOpen(false)}}>Create</Button>
+            <Button type="submit">Create</Button>
+            
           </DialogFooter>
+          </form>
         </DialogContent>
-      </form>
+      
     </Dialog>
   )
 }

@@ -13,7 +13,7 @@ import { usePathname } from 'next/navigation';
 
 
 
-const FileUploader = ({ownerId, className}:{ownerId:string;className?:string}) => {
+const FileUploader = ({ownerId, parentId = '', className}:{ownerId:string;parentId?:string;className?:string}) => {
   const path = usePathname();
   const [file, setFile] = useState<File[]>([]);
   const onDrop = useCallback(async(acceptedFiles:File[]) => {
@@ -25,7 +25,7 @@ const FileUploader = ({ownerId, className}:{ownerId:string;className?:string}) =
         return toast(<p><span className='font-semibold'>
           {file.name}</span>  is too large. Max size is {MAX_FILE_SIZE}MB</p>)
       }
-      return uploadFile({file,ownerId,path}).then((uploadedFile)=>{
+      return uploadFile({file,parentId,path}).then((uploadedFile)=>{
         if(uploadedFile){
           setFile((prevfile)=>prevfile.filter((f)=>f.name!=file.name))
         }

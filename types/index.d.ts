@@ -2,7 +2,7 @@ import { Models } from "node-appwrite";
 
 interface UploadFileProps {
     file:File;
-    ownerId:string;
+    parentId:string;
     path:string;
 }
 
