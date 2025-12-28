@@ -199,15 +199,15 @@ export async function getTotalSpaceUsed (types:string[]){
   }
 }
 
-export const createFolder = async({ ownerId, folderName, path}:CreateFolderProps)=> {
-
+export const createFolder = async({ ownerId, parentId, folderName, path}:CreateFolderProps)=> {
+    console.log(parentId)
     try {
         const token = await createSessionClient();
         const response = await fetch('http://localhost:8001/create-folder', {
                                       method: 'POST',
                                       headers: { 'Authorization': `Bearer ${token}`,
                                                  'Content-Type': 'application/json' },
-                                      body:  JSON.stringify({folder_name:folderName}),
+                                      body:  JSON.stringify({folder_name:folderName, parent_id:parentId}),
                                     })
         const data = await response.json();
         revalidatePath(path);

@@ -18,7 +18,7 @@ const nextConfig: NextConfig = {
       },
       {
         protocol: 'https',
-        hostname: 'cloud.appwrite.io'
+        hostname: '6b3f0748-731e-4c7b-a0b9-1516ab2e77fd.658be3462fe46cafdc26bba0ffe1973d.r2.cloudflarestorage.com'
       },
       
      

@@ -13,9 +13,10 @@ import { usePathname } from 'next/navigation';
 
 
 
-const FileUploader = ({ownerId, parentId = '', className}:{ownerId:string;parentId?:string;className?:string}) => {
+const FileUploader = ({ownerId, className}:{ownerId:string;className?:string}) => {
   const path = usePathname();
   const [file, setFile] = useState<File[]>([]);
+  const parentId = path.split('/').at(2) || '';
   const onDrop = useCallback(async(acceptedFiles:File[]) => {
     setFile(acceptedFiles);
 

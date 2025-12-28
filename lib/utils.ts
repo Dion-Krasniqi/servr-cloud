@@ -10,15 +10,15 @@ export const parseStringify = (value:unknown) => {
 }
 
 export const getFileIcon = (extension:string,type:string) => {
-  if (type=='folder') return './folder.png';
-  if (!extension) return './globe.svg';
+  if (type=='folder') return '/folder.png';
+  if (!extension) return '/file.svg';
 
   switch(type){
     case 'document':
-      return './file.svg'
+      return '/file.svg'
   }
 
-  return './globe.svg';
+  return '/file.svg';
 
 }
 

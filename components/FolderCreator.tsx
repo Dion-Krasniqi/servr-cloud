@@ -23,6 +23,8 @@ const FolderCreator = ({ownerId}:{ownerId:string}) =>{
   const [modalOpen, setModalOpen] = useState(false);
   const [folderName, setFolderName] = useState('');
   const path = usePathname();
+  const parentId = path.split('/').at(2) || '';
+  console.log(parentId)
    return (
     <Dialog open={modalOpen} onOpenChange={setModalOpen}>
       <DialogTrigger asChild>
@@ -34,18 +36,17 @@ const FolderCreator = ({ownerId}:{ownerId:string}) =>{
           <form onSubmit={async (e) => {e.preventDefault();
                                     if (!folderName) return;
 
-                                    await createFolder({ownerId,folderName,path});
+                                    await createFolder({ownerId,parentId,folderName,path});
                                     setModalOpen(false);
-      }}>
+      }}><div className="flex items-center gap-4">
+          <div className="grid flex-1 gap-4">
           <DialogHeader>
             <DialogTitle>New Folder</DialogTitle>
           </DialogHeader>
-          <div className="grid gap-4">
-            <div className="grid gap-3">
+          
               <Input id="name-1" name="foldername" placeholder='Folder Name' 
                                              onChange={(e)=>{setFolderName(e.target.value)}} />
-            </div>
-          </div>
+           
           <DialogFooter>
             <DialogClose asChild>
               <Button variant="outline" onClick={()=>setModalOpen(false)}>Cancel</Button>
@@ -53,6 +54,8 @@ const FolderCreator = ({ownerId}:{ownerId:string}) =>{
             <Button type="submit">Create</Button>
             
           </DialogFooter>
+           </div>
+          </div>
           </form>
         </DialogContent>
       

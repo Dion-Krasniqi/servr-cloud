@@ -20,7 +20,6 @@ const Page = async({ params } : SearchParamProps) => {
             <h1 className='h1 capitalize'>
               {id}
             </h1>
-            <FileUploader ownerId={currentUser.user_id} parentId={id}/>    
         {files.length>0 ? (<div>
           <section className='flex md:flex-col gap-4 sm:flex-row'>
             {files?.map((file:Document)=>{return (<Card key={file.file_id} file={file}/>)})}
