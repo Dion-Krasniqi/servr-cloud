@@ -18,16 +18,14 @@ const Sort = () => {
   }
   
   return (
-    <Select onValueChange={handleSort} defaultValue={sortTypes[0].value}>
-  <SelectTrigger className="w-[180px]">
-    <SelectValue placeholder={sortTypes[0].value} />
-  </SelectTrigger>
-  <SelectContent>
-    {sortTypes.map((sort)=>(<SelectItem value={sort.value} key={sort.label}>{sort.label}</SelectItem>))}
-    
-    
-  </SelectContent>
-</Select>
+   <Select onValueChange={handleSort} defaultValue={sortTypes[0].value}>
+    <SelectTrigger className="w-[180px]">
+      <SelectValue placeholder={sortTypes[0].value} />
+    </SelectTrigger>
+    <SelectContent>
+      {sortTypes.map((sort)=>(<SelectItem value={sort.value} key={sort.label}>{sort.label}</SelectItem>))}
+    </SelectContent>
+   </Select>
   )
 }
 

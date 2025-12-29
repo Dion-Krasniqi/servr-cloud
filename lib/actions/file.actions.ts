@@ -1,7 +1,7 @@
 'use server';
 
-import { createAdminClient, createSessionClient } from "../appwrite";
-import { appwriteConfig } from "../appwrite/config";
+import { createSessionClient } from "../config";
+import { backConfig } from "../config/config";
 import { baseLink, parseStringify } from "../utils";
 import { revalidatePath } from "next/cache";
 import { getCurrentUser } from "./user.actions";
@@ -126,22 +126,6 @@ export const renameFile = async({file_id, file_name, path}:RenameFileProps)=> {
 }
 
 export const updateFileUsers = async({fileId, emails, path}:UpdateFileUsersProps)=> {
-    const { tablesDB } = await createAdminClient();
-
-    try {
-        
-        const updatedFile = await tablesDB.updateRow(
-            appwriteConfig.databaseId,
-            appwriteConfig.filesId,
-            fileId,
-            {Users: emails},
-
-        )
-        revalidatePath(path);
-        return parseStringify(updatedFile);
-    } catch (error){
-        handleError(error, "Failed update file users!")
-    }
 
 }
 

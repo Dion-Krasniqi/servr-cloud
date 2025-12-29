@@ -28,7 +28,7 @@ const FolderCreator = ({ownerId}:{ownerId:string}) =>{
    return (
     <Dialog open={modalOpen} onOpenChange={setModalOpen}>
       <DialogTrigger asChild>
-        <Button style={{marginRight:10, marginLeft:10}} className="cursor-pointer">
+        <Button style={{width:100, alignSelf:'center',marginRight:10, marginLeft:10}} className="cursor-pointer">
           Create Folder
         </Button>
       </DialogTrigger>
@@ -45,7 +45,7 @@ const FolderCreator = ({ownerId}:{ownerId:string}) =>{
           </DialogHeader>
           
               <Input id="name-1" name="foldername" placeholder='Folder Name' 
-                                             onChange={(e)=>{setFolderName(e.target.value)}} />
+                                             onChange={(e)=>{setFolderName(e.target.value.trim())}} />
            
           <DialogFooter>
             <DialogClose asChild>

@@ -17,20 +17,18 @@ const ImageThumbnail = ({ file }:{ file: Document })=>(
 
 const DetailRow = ({label, value}:{label:string,value:string})=>(
     <div className='flex'>
-        <p className='text-left'>{label}</p>
-        <p className='text-left'>{value}</p>
+        <p className='text-left'>{label}{value}</p>
     </div>
 )
 
 export const FileDetails = ({ file }:{ file: Document }) => {
   return (
     <>
-        <ImageThumbnail file={file} />
         <div>
-            <DetailRow label="Format:" value={file.extension} />
-            <DetailRow label="Size:" value={String(file.size)} />
-            <DetailRow label="Owner:" value={file.owner_id} />
-            <DetailRow label="Last edit:" value={file.last_modified} />
+            <DetailRow label="Format: " value={file.file_type=='folder' ? 'Folder':file.extension} />
+            <DetailRow label="Size: " value={`${String(file.size)}B`} />
+            <DetailRow label="Owner: " value={file.owner_id} />
+            <DetailRow label="Last edit: " value={file.last_modified} />
         </div>
     </>
   )
