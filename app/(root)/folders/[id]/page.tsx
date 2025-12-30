@@ -3,13 +3,16 @@ import FileUploader from "@/components/FileUploader";
 import { getFiles, getTotalSpaceUsed } from "@/lib/actions/file.actions";
 import { getCurrentUser } from "@/lib/actions/user.actions";
 import { Document, FileType, SearchParamProps} from "@/types";
-import { redirect } from "next/navigation";
+import { redirect} from "next/navigation";
 
 
 
 
-const Page = async({ params } : SearchParamProps) => {
+const Page = async({ params, searchParams } : SearchParamProps) => {
   const id = ((await params)?.id as string) || "";
+
+  const name = ((await searchParams)?.name as string) || "";
+  
   const files  = await getFiles({types:[], limit:10, folder:id});
   const currentUser = await getCurrentUser();
   if (!currentUser) redirect('/sign-in');
@@ -18,7 +21,7 @@ const Page = async({ params } : SearchParamProps) => {
      <div style={{backgroundColor:'#e0e0e0ff', borderRadius:10, padding:10}}>
         <section className='w-full'>
             <h1 className='h1 capitalize'>
-              {id}
+              {name}
             </h1>
         {files.length>0 ? (<div>
           <section className='flex md:flex-col gap-4 sm:flex-row'>

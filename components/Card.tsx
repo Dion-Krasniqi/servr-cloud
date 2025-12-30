@@ -11,7 +11,9 @@ const Card = ({ file }: { file: Document }) => {
     <div className="flex flex-col gap-8 rounded-xl border border-gray-100 bg-white p-4 shadow-sm transition-shadow hover:shadow-md w-full">
       
       <div className="flex items-start justify-between">
-        <Link href={file.file_type == 'folder' ? `/folders/${file.file_id}`: file.url} target="_blank">
+        <Link href={file.file_type == 'folder' ? {pathname: `/folders/${file.file_id}`,
+                                                  // possible fetch from backend then cache
+                                                  query: {name: file.file_name},}: file.url} >
           <Thumbnail 
             type={file.file_type} 
             extension={file.extension} 

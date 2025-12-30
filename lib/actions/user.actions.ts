@@ -1,8 +1,7 @@
 'use server';
 
 import { Avatars, ID, Query, TablesDB } from "node-appwrite";
-import { createAdminClient, createSessionClient } from "../config";
-import { appwriteConfig} from "../config/config";
+import {  createSessionClient } from "../config";
 import { baseLink, parseStringify } from "../utils";
 import { cookies } from "next/headers";
 import { profilePlaceholder } from "@/constants";
