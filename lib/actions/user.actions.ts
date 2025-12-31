@@ -1,6 +1,5 @@
 'use server';
 
-import { Avatars, ID, Query, TablesDB } from "node-appwrite";
 import {  createSessionClient } from "../config";
 import { baseLink, parseStringify } from "../utils";
 import { cookies } from "next/headers";
@@ -19,7 +18,7 @@ const handleError = (error:unknown, message:string) => {
 
 
 
-export const createAccount = async({username, email, password}:{username:string;email:string, password:string}) => {
+export const createAccount = async({email, password}:{email:string, password:string}) => {
 
     const response = await fetch(`${baseLink}/sign-up`, {
       method: 'POST',
@@ -47,9 +46,12 @@ export const getCurrentUser = async()=> {
       method: 'GET',
       headers: { 'Authorization': `Bearer ${token}` },
     })
+    if (response.status == 401 || response.status == 403 || !response.ok){
+        redirect('/sign-in')
+    }
 
     const user: User = await response.json()
-    console.log(user);
+
     return user;
 
 
