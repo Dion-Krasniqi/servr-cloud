@@ -6,7 +6,7 @@ import { Document } from "@/types";
 
 
 const Dashboard = async()=> {
-    const [ files, totalSpace ] = await Promise.all([getFiles({types:[], limit:10}), getTotalSpaceUsed([])]);
+    const [ files, totalSpace ] = await Promise.all([getFiles({types:['home'], limit:10}), getTotalSpaceUsed([])]);
     return (
     <div className="">
       <div style={{padding:10}} className="flex flex-row gap-4">

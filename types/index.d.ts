@@ -73,5 +73,5 @@ interface Document {
     created_at:string;
     last_modified:string;
     sharedWith:string[];
-    url:string;
+    url?:string | null;
 }

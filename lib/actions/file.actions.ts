@@ -88,9 +88,17 @@ export const getFiles = async({types=[], searchText='', sort='date-desc',limit, 
             files = files.filter((f)=>f.parent_id == folder)
             return files;
         }
+        console.log(files)
         if(type) {
             console.log(type)
-            files = files.filter((f)=>f.file_type==type)
+            if(type=='home'){
+                console.log('home')
+                files = files.filter((f)=>f.parent_id=='' || f.parent_id == null)
+                
+            }
+            else{
+                files = files.filter((f)=>f.file_type==type)
+            }
         }
         if(searchText){
             files = files.filter((f)=>f.file_name.includes(searchText))
@@ -109,7 +117,6 @@ export const renameFile = async({file_id, file_name, path}:RenameFileProps)=> {
     const new_name = file_name;
     try {
         const token = await createSessionClient();
-        console.log(JSON.stringify({file_id:id, file_name:new_name}));
         const response = await fetch(`http://localhost:8001/rename-file`, {
                                       method: 'POST',
                                       headers: { 'Authorization': `Bearer ${token}`,
