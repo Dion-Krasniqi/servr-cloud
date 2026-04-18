@@ -1,0 +1,37 @@
+import Card from "../../components/Card";
+import FileUploader from "../../components/FileUploader";
+import { getFiles, getTotalSpaceUsed } from "../../lib/actions/file.actions";
+import { getCurrentUser } from "../../lib/actions/user.actions";
+import type { Document, FileType } from "../../types";
+import { redirect} from "next/navigation";
+import { useParams } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
+
+
+
+export default async function FolderPage ()  {
+  const navigate = useNavigate();
+
+  const id = useParams().id;
+  const name = (useParams().name as string) || "";
+  
+  const files  = await getFiles({types:[], limit:10, folder:id});
+  const currentUser = await getCurrentUser();
+  if (!currentUser) navigate('/sign-in');
+
+    return (
+     <div style={{backgroundColor:'#e0e0e0ff', borderRadius:10, padding:10}}>
+        <section className='w-full'>
+            <h1 className='h1 capitalize'>
+              {name}
+            </h1>
+        {files.length>0 ? (<div>
+          <section className='flex md:flex-col gap-4 sm:flex-row'>
+            {files?.map((file:Document)=>{return (<Card key={file.file_id} file={file}/>)})}
+          </section></div>):
+          (<div className="flex h-full w-full items-center justify-center">
+            <p className="text-lg font-medium my-15">No files found</p>
+           </div>)}
+           </ section>
+     </div>)
+}

@@ -15,9 +15,9 @@ import {
 } from "../components/ui/form"
 import { Input } from "../components/ui/input"
 import { useState } from "react"
-import Link from "next/link"
+import { Link } from 'react-router-dom'
 import { createAccount, signInUser } from "../lib/actions/user.actions"
-import { useRouter } from "next/navigation"
+import { useNavigate } from 'react-router-dom'
 
 type FormType = 'sign-in' | 'sign-up';
 
@@ -31,7 +31,7 @@ const AuthFormSchema = (formType:FormType) => {
 }
 
 const AuthForm = ({ type }:{ type:FormType }) => {
-  const router = useRouter();
+  const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
   const [errMsg, setErrMsg] = useState('');
 
@@ -50,7 +50,8 @@ const AuthForm = ({ type }:{ type:FormType }) => {
     setIsLoading(true);
     try {
       if (type==='sign-up') {
-        await createAccount({username:values.username || values.email, email:values.email, password:values.password})
+        await createAccount({email:values.email, password:values.password})
+        //old idk why await createAccount({email:values.username || values.email, email:values.email, password:values.password})
       } else {
         await signInUser({email:values.email, password:values.password});
       }
@@ -59,7 +60,7 @@ const AuthForm = ({ type }:{ type:FormType }) => {
       setErrMsg('Failed to create account, please try again!')
     } finally {
       setIsLoading(false);
-      router.push('/');
+      navigate('/');
       
     }
 
@@ -128,7 +129,7 @@ const AuthForm = ({ type }:{ type:FormType }) => {
         {errMsg && (<p>*{errMsg}</p>)}
         <div className="flex justify-center">
           <p>{type === 'sign-in' ? "Don't have an account?":"Already have an account?"}</p>
-          <Link href={type === 'sign-in' ? "/sign-up":"/sign-in"} className="font-medium ml-1 text-red">{type === 'sign-in' ? "Sign Up":"Sign In"}</Link>
+          <Link to={type === 'sign-in' ? "/sign-up":"/sign-in"} className="font-medium ml-1 text-red">{type === 'sign-in' ? "Sign Up":"Sign In"}</Link>
         </div>
       </form>
       

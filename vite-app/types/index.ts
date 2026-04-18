@@ -1,47 +1,45 @@
-import { Models } from "node-appwrite";
-
-interface UploadFileProps {
+export interface UploadFileProps {
     file:File;
     parentId:string;
     path:string;
 }
 
-interface CreateFolderProps {
+export interface CreateFolderProps {
     ownerId:string;
     parentId:string;
     folderName:string;
     path:string;
 }
 
-interface ActionType {
+export interface ActionType {
     value:string;
     label:string;
 }
 
-interface RenameFileProps {
+export interface RenameFileProps {
     file_id:string;
     file_name:string;
     path:string;
 }
 
-interface ShareProps {
+export interface ShareProps {
     file:Document;
     onInputChange: React.Dispatch<React.SetStateAction<string[]>>;
     onRemove:(email:string)=>void;
 }
 
-interface UpdateFileUsersProps {
+export interface UpdateFileUsersProps {
     fileId:string;
     emails:string[];
     path:string;
 }
 
-interface DeleteFileProps {
+export interface DeleteFileProps {
     file_id:string;
     path:string;
 }
 
-type FileType = "document" | "media" | "other";
+export type FileType = "document" | "media" | "other";
 
 interface GetFilesProps {
   types: string[];
@@ -51,18 +49,13 @@ interface GetFilesProps {
   folder?:string;
 }
 
-interface SearchParamProps {
-  params?: Promise<SegmentParams>;
-  searchParams?: Promise<{ [key: string]: string | string[] | undefined }>;
-}
-
 interface User {
     user_id: string;
     email: string;
     storage_used: number;
 }
 
-interface Document {
+export interface Document {
     file_id: string;
     owner_id: string;
     parent_id: string;
