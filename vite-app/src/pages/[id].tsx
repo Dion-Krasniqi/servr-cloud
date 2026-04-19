@@ -3,7 +3,6 @@ import FileUploader from "../../components/FileUploader";
 import { getFiles, getTotalSpaceUsed } from "../../lib/actions/file.actions";
 import { getCurrentUser } from "../../lib/actions/user.actions";
 import type { Document, FileType } from "../../types";
-import { redirect} from "next/navigation";
 import { useParams } from 'react-router-dom'
 import { useNavigate } from 'react-router-dom'
 

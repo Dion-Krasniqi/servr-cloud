@@ -1,5 +1,4 @@
-"use client";
-import { Dialog, DialogFooter, DialogHeader } from "@/components/ui/dialog"
+import { Dialog, DialogFooter, DialogHeader } from "../../components/ui/dialog"
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -7,19 +6,18 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
-import { actionsDropDownItems } from "@/constants";
-import { constructFileDownloadUrl } from "@/lib/utils";
+} from "../../components/ui/dropdown-menu"
+import { actionsDropDownItems } from "../../constants";
+import { constructFileDownloadUrl } from "../../lib/utils";
 import { DialogContent, DialogTitle } from "@radix-ui/react-dialog";
-import Link from "next/link";
+import { Link } from "react-router-dom"
 import { useState } from "react"
 import { Input } from "./ui/input";
 import { Button } from "./ui/button";
-import Image from "next/image";
-import { deleteFile, renameFile, updateFileUsers } from "@/lib/actions/file.actions";
+import { deleteFile, renameFile, updateFileUsers } from "../../lib/actions/file.actions";
 import { usePathname } from "next/navigation";
 import { FileDetails, ShareInput } from "./ActionsModalContent";
-import { ActionType, Document } from "@/types";
+import type { ActionType, Document } from "../../types";
 
 const ActionDropdown = ({ file } : {file: Document}) => {
   const [isModalOpen,setIsModalOpen] = useState(false);
@@ -87,7 +85,7 @@ const ActionDropdown = ({ file } : {file: Document}) => {
                   </Button>
                   <Button onClick={handleAction}>
                     <p className="capitalize">{value}</p>
-                    {loading && (<Image src='/spinner.png' alt="loader" width={24} height={24} className="ml-2 animate-spin"/>)}
+                    {loading && (<img src='/spinner.png' alt="loader" width={24} height={24} className="ml-2 animate-spin"/>)}
                   </Button>
                 </DialogFooter>)}
       </DialogContent>
@@ -107,7 +105,7 @@ const ActionDropdown = ({ file } : {file: Document}) => {
                                              if (item.value!='download'){
                                                   setIsModalOpen(true)}}}>
              {item.value === 'download' ? 
-             <Link href={constructFileDownloadUrl(file.url)} download={file.file_name}>{item.label}</Link>
+             <Link to={constructFileDownloadUrl(file.url)} download={file.file_name}>{item.label}</Link>
              :<p>{item.label}</p>}
              
              </DropdownMenuItem>))}
