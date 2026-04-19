@@ -5,15 +5,15 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select"
-import { sortTypes } from "@/constants";
-import { usePathname, useRouter } from "next/navigation"
+} from "../../components/ui/select"
+import { sortTypes } from "../../constants";
+import { useLocation, useNavigate } from "react-router-dom"
 
 const Sort = () => {
-  const router = useRouter();
-  const path = usePathname();
+  const router = useNavigate();
+  const path = useLocation().pathname;
   const handleSort = (value:string)=> {
-    router.push(`${path}?sort=${value}`)
+    router(`${path}?sort=${value}`)
 
   }
   

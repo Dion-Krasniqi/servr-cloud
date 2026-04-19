@@ -1,7 +1,7 @@
 'use client';
-import { createFolder } from "@/lib/actions/file.actions"
+import { createFolder } from "../../lib/actions/file.actions"
 import { Button } from "./ui/button"
-import { usePathname } from "next/navigation";
+import { useLocation } from "react-router-dom";
 import {
   Dialog,
   DialogClose,
@@ -11,9 +11,9 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "@/components/ui/dialog"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
+} from "../../components/ui/dialog"
+import { Input } from "../../components/ui/input"
+import { Label } from "../../components/ui/label"
 import { useState } from "react";
 
 
@@ -22,7 +22,7 @@ import { useState } from "react";
 const FolderCreator = ({ownerId}:{ownerId:string}) =>{
   const [modalOpen, setModalOpen] = useState(false);
   const [folderName, setFolderName] = useState('');
-  const path = usePathname();
+  const path = useLocation().pathname;
   const parentId = path.split('/').at(2) || '';
   console.log(parentId)
    return (

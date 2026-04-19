@@ -1,9 +1,9 @@
-import Link from 'next/link'
+import { Link }from 'react-router-dom'
 import React from 'react'
 import Thumbnail from './Thumbnail'
 import FormattedDateTime from './FormattedDateTime'
 import ActionDropdown from './ActionDropdown'
-import { Document } from '@/types'
+import { Document } from '../../types'
 
 const Card = ({ file }: { file: Document }) => {
   
@@ -11,7 +11,7 @@ const Card = ({ file }: { file: Document }) => {
     <div className="flex flex-col gap-8 rounded-xl border border-gray-100 bg-white p-4 shadow-sm transition-shadow hover:shadow-md w-full">
       
       <div className="flex items-start justify-between">
-        <Link href={file.file_type == 'folder' ? {pathname: `/folders/${file.file_id}`,
+        <Link to={file.file_type == 'folder' ? {pathname: `/folders/${file.file_id}`,
                                                   // possible fetch from backend then cache
                                                   query: {name: file.file_name},}: (file.url ? file.url : "")} >
           <Thumbnail 

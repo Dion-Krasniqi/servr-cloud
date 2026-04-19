@@ -1,5 +1,4 @@
-import { ShareProps } from '@/types'
-import React from 'react'
+import { ShareProps } from '../../types'
 
 const ShareInput = ({file,onInputChange,handleRemoveUser}:ShareProps) => {
   return (

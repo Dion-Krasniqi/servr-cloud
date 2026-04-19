@@ -11,11 +11,11 @@ import { actionsDropDownItems } from "../../constants";
 import { constructFileDownloadUrl } from "../../lib/utils";
 import { DialogContent, DialogTitle } from "@radix-ui/react-dialog";
 import { Link } from "react-router-dom"
+import { useLocation } from "react-router-dom"
 import { useState } from "react"
 import { Input } from "./ui/input";
 import { Button } from "./ui/button";
 import { deleteFile, renameFile, updateFileUsers } from "../../lib/actions/file.actions";
-import { usePathname } from "next/navigation";
 import { FileDetails, ShareInput } from "./ActionsModalContent";
 import type { ActionType, Document } from "../../types";
 
@@ -25,7 +25,7 @@ const ActionDropdown = ({ file } : {file: Document}) => {
   const [action, setAction] = useState<ActionType | null>(null);
   const [name, setName] = useState(file.file_name);
   const [loading, setLoading] = useState(false);
-  const path = usePathname();
+  const path = useLocation().pathname;
   const [emails, setEmails] = useState<string[]>([]);
 
   const closeAllModals = ()=> {

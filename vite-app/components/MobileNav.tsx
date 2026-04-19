@@ -4,16 +4,14 @@ import {
   SheetContent,
   SheetTitle,
   SheetTrigger,
-} from "@/components/ui/sheet"
-import Image from "next/image"
-import { usePathname } from "next/navigation";
+} from "../../components/ui/sheet"
+import { useLocation, Link } from "react-router-dom";
 import { useState } from "react";
 import { Separator } from "./ui/separator";
-import { navItems } from "@/constants";
-import Link from "next/link";
+import { navItems } from "../../constants";
 import { Button } from "./ui/button";
 import FileUploader from "./FileUploader";
-import { signOutUser } from "@/lib/actions/user.actions";
+import { signOutUser } from "../../lib/actions/user.actions";
 import FolderCreator from "./FolderCreator";
 
 interface Props {
@@ -23,16 +21,16 @@ interface Props {
 
 const MobileNav = ({user_id,  email}: Props) => {
   const [open, setOpen] = useState(false);
-  const pathname = usePathname();
+  const pathname = useLocation().pathname;
 
   return (
     <header className="flex flex-row justify-between items-center my-1 px-2 lg:hidden">
-      <Image src="/logo.png" 
+      <img src="/logo.png" 
                alt="logo" 
                width={50} 
                height={50} className="cursor-pointer"/>
       <Sheet open={open} onOpenChange={setOpen}>
-          <SheetTrigger><Image src='/Hamburger.png' alt='Menu' width={40} height={40} className="cursor-pointer"/></SheetTrigger>
+          <SheetTrigger><img src='/Hamburger.png' alt='Menu' width={40} height={40} className="cursor-pointer"/></SheetTrigger>
           <SheetContent>
               <SheetTitle className="mt-2 px-2">
                 <div className="flex flex-row items-center">
@@ -48,7 +46,7 @@ const MobileNav = ({user_id,  email}: Props) => {
                 <ul>
                   {navItems.map(({ url, name })=>{
                     const active = (pathname === url);
-                    return (<Link key={name} href={url} className=' text-center'>
+                    return (<Link key={name} to={url} className=' text-center'>
                       <li>
                         <p className=
                             {(pathname==url) ? 'text-white bg-red rounded-md py-2 font-medium'

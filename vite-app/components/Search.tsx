@@ -1,30 +1,30 @@
 "use client";
 import { useEffect, useState } from 'react'
 import { Input } from './ui/input'
-import { usePathname, useRouter, useSearchParams } from 'next/navigation';
-import { getFiles } from '@/lib/actions/file.actions';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
+import { getFiles } from '../../lib/actions/file.actions';
 import Thumbnail from './Thumbnail';
 import FormattedDateTime from './FormattedDateTime';
 import { useDebounce } from 'use-debounce';
-import { Document } from '@/types';
+import { Document } from '../../types';
 
 
 const Search = () => {
   const [query, setQuery] = useState("");
   const [results, setResults] = useState<Document[]>([]);
   const [open, setOpen] = useState(false);
-  const searchParams = useSearchParams();
-  const searchQuery = searchParams.get("query") || "";
+  const searchParams = useParams();
+  const searchQuery = searchParams.query || "";
   const [delayedQuery] = useDebounce(query,300);
-  const router = useRouter();
-  const path = usePathname();
+  const navigate = useNavigate();
+  const path = useLocation().pathname;
 
   useEffect(()=>{
     const fetchFiles = async()=> {
       if (!delayedQuery.trim()){
         setResults([]);
         setOpen(false);
-        router.push(path);
+        navigate(path);
         return;
       }
       const files = await getFiles({types:[],searchText:delayedQuery});
@@ -46,7 +46,7 @@ const Search = () => {
   const handleClickItem = (file:Document)=> {
     setOpen(false);
     setResults([]);
-    router.push(`/${(file.file_type === 'document') ? file.file_type + 's' : 'media'}?query=${query}`);
+    navigate(`/${(file.file_type === 'document') ? file.file_type + 's' : 'media'}?query=${query}`);
 
   }
 

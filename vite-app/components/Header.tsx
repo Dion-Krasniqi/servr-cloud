@@ -1,9 +1,7 @@
-
-import React from 'react'
 import { Button } from './ui/button'
 import Search from './Search'
 import FileUploader from './FileUploader'
-import { signOutUser } from '@/lib/actions/user.actions'
+import { signOutUser } from '../../lib/actions/user.actions'
 import FolderCreator from './FolderCreator'
 
 const Header = ({userId}:{userId:string}) => {

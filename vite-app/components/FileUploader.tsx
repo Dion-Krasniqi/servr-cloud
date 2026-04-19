@@ -2,19 +2,18 @@
 import {MouseEvent, useCallback, useState} from 'react'
 import {useDropzone} from 'react-dropzone'
 import { Button } from './ui/button';
-import { cn, convertFileToUrl, } from '@/lib/utils';
+import { cn, convertFileToUrl, } from '../../lib/utils';
 import { Files } from 'lucide-react';
 import Thumbnail from './Thumbnail';
-import Image from 'next/image';
-import { MAX_FILE_SIZE } from '@/constants';
+import { MAX_FILE_SIZE } from '../../constants';
 import { toast } from "sonner";
-import { uploadFile } from '@/lib/actions/file.actions';
-import { usePathname } from 'next/navigation';
+import { uploadFile } from '../../lib/actions/file.actions';
+import { useLocation } from 'react-router-dom';
 
 
 
 const FileUploader = ({ownerId, className}:{ownerId:string;className?:string}) => {
-  const path = usePathname();
+  const path = useLocation().pathname;
   const [file, setFile] = useState<File[]>([]);
   const parentId = path.split('/').at(2) || '';
   const onDrop = useCallback(async(acceptedFiles:File[]) => {
@@ -70,7 +69,7 @@ const FileUploader = ({ownerId, className}:{ownerId:string;className?:string}) =
                                   <div>
                                     {f.name}
                                   </div>
-                                  <Image src='/spinner.png' alt="loader" width={24} height={24} className="ml-2 animate-spin"/>
+                                  <img src='/spinner.png' alt="loader" width={24} height={24} className="ml-2 animate-spin"/>
                                 </div>
                                 <p onClick={(e)=>handleRemoveFile(e,f.name)}>X</p>
                               </li>

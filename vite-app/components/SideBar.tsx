@@ -1,9 +1,6 @@
 "use client";
-import { navItems } from '@/constants'
-import Image from 'next/image'
-import Link from 'next/link'
-import { usePathname } from 'next/navigation'
-import React from 'react'
+import { navItems } from '../../constants'
+import { Link, useLocation }from 'react-router-dom'
 
 interface Props {
   email:string;
@@ -11,12 +8,12 @@ interface Props {
 
 const SideBar = ({email}: Props) => {
 
-  const pathname = usePathname();
+  const pathname = useLocation().pathname;
 
   return (
     <aside className='hidden lg:block'>
-      <Link href='/' className='flex justify-center'>
-        <Image src="/logo.png" 
+      <Link to='/' className='flex justify-center'>
+        <img src="/logo.png" 
                alt="logo" 
                width={60} 
                height={60} 
@@ -26,7 +23,7 @@ const SideBar = ({email}: Props) => {
                           mx-2
                           transition-all duration-300 ease-in-out 
                           hover:scale-105 hover:rotate-2 hover:mb-4"/>
-        <Image src="/logo.png" 
+        <img src="/logo.png" 
                alt="logo" 
                width={40} 
                height={40} 
@@ -41,7 +38,7 @@ const SideBar = ({email}: Props) => {
         <ul className='flex flex-1 flex-col gap-6 px-4 mt-4'>
           {navItems.map(({ url, name })=>{
             const active = (pathname === url);
-            return (<Link key={name} href={url} className='lg:w-full text-start'>
+            return (<Link key={name} to={url} className='lg:w-full text-start'>
               <li>
                 <p className=
                     {(pathname==url) ? 'text-white bg-red rounded-md px-2 hidden lg:block'
