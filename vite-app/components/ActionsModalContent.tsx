@@ -1,6 +1,6 @@
 import Thumbnail from './Thumbnail'
 import FormattedDateTime from './FormattedDateTime'
-import { Document, ShareProps } from '@/types'
+import { Document, ShareProps } from '../../types'
 import { Input } from './ui/input'
 import { Button } from './ui/button'
 

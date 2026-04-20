@@ -41,7 +41,7 @@ export interface DeleteFileProps {
 
 export type FileType = "document" | "media" | "other";
 
-interface GetFilesProps {
+export interface GetFilesProps {
   types: string[];
   searchText?: string;
   sort?: string;
@@ -49,7 +49,7 @@ interface GetFilesProps {
   folder?:string;
 }
 
-interface User {
+export interface User {
     user_id: string;
     email: string;
     storage_used: number;
