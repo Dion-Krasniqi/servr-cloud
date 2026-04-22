@@ -1,12 +1,12 @@
-import {MouseEvent, useCallback, useState} from 'react'
+import { useCallback, useState} from 'react'
 import {useDropzone} from 'react-dropzone'
 import { Button } from './ui/button';
-import { cn, convertFileToUrl, } from '../../lib/utils';
+import { cn, convertFileToUrl, } from '../lib/utils';
 import { Files } from 'lucide-react';
 import Thumbnail from './Thumbnail';
-import { MAX_FILE_SIZE } from '../../constants';
+import { MAX_FILE_SIZE } from '../constants';
 import { toast } from "sonner";
-import { uploadFile } from '../../lib/actions/file.actions';
+import { uploadFile } from '../lib/actions/file.actions';
 import { useLocation } from 'react-router-dom';
 
 

@@ -1,9 +1,9 @@
-import Header from '../../components/Header'
-import MobileNav from '../../components/MobileNav'
-import SideBar from '../../components/SideBar'
-import { getCurrentUser } from '../../lib/actions/user.actions'
+import Header from '../components/Header'
+import MobileNav from '../components/MobileNav'
+import SideBar from '../components/SideBar'
+import { getCurrentUser } from '../lib/actions/user.actions'
 import { useNavigate } from 'react-router-dom'
-import { Toaster } from "../../components/ui/sonner"
+import { Toaster } from "../components/ui/sonner"
 import { Outlet } from 'react-router-dom'
 
 export default async function Layout () {

@@ -1,4 +1,4 @@
-import { navItems } from '../../constants'
+import { navItems } from '../constants'
 import { Link, useLocation }from 'react-router-dom'
 
 interface Props {
@@ -10,6 +10,7 @@ interface Props {
 const SideBar = ({user_id, email, storage_used}:Props) => {
 
   const pathname = useLocation().pathname;
+  console.log(user_id)
 
   return (
     <aside className='hidden lg:block'>

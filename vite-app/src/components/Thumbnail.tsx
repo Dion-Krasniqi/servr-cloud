@@ -1,4 +1,4 @@
-import { cn, getFileIcon } from '../../lib/utils';
+import { cn, getFileIcon } from '../lib/utils';
 
 const Thumbnail = ({type, extension, url='', className, imageClassName}
                   :{type:string;extension:string;url:string|null, className?:string, imageClassName?:string}) => {

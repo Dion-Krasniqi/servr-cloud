@@ -3,14 +3,14 @@ import {
   SheetContent,
   SheetTitle,
   SheetTrigger,
-} from "../../components/ui/sheet"
+} from "../components/ui/sheet"
 import { useLocation, Link } from "react-router-dom";
 import { useState } from "react";
 import { Separator } from "./ui/separator";
-import { navItems } from "../../constants";
+import { navItems } from "../constants";
 import { Button } from "./ui/button";
 import FileUploader from "./FileUploader";
-import { signOutUser } from "../../lib/actions/user.actions";
+import { signOutUser } from "../lib/actions/user.actions";
 import FolderCreator from "./FolderCreator";
 
 interface Props {

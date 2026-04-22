@@ -2,11 +2,11 @@
 import { useEffect, useState } from 'react'
 import { Input } from './ui/input'
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
-import { getFiles } from '../../lib/actions/file.actions';
+import { getFiles } from '../lib/actions/file.actions';
 import Thumbnail from './Thumbnail';
 import FormattedDateTime from './FormattedDateTime';
 import { useDebounce } from 'use-debounce';
-import { Document } from '../../types';
+import type { Document } from '../types';
 
 
 const Search = () => {
@@ -60,7 +60,8 @@ const Search = () => {
                       results.map((file)=>(<li className='flex items-center justify-between' key={file.file_id}
                                                onClick={()=>handleClickItem(file)}>
                         <div className='flex cursor-pointer items-center gap-4'>
-                          <Thumbnail type={file.file_type} extension={file.extension} url={file.url} className='size-9 min-w-9'/>
+                          <Thumbnail type={file.file_type} extension={file.extension} 
+                            url={file.url? file.url : null} className='size-9 min-w-9'/>
                           <p className='line-clamp-1'>{file.file_name}</p>
                         </div>
 

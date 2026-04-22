@@ -4,8 +4,8 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "../../components/ui/select"
-import { sortTypes } from "../../constants";
+} from "../components/ui/select"
+import { sortTypes } from "../constants";
 import { useLocation, useNavigate } from "react-router-dom"
 
 const Sort = () => {

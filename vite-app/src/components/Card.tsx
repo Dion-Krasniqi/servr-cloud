@@ -3,7 +3,7 @@ import React from 'react'
 import Thumbnail from './Thumbnail'
 import FormattedDateTime from './FormattedDateTime'
 import ActionDropdown from './ActionDropdown'
-import { Document } from '../../types'
+import type { Document } from '../types'
 
 const Card = ({ file }: { file: Document }) => {
   
@@ -16,7 +16,7 @@ const Card = ({ file }: { file: Document }) => {
           <Thumbnail 
             type={file.file_type} 
             extension={file.extension} 
-            url={file.url} 
+            url={file.url? file.url : null} 
             className="size-12 mt-3" 
             imageClassName={"size-14"}
           />

@@ -1,10 +1,10 @@
-import Card from '../../components/Card';
-import Sort from '../../components/Sort';
-import { Button } from '../../components/ui/button';
-import { getFiles, getTotalSpaceUsed } from '../../lib/actions/file.actions';
-import { signOutUser } from '../../lib/actions/user.actions';
-import { getFileTypeParams } from '../../lib/utils';
-import type { Document, FileType } from '../../types';
+import Card from '../components/Card';
+import Sort from '../components/Sort';
+import { Button } from '../components/ui/button';
+import { getFiles, getTotalSpaceUsed } from '../lib/actions/file.actions';
+import { signOutUser } from '../lib/actions/user.actions';
+import { getFileTypeParams } from '../lib/utils';
+import type { Document, FileType } from '../types';
 import { useParams } from 'react-router-dom'
 
 

@@ -1,12 +1,25 @@
-import Card from "../../components/Card";
-import PChart from "../../components/PieChart";
-import Sort from "../../components/Sort";
-import { getFiles, getTotalSpaceUsed } from "../../lib/actions/file.actions";
-import type { Document } from "../../types/index";
+import Card from "../components/Card";
+//import PChart from "../components/PieChart";
+import Sort from "../components/Sort";
+import { getFiles, getTotalSpaceUsed } from "../lib/actions/file.actions";
+import type { Document } from "../types/index";
+import { useState, useEffect } from "react";
 
 
-export default async function Dashboard () {
-    const [ files, totalSpace ] = await Promise.all([getFiles({types:['home'], limit:10}), getTotalSpaceUsed([])]);
+export default function HomePage () {
+    const [files, setFiles] = useState<Document[]>([])
+    const [totalSpace, setTotalSpace] = useState({ used: 0, all: 0 })
+    useEffect(() => {
+      const load = async () => {
+        const [filesData, spaceData] = await Promise.all([
+          getFiles({ types: ['home'], limit: 10 }),
+          getTotalSpaceUsed([])
+        ])
+        setFiles(filesData)
+        setTotalSpace(spaceData)
+      }
+      load()
+    }, [])
     return (
     <div className="">
       <div style={{padding:10}} className="flex flex-row gap-4">
@@ -27,9 +40,9 @@ export default async function Dashboard () {
         </section>
         <section className='w-[50%]'>   
             <div style={{backgroundColor:'#e0e0e0ff', padding:10, borderRadius:10}}>
-                <PChart item1={totalSpace.used/1024} 
+                {/* <PChart item1={totalSpace.used/1024} 
                         item2={totalSpace.all/1024} 
-                        />
+                        /> */}
                 
             </div>
         </section>  

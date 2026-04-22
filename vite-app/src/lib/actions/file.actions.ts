@@ -127,7 +127,7 @@ export const renameFile = async({file_id, file_name, path}:RenameFileProps)=> {
 }
 
 export const updateFileUsers = async({fileId, emails, path}:UpdateFileUsersProps)=> {
-
+    console.log(fileId)
 }
 
 export const deleteFile = async({file_id, path}:DeleteFileProps)=> {

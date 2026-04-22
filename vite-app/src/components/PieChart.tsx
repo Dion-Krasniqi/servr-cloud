@@ -5,13 +5,15 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "../../components/ui/card"
+} from "../components/ui/card"
+import type {
+  ChartConfig
+} from "../components/ui/chart"
 import {
-  ChartConfig,
   ChartContainer,
   ChartTooltip,
   ChartTooltipContent,
-} from "../../components/ui/chart"
+} from "../components/ui/chart"
 import { TrendingUp } from "lucide-react"
 import { Pie, PieChart } from "recharts"
 

@@ -1,4 +1,4 @@
-import { Dialog, DialogFooter, DialogHeader } from "../../components/ui/dialog"
+import { Dialog, DialogFooter, DialogHeader } from "../components/ui/dialog"
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -6,18 +6,18 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "../../components/ui/dropdown-menu"
-import { actionsDropDownItems } from "../../constants";
-import { constructFileDownloadUrl } from "../../lib/utils";
+} from "../components/ui/dropdown-menu"
+import { actionsDropDownItems } from "../constants";
+import { constructFileDownloadUrl } from "../lib/utils";
 import { DialogContent, DialogTitle } from "@radix-ui/react-dialog";
 import { Link } from "react-router-dom"
 import { useLocation } from "react-router-dom"
 import { useState } from "react"
 import { Input } from "./ui/input";
 import { Button } from "./ui/button";
-import { deleteFile, renameFile, updateFileUsers } from "../../lib/actions/file.actions";
+import { deleteFile, renameFile, updateFileUsers } from "../lib/actions/file.actions";
 import { FileDetails, ShareInput } from "./ActionsModalContent";
-import type { ActionType, Document } from "../../types";
+import type { ActionType, Document } from "../types";
 
 const ActionDropdown = ({ file } : {file: Document}) => {
   const [isModalOpen,setIsModalOpen] = useState(false);

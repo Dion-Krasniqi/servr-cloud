@@ -1,12 +1,12 @@
 import Thumbnail from './Thumbnail'
 import FormattedDateTime from './FormattedDateTime'
-import { Document, ShareProps } from '../../types'
+import type { Document, ShareProps } from '../types'
 import { Input } from './ui/input'
 import { Button } from './ui/button'
 
 const ImageThumbnail = ({ file }:{ file: Document })=>(
     <div>
-        <Thumbnail type={file.file_type} extension={file.extension} url={file.url}/>
+        <Thumbnail type={file.file_type} extension={file.extension} url={file.url? file.url : null}/>
         <div className='flex flex-col'>
             <p>{file.file_name}</p>
             <FormattedDateTime date={file.created_at} className='caption'/>
