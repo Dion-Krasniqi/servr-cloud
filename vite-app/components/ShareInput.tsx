@@ -1,6 +1,6 @@
 import { ShareProps } from '../../types'
 
-const ShareInput = ({file,onInputChange,handleRemoveUser}:ShareProps) => {
+const ShareInput = ({file,onInputChange,onRemove}:ShareProps) => {
   return (
     <div>ShareInput</div>
   )

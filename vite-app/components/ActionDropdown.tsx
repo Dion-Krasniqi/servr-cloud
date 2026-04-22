@@ -51,15 +51,13 @@ const ActionDropdown = ({ file } : {file: Document}) => {
     setLoading(false);
 
   } 
+  // const handleRemoveUser = async(email:string)=> {
+  //   const updatedEmails = emails.filter((e)=>e != email);
+  //   const success = await updateFileUsers({fileId:file.file_id,emails:updatedEmails, path});
 
-  const handleRemoveUser = async(email:string)=> {
-    const updatedEmails = emails.filter((e)=>e != email);
-    const success = await updateFileUsers({fileId:file.file_id,emails:updatedEmails, path});
-
-    if (success) setEmails(updatedEmails);
-    closeAllModals;
-  }
-
+  //   if (success) setEmails(updatedEmails);
+  //   closeAllModals;
+  // }
   const renderDialogContent = ()=> {
     if (!action) return null;
     const { value, label } = action;
@@ -71,7 +69,7 @@ const ActionDropdown = ({ file } : {file: Document}) => {
           <DialogTitle>{label}</DialogTitle>
           { value === 'rename' && (<Input type='text' value={name} onChange={(e)=>setName(e.target.value)}/>)}
           { value === 'details' && <FileDetails file={file} />}
-          { value === 'share' && <ShareInput file={file} onInputChange={setEmails} onRemove={handleRemoveUser}/>}
+          {/*{ value === 'share' && <ShareInput file={file} onInputChange={setEmails} onRemove={handleRemoveUser}/>}*/}
           { value === 'delete' && (<>
                                       <p>Are you sure you want to delete {` `}
                                       <span>{file.file_name}</span>?</p>
@@ -105,7 +103,8 @@ const ActionDropdown = ({ file } : {file: Document}) => {
                                              if (item.value!='download'){
                                                   setIsModalOpen(true)}}}>
              {item.value === 'download' ? 
-             <Link to={constructFileDownloadUrl(file.url)} download={file.file_name}>{item.label}</Link>
+             (file.url? <Link to={constructFileDownloadUrl(file.url)} download={file.file_name}>{item.label}</Link>
+             :<p>No link</p>)
              :<p>{item.label}</p>}
              
              </DropdownMenuItem>))}

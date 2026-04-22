@@ -12,8 +12,7 @@ const Card = ({ file }: { file: Document }) => {
       
       <div className="flex items-start justify-between">
         <Link to={file.file_type == 'folder' ? {pathname: `/folders/${file.file_id}`,
-                                                  // possible fetch from backend then cache
-                                                  query: {name: file.file_name},}: (file.url ? file.url : "")} >
+                                                  /*query: {name: file.file_name},*/}: (file.url ? file.url : "")} >
           <Thumbnail 
             type={file.file_type} 
             extension={file.extension} 

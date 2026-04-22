@@ -1,12 +1,13 @@
-"use client";
 import { navItems } from '../../constants'
 import { Link, useLocation }from 'react-router-dom'
 
 interface Props {
-  email:string;
-  }
+  user_id: string;
+  email: string;
+  storage_used: number;
+}
 
-const SideBar = ({email}: Props) => {
+const SideBar = ({user_id, email, storage_used}:Props) => {
 
   const pathname = useLocation().pathname;
 

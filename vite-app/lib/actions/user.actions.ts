@@ -57,7 +57,7 @@ export const signOutUser = async() => {
 //     } 
 // }
 
-const signInUser = async({email, password}:{email:string, password:string}) =>{
+export const signInUser = async({email, password}:{email:string, password:string}) =>{
     try {
         const response = await fetch(`${baseLink}/sign-in`, {
         method: 'POST',

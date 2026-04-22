@@ -1,9 +1,10 @@
 import { cn, getFileIcon } from '../../lib/utils';
 
 const Thumbnail = ({type, extension, url='', className, imageClassName}
-                  :{type:string;extension:string;url?:string, className?:string, imageClassName?:string}) => {
+                  :{type:string;extension:string;url:string|null, className?:string, imageClassName?:string}) => {
 
   const isImage = (type=='media');
+  if (!url) url = '/'
   return (
     <figure className={className}><img src={isImage ? url : getFileIcon(extension, type)} 
                                   alt='thumbnail' 

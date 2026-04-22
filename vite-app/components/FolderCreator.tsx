@@ -1,4 +1,3 @@
-'use client';
 import { createFolder } from "../../lib/actions/file.actions"
 import { Button } from "./ui/button"
 import { useLocation } from "react-router-dom";

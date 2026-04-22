@@ -1,4 +1,3 @@
-'use client';
 import {MouseEvent, useCallback, useState} from 'react'
 import {useDropzone} from 'react-dropzone'
 import { Button } from './ui/button';

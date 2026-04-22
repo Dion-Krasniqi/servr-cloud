@@ -1,5 +1,3 @@
-'use server';
-
 import { createSessionClient } from "../config";
 import { backConfig } from "../config/config";
 import { baseLink, parseStringify } from "../utils";
@@ -9,13 +7,9 @@ import type { DeleteFileProps, GetFilesProps, RenameFileProps, UpdateFileUsersPr
 
 
 const handleError = (error:unknown, message:string) => {
-
     console.log(error, message);
     throw(error);
-
 }
-
-
 export const uploadFile = async({file, parentId,  path}:UploadFileProps)=> {
     let parental = '';
     if (parentId){

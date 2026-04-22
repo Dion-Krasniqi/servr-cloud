@@ -12,7 +12,7 @@ const Header = ({userId}:{userId:string}) => {
           <div className='flex flex-row items-center'>
             <FileUploader ownerId={userId}/>
             <FolderCreator ownerId={userId}/>
-            <form className='self-center' action={async()=>{'use server';await signOutUser();}}>
+            <form className='self-center' action={async()=>{await signOutUser()}}>
                 <Button type='submit' className='text-sm cursor-pointer'>Sign Out</Button>
             </form>
         </div>

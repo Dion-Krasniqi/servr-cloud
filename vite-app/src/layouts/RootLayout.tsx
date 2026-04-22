@@ -9,10 +9,14 @@ import { Outlet } from 'react-router-dom'
 export default async function Layout () {
 const navigate = useNavigate()
   const currentUser = await getCurrentUser();
-  if (!currentUser) navigate('/sign-in');
+  if (!currentUser) {
+    navigate('/sign-in');
+    return
+  }
+    
 
   return(<main className='flex h-screen items-center'>
-        <SideBar { ...currentUser } />
+        <SideBar { ...currentUser} />
         <section className='flex h-full flex-1 flex-col'>
             <MobileNav { ...currentUser } />
             <Header userId = {currentUser.user_id} />
