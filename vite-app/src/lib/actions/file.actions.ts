@@ -1,7 +1,7 @@
 import { createSessionClient } from "../config";
 import { backConfig } from "../config/config";
 import { baseLink, parseStringify } from "../utils";
-import { revalidatePath } from "next/cache";
+//import { revalidatePath } from "next/cache";
 import { getCurrentUser } from "./user.actions";
 import type { DeleteFileProps, GetFilesProps, RenameFileProps, UpdateFileUsersProps, UploadFileProps, User, Document, CreateFolderProps } from "../../types";
 
@@ -28,7 +28,7 @@ export const uploadFile = async({file, parentId,  path}:UploadFileProps)=> {
                                       body: formData,
                                     })
         const data = await response.json();
-        revalidatePath(path);
+        //revalidatePath(path);
         return parseStringify(data);
 
     } catch (error) {
@@ -119,7 +119,7 @@ export const renameFile = async({file_id, file_name, path}:RenameFileProps)=> {
                                     })
 
         const data = await response.json();
-        revalidatePath(path);
+        //revalidatePath(path);
     } catch (error) {
         handleError(error, 'Failed to rename file')
     }
@@ -143,7 +143,7 @@ export const deleteFile = async({file_id, path}:DeleteFileProps)=> {
 
         const data = await response.json();
         console.log(data);
-        revalidatePath(path);
+        //revalidatePath(path);
         return parseStringify(data);
 
     } catch (error) {
@@ -195,7 +195,7 @@ export const createFolder = async({ ownerId, parentId, folderName, path}:CreateF
                                       body:  JSON.stringify({folder_name:folderName, parent_id:parentId}),
                                     })
         const data = await response.json();
-        revalidatePath(path);
+        //revalidatePath(path);
         return parseStringify(data);
 
     } catch (error) {
