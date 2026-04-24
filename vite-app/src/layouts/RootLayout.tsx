@@ -2,18 +2,18 @@ import Header from '../components/Header'
 import MobileNav from '../components/MobileNav'
 import SideBar from '../components/SideBar'
 import { getCurrentUser } from '../lib/actions/user.actions'
-import { useNavigate } from 'react-router-dom'
 import { Toaster } from "../components/ui/sonner"
 import { Outlet } from 'react-router-dom'
+import type { User } from '../types'
+import { useEffect, useState } from 'react'
 
-export default async function Layout () {
-const navigate = useNavigate()
-  const currentUser = await getCurrentUser();
-  if (!currentUser) {
-    navigate('/sign-in');
-    return
-  }
-    
+export default function Layout () {
+  const [currentUser, setCurrentUser] = useState<User | null>(null);
+  useEffect(()=>{
+    getCurrentUser().then(user => setCurrentUser(user))
+  }, [])
+  
+  if (!currentUser) return null
 
   return(<main className='flex h-screen items-center'>
         <SideBar { ...currentUser} />

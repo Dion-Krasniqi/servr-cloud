@@ -24,17 +24,21 @@ export const createAccount = async({email, password}:{email:string, password:str
     } 
 }
 export const getCurrentUser = async(): Promise<User | null> => {
+    try {    
+        const response = await fetch('http://localhost:8001/users-me', {
+        method: 'GET',
+        credentials: 'include',
+        })
+        if (response.status == 401 || response.status == 403 || !response.ok){
+            return null
+        }
+        if (!response.ok) throw new Error("Failed to get user")
 
-    const response = await fetch('http://localhost:8001/users-me', {
-      method: 'GET',
-      credentials: 'include',
-    })
-    if (response.status == 401 || response.status == 403 || !response.ok){
+        return response.json()
+    }
+     catch (e) {
         return null
     }
-    if (!response.ok) throw new Error("Failed to get user")
-
-    return response.json();
 }
 export const signOutUser = async() => {
     //does not exist yet
