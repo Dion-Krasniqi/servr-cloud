@@ -3,6 +3,7 @@ import Search from './Search'
 import FileUploader from './FileUploader'
 import { signOutUser } from '../lib/actions/user.actions'
 import FolderCreator from './FolderCreator'
+// nav out of main page
 
 const Header = ({userId}:{userId:string}) => {
   return (
