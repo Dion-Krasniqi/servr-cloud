@@ -3,9 +3,10 @@ import Search from './Search'
 import FileUploader from './FileUploader'
 import { signOutUser } from '../lib/actions/user.actions'
 import FolderCreator from './FolderCreator'
-// nav out of main page
+import { useNavigate } from 'react-router-dom'
 
 const Header = ({userId}:{userId:string}) => {
+  const navigate = useNavigate();
   return (
     <header className='lg:block'>
         <div className='flex flex-row justify-between items-center py-4 px-4'>
@@ -13,7 +14,12 @@ const Header = ({userId}:{userId:string}) => {
           <div className='flex flex-row items-center'>
             <FileUploader ownerId={userId}/>
             <FolderCreator ownerId={userId}/>
-            <form className='self-center' action={async()=>{await signOutUser()}}>
+            <form className='self-center' action={
+		    async()=>{try { await signOutUser() }
+			      catch {}
+			      finally {
+		    	      navigate("/sign-in")
+			      }}}>
                 <Button type='submit' className='text-sm cursor-pointer'>Sign Out</Button>
             </form>
         </div>

@@ -4,7 +4,7 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "../components/ui/sheet"
-import { useLocation, Link } from "react-router-dom";
+import { useLocation, Link , useNavigate} from "react-router-dom";
 import { useState } from "react";
 import { Separator } from "./ui/separator";
 import { navItems } from "../constants";
@@ -19,9 +19,10 @@ interface Props {
 }
 
 const MobileNav = ({user_id,  email}: Props) => {
+  const navigate = useNavigate();
   const [open, setOpen] = useState(false);
   const pathname = useLocation().pathname;
-
+	
   return (
     <header className="flex flex-row justify-between items-center my-1 px-2 lg:hidden">
       <img src="/logo.png" 
@@ -59,7 +60,15 @@ const MobileNav = ({user_id,  email}: Props) => {
                 <FileUploader ownerId={user_id} />
                 <FolderCreator ownerId={user_id} />
                 <form className='self-center'>
-                    <Button type='submit' className='text-sm' onClick={async()=>await signOutUser()}>Sign Out</Button>
+                    <Button type='submit' className='text-sm' onClick={
+			    async()=>{
+				try {
+					await signOutUser()
+				} catch {}
+				finally {
+					navigate('/sign-in')
+				}
+			    }}>Sign Out</Button>
                 </form>
 
               </div>
@@ -68,5 +77,4 @@ const MobileNav = ({user_id,  email}: Props) => {
     </header>
   )
 }
-
 export default MobileNav

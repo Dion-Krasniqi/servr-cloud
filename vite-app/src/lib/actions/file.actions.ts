@@ -24,7 +24,7 @@ export const uploadFile = async({file, parentId,  path}:UploadFileProps)=> {
         const token = await createSessionClient();
         const response = await fetch(`${baseLink}/upload-file`, {
                                       method: 'POST',
-                                      headers: { 'Authorization': `Bearer ${token}` },
+				      credentials: 'include',
                                       body: formData,
                                     })
         const data = await response.json();
@@ -66,9 +66,9 @@ export const getFiles = async({types=[], searchText='', sort='date-desc',limit, 
     try {
         const currentUser = await getCurrentUser();
         if (!currentUser) throw new Error('User not found!');
-        const response = await fetch('http://localhost:8001/get-files', {
+        const response = await fetch(`${baseLink}/get-files`, {
                                       method: 'GET',
-                                      headers: { 'Authorization': `Bearer ${token}`, },
+				      credentials: 'include',
                                     })
         if (!response.ok) {
             return files;
@@ -111,10 +111,9 @@ export const renameFile = async({file_id, file_name, path}:RenameFileProps)=> {
     const new_name = file_name;
     try {
         const token = await createSessionClient();
-        const response = await fetch(`http://localhost:8001/rename-file`, {
+        const response = await fetch(`${baseLink}/rename-file`, {
                                       method: 'POST',
-                                      headers: { 'Authorization': `Bearer ${token}`,
-                                                 'Content-Type': 'application/json' },
+				      credentials: 'include',
                                       body: JSON.stringify({file_id:id, file_name:new_name}),
                                     })
 
@@ -134,10 +133,9 @@ export const deleteFile = async({file_id, path}:DeleteFileProps)=> {
     const id = file_id;
     try {
         const token = await createSessionClient();
-        const response = await fetch(`http://localhost:8001/delete-file`, {
+        const response = await fetch(`${baseLink}/delete-file`, {
                                       method: 'POST',
-                                      headers: { 'Authorization': `Bearer ${token}`,
-                                                 'Content-Type': 'application/json' },
+				      credentials: 'include',
                                       body: JSON.stringify({file_id:id}),
                                     })
 
@@ -188,10 +186,10 @@ export const createFolder = async({ ownerId, parentId, folderName, path}:CreateF
     console.log(parentId)
     try {
         const token = await createSessionClient();
-        const response = await fetch('http://localhost:8001/create-folder', {
+        const response = await fetch(`${baseLink}/create-folder`, {
                                       method: 'POST',
-                                      headers: { 'Authorization': `Bearer ${token}`,
-                                                 'Content-Type': 'application/json' },
+				      credentials: 'include',
+				      headers: {"Content-Type":"application/json"},
                                       body:  JSON.stringify({folder_name:folderName, parent_id:parentId}),
                                     })
         const data = await response.json();

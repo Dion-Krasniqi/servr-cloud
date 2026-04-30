@@ -25,7 +25,7 @@ export const createAccount = async({email, password}:{email:string, password:str
 }
 export const getCurrentUser = async(): Promise<User | null> => {
     try {    
-        const response = await fetch('http://localhost:8001/users-me', {
+        const response = await fetch(`${baseLink}/users-me`, {
         method: 'GET',
         credentials: 'include',
         })
@@ -41,7 +41,6 @@ export const getCurrentUser = async(): Promise<User | null> => {
     }
 }
 export const signOutUser = async() => {
-    //does not exist yet
     await fetch(`${baseLink}/sign-out`, {
         method: 'POST',
         credentials: 'include',
