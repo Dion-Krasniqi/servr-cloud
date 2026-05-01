@@ -10,27 +10,21 @@ const handleError = (error:unknown, message:string) => {
     console.log(error, message);
     throw(error);
 }
-export const uploadFile = async({file, parentId,  path}:UploadFileProps)=> {
+export const uploadFile = async({file, parentId, path}:UploadFileProps) => {
     let parental = '';
-    if (parentId){
-        parental = parentId;
-    }
+    if (parentId) parental = parentId
     try {
         const formData = new FormData();
         formData.append("file", file);
-        if (parental){
-            formData.append("parent_id", parental)
-        }
-        const token = await createSessionClient();
+        if (parental) formData.append("parent_id", parental)
         const response = await fetch(`${baseLink}/upload-file`, {
                                       method: 'POST',
 				      credentials: 'include',
                                       body: formData,
-                                    })
+        })
         const data = await response.json();
         //revalidatePath(path);
         return parseStringify(data);
-
     } catch (error) {
         handleError(error, 'Failed to upload files')
     }
@@ -59,45 +53,32 @@ const sortFiles = async (files:Document[], sort:string) => {
 
 }
 
-export const getFiles = async({types=[], searchText='', sort='date-desc',limit, folder=''}:GetFilesProps)=> {
+export const getFiles = async (
+	{ types=[], 
+	  searchText='', 
+	  sort='date-desc',
+	  limit, 
+	  folder=''} : GetFilesProps
+) => {
     const type = types[0];
-    const token = await createSessionClient();
     let files: Document[] = [];
     try {
-        const currentUser = await getCurrentUser();
-        if (!currentUser) throw new Error('User not found!');
         const response = await fetch(`${baseLink}/get-files`, {
                                       method: 'GET',
 				      credentials: 'include',
                                     })
-        if (!response.ok) {
-            return files;
-        }
-        const data = await response.json();
-        if (!Array.isArray(data)){
-            return files;
-        }
+        if (!response.ok) return files
+        const data = await response.json()
+	console.log(data)
+        if (!Array.isArray(data)) return files
         files =  data as Document[];
-        if (folder) {
-            files = files.filter((f)=>f.parent_id == folder)
-            return files;
-        }
-        console.log(files)
-        if(type) {
-            console.log(type)
-            if(type=='home'){
-                console.log('home')
-                files = files.filter((f)=>f.parent_id=='' || f.parent_id == null)
-                
-            }
-            else{
-                files = files.filter((f)=>f.file_type==type)
-            }
-        }
-        if(searchText){
-            files = files.filter((f)=>f.file_name.includes(searchText))
-        }
-        console.log(files)
+        if (folder) return files.filter((f)=>f.parent_id == folder)
+        if(type=='home') {
+	 return files.filter((f)=>f.parent_id=='' || f.parent_id == null)
+	} else if (type) files = files.filter((f)=>f.file_type==type)
+        if(searchText) {
+		files = files.filter((f)=>f.file_name.includes(searchText))
+	}
         return files;
     } catch (error){
         handleError(error, 'Failed to get files!');
@@ -105,57 +86,57 @@ export const getFiles = async({types=[], searchText='', sort='date-desc',limit, 
     }
 }
 
-export const renameFile = async({file_id, file_name, path}:RenameFileProps)=> {
-
+export const renameFile = async (
+	{file_id, file_name, path} : RenameFileProps
+) => {
     const id = file_id;
     const new_name = file_name;
     try {
-        const token = await createSessionClient();
         const response = await fetch(`${baseLink}/rename-file`, {
                                       method: 'POST',
 				      credentials: 'include',
-                                      body: JSON.stringify({file_id:id, file_name:new_name}),
-                                    })
-
+                                      body: JSON.stringify({file_id:id, 
+							   file_name:new_name}),
+        })
         const data = await response.json();
         //revalidatePath(path);
     } catch (error) {
         handleError(error, 'Failed to rename file')
     }
-
 }
 
-export const updateFileUsers = async({fileId, emails, path}:UpdateFileUsersProps)=> {
-    console.log(fileId)
-}
+export const updateFileUsers = async (
+	{fileId, emails, path} : UpdateFileUsersProps
+) => { console.log(fileId) }
 
-export const deleteFile = async({file_id, path}:DeleteFileProps)=> {
+export const deleteFile = async (
+	{file_id, path} : DeleteFileProps
+) => {
     const id = file_id;
+    console.log(id)
     try {
-        const token = await createSessionClient();
         const response = await fetch(`${baseLink}/delete-file`, {
                                       method: 'POST',
 				      credentials: 'include',
-                                      body: JSON.stringify({file_id:id}),
+				      headers: {"Content-Type":
+					        "application/json"},
+                                      body: JSON.stringify({file_id : id}),
                                     })
 
         const data = await response.json();
         console.log(data);
         //revalidatePath(path);
         return parseStringify(data);
-
     } catch (error) {
         handleError(error, 'Failed to delete file')
     }
-
 }
 
-export async function getTotalSpaceUsed (types:string[]){
+export async function getTotalSpaceUsed ( types:string[]
+) {
     try {
-        const currentUser = await getCurrentUser();
-        if (!currentUser) throw new Error('User not found!');
-        //const queries = await createQueries(currentUser, types,'')
-
+	const currentUser = await getCurrentUser()
+	if (!currentUser) throw new Error("User not found!")
         const files = [1]
         const totalSpace = {
             document : {size:0, latestDate: ""},
@@ -182,20 +163,23 @@ export async function getTotalSpaceUsed (types:string[]){
   }
 }
 
-export const createFolder = async({ ownerId, parentId, folderName, path}:CreateFolderProps)=> {
+export const createFolder = async (
+	{ownerId, parentId, folderName, path} : CreateFolderProps
+) => {
     console.log(parentId)
     try {
-        const token = await createSessionClient();
         const response = await fetch(`${baseLink}/create-folder`, {
                                       method: 'POST',
 				      credentials: 'include',
-				      headers: {"Content-Type":"application/json"},
-                                      body:  JSON.stringify({folder_name:folderName, parent_id:parentId}),
-                                    })
+				      headers: {"Content-Type":
+					        "application/json"},
+                                      body:  JSON.stringify
+				      ({folder_name:folderName, 
+				       parent_id:parentId}),
+        })
         const data = await response.json();
         //revalidatePath(path);
         return parseStringify(data);
-
     } catch (error) {
         handleError(error, 'Failed to create folder')
     }
