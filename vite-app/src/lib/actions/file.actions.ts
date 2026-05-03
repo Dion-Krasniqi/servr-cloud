@@ -112,6 +112,7 @@ export const updateFileUsers = async (
 export const deleteFile = async (
 	{file_id, path} : DeleteFileProps
 ) => {
+    console.log(file_id)
     const id = file_id;
     console.log(id)
     try {
@@ -120,7 +121,7 @@ export const deleteFile = async (
 				      credentials: 'include',
 				      headers: {"Content-Type":
 					        "application/json"},
-                                      body: JSON.stringify({file_id : id}),
+                                      body: JSON.stringify({file_id : file_id}),
                                     })
 
         const data = await response.json();

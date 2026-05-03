@@ -18,8 +18,9 @@ import { Button } from "./ui/button";
 import { deleteFile, renameFile, updateFileUsers } from "../lib/actions/file.actions";
 import { FileDetails, ShareInput } from "./ActionsModalContent";
 import type { ActionType, Document } from "../types";
-
-const ActionDropdown = ({ file } : {file: Document}) => {
+import { useRefresh } from '../context/RefreshContext'
+const ActionDropdown = ({ file } 
+			: {file : Document}) => {
   const [isModalOpen,setIsModalOpen] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [action, setAction] = useState<ActionType | null>(null);
@@ -28,6 +29,8 @@ const ActionDropdown = ({ file } : {file: Document}) => {
   const path = useLocation().pathname;
   const [emails, setEmails] = useState<string[]>([]);
 
+  const { triggerRefresh } = useRefresh()
+  
   const closeAllModals = ()=> {
     setIsModalOpen(false);
     setDropdownOpen(false);
@@ -47,7 +50,10 @@ const ActionDropdown = ({ file } : {file: Document}) => {
     }
     
     success = await actions[action.value as keyof typeof actions]();
-    if (success) closeAllModals();
+    if (success) { 
+    	closeAllModals()
+	triggerRefresh()
+    }
     setLoading(false);
 
   } 

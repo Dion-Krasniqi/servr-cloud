@@ -5,7 +5,8 @@ import FormattedDateTime from './FormattedDateTime'
 import ActionDropdown from './ActionDropdown'
 import type { Document } from '../types'
 
-const Card = ({ file }: { file: Document }) => {
+const Card = ({ file, onRefresh } : 
+	      { file: Document, onRefresh: () => void }) => {
   
   return (
     <div className="flex flex-col gap-8 rounded-xl border border-gray-100 bg-white p-4 shadow-sm transition-shadow hover:shadow-md w-full">
@@ -22,7 +23,7 @@ const Card = ({ file }: { file: Document }) => {
           />
         </Link>
         <div className="">
-          <ActionDropdown file={file} />
+          <ActionDropdown file={file} onRefresh={onRefresh} />
           
         </div>
       </div>

@@ -12,7 +12,6 @@ export default function Layout () {
   useEffect(()=>{
     getCurrentUser().then(user => setCurrentUser(user))
   }, [])
-  
   if (!currentUser) return null
 
   return(<main className='flex h-screen items-center'>

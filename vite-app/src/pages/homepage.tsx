@@ -4,11 +4,13 @@ import Sort from "../components/Sort";
 import { getFiles, getTotalSpaceUsed } from "../lib/actions/file.actions";
 import type { Document } from "../types/index";
 import { useState, useEffect } from "react";
-
+import { useRefresh } from '../context/RefreshContext'
 
 export default function HomePage () {
+    const { refresh } = useRefresh()
     const [files, setFiles] = useState<Document[]>([])
     const [totalSpace, setTotalSpace] = useState({ used: 0, all: 0 })
+
     useEffect(() => {
       const load = async () => {
         const [filesData, spaceData] = await Promise.all([
@@ -19,7 +21,7 @@ export default function HomePage () {
         setTotalSpace(spaceData)
       }
       load()
-    }, [])
+    }, [refresh])
     return (
     <div className="">
       <div style={{padding:10}} className="flex flex-row gap-4">
@@ -32,7 +34,7 @@ export default function HomePage () {
             </div>
             <section className="flex flex-col gap-2">
               {files?.map((file:Document)=>{
-                return (<Card key={file.file_id} file={file}/>)
+                return (<Card key={file.file_id} file={file} />)
             })}
             </section></div>):(<div className="flex h-full w-full items-center justify-center">
                                 <p className="text-lg font-medium">No files found</p>

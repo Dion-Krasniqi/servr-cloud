@@ -11,10 +11,12 @@ import FolderPage from './pages/id'
 import ProtectedRoute from './layouts/ProtectedRoute'
 import AuthLayout from './layouts/AuthLayout'
 import RootLayout from './layouts/RootLayout'
+import { RefreshProvider } from './context/RefreshContext'
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <BrowserRouter>
+    <RefreshProvider>
        <Routes>
          <Route element={<AuthLayout />}>
            <Route path="/sign-in" element={<SignIn />} />
@@ -26,6 +28,7 @@ createRoot(document.getElementById('root')!).render(
            <Route path="/folders/:id" element={<FolderPage />} />
          </Route>
        </Routes>
+     </RefreshProvider>
      </BrowserRouter>
   </StrictMode>
 )

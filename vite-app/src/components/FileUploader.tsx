@@ -8,10 +8,12 @@ import { MAX_FILE_SIZE } from '../constants';
 import { toast } from "sonner";
 import { uploadFile } from '../lib/actions/file.actions';
 import { useLocation } from 'react-router-dom';
+import { useRefresh } from '../context/RefreshContext'
 
 
-
-const FileUploader = ({ownerId, className}:{ownerId:string;className?:string}) => {
+const FileUploader = ({ownerId, className}:
+		      {ownerId:string, className?:string}) => {
+  const { triggerRefresh } = useRefresh()
   const path = useLocation().pathname;
   const [file, setFile] = useState<File[]>([]);
   const parentId = path.split('/').at(2) || '';
@@ -27,6 +29,7 @@ const FileUploader = ({ownerId, className}:{ownerId:string;className?:string}) =
       return uploadFile({file,parentId,path}).then((uploadedFile)=>{
         if(uploadedFile){
           setFile((prevfile)=>prevfile.filter((f)=>f.name!=file.name))
+          triggerRefresh()
         }
       })
     })
