@@ -14,7 +14,7 @@ import {
 import { Input } from "../components/ui/input"
 import { Label } from "../components/ui/label"
 import { useState } from "react";
-
+import { useRefresh } from '../context/RefreshContext'
 
 
 
@@ -24,6 +24,7 @@ const FolderCreator = ({ownerId}:{ownerId:string}) =>{
   const path = useLocation().pathname;
   const parentId = path.split('/').at(2) || '';
   console.log(parentId)
+  const { triggerRefresh } = useRefresh()
    return (
     <Dialog open={modalOpen} onOpenChange={setModalOpen}>
       <DialogTrigger asChild>
@@ -35,8 +36,13 @@ const FolderCreator = ({ownerId}:{ownerId:string}) =>{
           <form onSubmit={async (e) => {e.preventDefault();
                                     if (!folderName) return;
 
-                                    await createFolder({ownerId,parentId,folderName,path});
-                                    setModalOpen(false);
+                                    try {
+					    await createFolder({ownerId,parentId,folderName,path});
+				    } catch (e) {}
+				    finally {
+                                    	setModalOpen(false)
+					triggerRefresh()
+				    }
       }}><div className="flex items-center gap-4">
           <div className="grid flex-1 gap-4">
           <DialogHeader>

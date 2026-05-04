@@ -5,20 +5,35 @@ import { getFiles, getTotalSpaceUsed } from '../lib/actions/file.actions';
 import { signOutUser } from '../lib/actions/user.actions';
 import { getFileTypeParams } from '../lib/utils';
 import type { Document, FileType } from '../types';
-import { useParams } from 'react-router-dom'
+import { useParams, useNavigate } from 'react-router-dom'
+import { useEffect, useState } from 'react'
+import { useRefresh } from '../context/RefreshContext'
 
-
-export default async function TypePage ()  {
+export default function TypePage ()  {
   const type = useParams().type as string || "";
-  const searchText = useParams().searchText as string || "";
-  const sort = useParams().sort as string || "";
-  //const searchText = ((await searchParams)?.query as string) || "";
-  //const sort = ((await searchParams)?.sort as string) || "";
-  if (type!='user'){
-    const typeFilter = type != 'documents' ? ['media'] as FileType[] : ['document'] as FileType[];
-    console.log(typeFilter)
-    const [ files, totalSpace ] = await Promise.all([getFiles({types:typeFilter, limit:10}), getTotalSpaceUsed(typeFilter)]);
-    return (
+  console.log(type)
+  //const searchText = useParams().searchText as string || "";
+  //const sort = useParams().sort as string || "";
+  const { refresh } = useRefresh()
+  const [ files, setFiles ] = useState<Document[]>([])
+  const navigate = useNavigate()
+  useEffect(() => {
+  	if (type == 'user') return
+    	const typeFilter = type != 'documents' ? ['media'] as FileType[] : ['document'] as FileType[];
+	getFiles({types: typeFilter, limit: 10 }).then(setFiles)
+  }, [type, refresh])
+
+  if (type == 'user') return (<div>
+             <p>Account Preferences</p>
+             <p>Setting 1</p>
+             <p>Setting 2</p>
+             <p>Setting 3</p>
+             <form className='self-center' action={async()=>{'use server';await signOutUser();}}>
+                <Button type='submit' className='text-sm'>Sign Out</Button>
+            </form>
+            </div>)
+  
+  return (
      <div style={{backgroundColor:'#e0e0e0ff', borderRadius:10, padding:10}}>
         <section className='w-full'>
             <h1 className='h1 capitalize'>
@@ -40,17 +55,5 @@ export default async function TypePage ()  {
            </ section>
         
 
-     </div>)}
-  //maybe make this its own, but works fine for now
-  else {
-    return (<div>
-             <p>Account Preferences</p>
-             <p>Setting 1</p>
-             <p>Setting 2</p>
-             <p>Setting 3</p>
-             <form className='self-center' action={async()=>{'use server';await signOutUser();}}>
-                <Button type='submit' className='text-sm'>Sign Out</Button>
-            </form>
-            </div>)
-  }
-}
+     </div>)} 
+
