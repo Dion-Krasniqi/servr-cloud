@@ -5,23 +5,26 @@ import { getFiles, getTotalSpaceUsed } from "../lib/actions/file.actions";
 import type { Document } from "../types/index";
 import { useState, useEffect } from "react";
 import { useRefresh } from '../context/RefreshContext'
+import { useLocation } from 'react-router-dom'
 
 export default function HomePage () {
     const { refresh } = useRefresh()
     const [files, setFiles] = useState<Document[]>([])
     const [totalSpace, setTotalSpace] = useState({ used: 0, all: 0 })
 
+    const sort = useLocation.pathname;
     useEffect(() => {
+      console.log(sort)
       const load = async () => {
         const [filesData, spaceData] = await Promise.all([
-          getFiles({ types: ['home'], limit: 10 }),
+          getFiles({ types: ['home'], limit: 10 , sort: sort}),
           getTotalSpaceUsed([])
         ])
         setFiles(filesData)
         setTotalSpace(spaceData)
       }
       load()
-    }, [refresh])
+    }, [refresh, sort])
     return (
     <div className="">
       <div style={{padding:10}} className="flex flex-row gap-4">

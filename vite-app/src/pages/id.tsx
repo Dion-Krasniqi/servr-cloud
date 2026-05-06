@@ -6,12 +6,16 @@ import type { Document, FileType, User } from "../types";
 import { useParams } from 'react-router-dom'
 import { useNavigate } from 'react-router-dom'
 import {useState, useEffect} from 'react'
-
+import { useRefresh } from '../context/RefreshContext'
 
 export default function FolderPage ()  {
-  const navigate = useNavigate();
+  const navigate = useNavigate()
+  const refresh = useRefresh()
   const [files, setFiles] = useState<Document[]>([])
   const [currentUser, setCurrentUser] = useState<User|null>(null)
+  const id = useParams().id;
+  const name = (useParams().name as string) || "";
+
   useEffect(() => {
       const load = async () => {
         const [filesData] = await Promise.all([
@@ -22,10 +26,8 @@ export default function FolderPage ()  {
         setCurrentUser(currentUser)
       }
       load()
-    }, [])
+    }, [id, refresh])
 
-  const id = useParams().id;
-  const name = (useParams().name as string) || "";
   
   
   if (!currentUser) navigate('/sign-in');
@@ -38,7 +40,9 @@ export default function FolderPage ()  {
             </h1>
         {files.length>0 ? (<div>
           <section className='flex md:flex-col gap-4 sm:flex-row'>
-            {files?.map((file:Document)=>{return (<Card key={file.file_id} file={file}/>)})}
+            {files?.map((file:Document)=>{
+		    return (<Card key={file.file_id} file={file}/>)})
+	    }
           </section></div>):
           (<div className="flex h-full w-full items-center justify-center">
             <p className="text-lg font-medium my-15">No files found</p>

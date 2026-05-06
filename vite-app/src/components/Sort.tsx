@@ -7,13 +7,14 @@ import {
 } from "../components/ui/select"
 import { sortTypes } from "../constants";
 import { useLocation, useNavigate } from "react-router-dom"
-
+import { useRefresh } from '../context/RefreshContext'
 const Sort = () => {
+  const { triggerRefresh } = useRefresh()
   const router = useNavigate();
   const path = useLocation().pathname;
   const handleSort = (value:string)=> {
     router(`${path}?sort=${value}`)
-
+    triggerRefresh()
   }
   
   return (
