@@ -22,13 +22,12 @@ type FormType = 'sign-in' | 'sign-up';
 const AuthFormSchema = (formType:FormType) => {
   return z.object({
     email: z.email(),
-    password: z.string().min(1).max(50), 
-    username: formType === 'sign-up' ? z.string().min(2).max(50) : z.string().optional(),
-    
+    password: z.string().min(1).max(50),  
   })
 }
 
 const AuthForm = ({ type }:{ type:FormType }) => {
+  console.log(type)
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
   const [errMsg, setErrMsg] = useState('');
@@ -37,7 +36,6 @@ const AuthForm = ({ type }:{ type:FormType }) => {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      username: "",
       email:"",
       password:"",
     },
@@ -48,8 +46,8 @@ const AuthForm = ({ type }:{ type:FormType }) => {
     setIsLoading(true);
     try {
       if (type==='sign-up') {
+	      console.log('the correct')
         await createAccount({email:values.email, password:values.password})
-        //old idk why await createAccount({email:values.username || values.email, email:values.email, password:values.password})
       } else {
         await signInUser({email:values.email, password:values.password});
       }
@@ -71,21 +69,6 @@ const AuthForm = ({ type }:{ type:FormType }) => {
         <h1 className="h1">
           {type === 'sign-in' ? "Sign In":"Sign Up"}
         </h1>
-        {type==='sign-up' && <FormField
-          control={form.control}
-          name="username"
-          render={({ field }) => (
-            <FormItem className="w-full">
-              <div >
-                <FormLabel className="text-ring">Username</FormLabel>
-                <FormControl>
-                  <Input placeholder="Enter your username" {...field} className="rounded-sm border-ring mt-2 w-full"/>
-                </FormControl>
-              </div>
-                <FormMessage />
-            </FormItem>
-          )}
-        />}
         <FormField
           control={form.control}
           name="email"
