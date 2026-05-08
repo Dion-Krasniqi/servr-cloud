@@ -12,8 +12,8 @@ const Card = ({ file, onRefresh } :
     <div className="flex flex-col gap-8 rounded-xl border border-gray-100 bg-white p-4 shadow-sm transition-shadow hover:shadow-md w-full">
       
       <div className="flex items-start justify-between">
-        <Link to={file.file_type == 'folder' ? {pathname: `/folders/${file.file_id}`,
-                                                  /*query: {name: file.file_name},*/}: (file.url ? file.url : "")} >
+      { file.file_type == 'folder' && 
+        (<Link to={`/folders/${file.file_id}`} >
           <Thumbnail 
             type={file.file_type} 
             extension={file.extension} 
@@ -21,7 +21,18 @@ const Card = ({ file, onRefresh } :
             className="size-12 mt-3" 
             imageClassName={"size-14"}
           />
-        </Link>
+        </Link>) : 
+        (<a to={file.url || ""} target="_blank" rel="noopener noreferrer">
+          <Thumbnail 
+            type={file.file_type} 
+            extension={file.extension} 
+            url={file.url? file.url : null} 
+            className="size-12 mt-3" 
+            imageClassName={"size-14"}
+          />
+        </a>)
+       }
+
         <div className="">
           <ActionDropdown file={file} onRefresh={onRefresh} />
           
