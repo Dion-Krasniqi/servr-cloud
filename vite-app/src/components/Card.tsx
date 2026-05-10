@@ -4,15 +4,18 @@ import Thumbnail from './Thumbnail'
 import FormattedDateTime from './FormattedDateTime'
 import ActionDropdown from './ActionDropdown'
 import type { Document } from '../types'
+import { baseLink } from '../lib/utils'
 
 const Card = ({ file, onRefresh } : 
 	      { file: Document, onRefresh: () => void }) => {
-  
+  const file_link = file.url? `${baseLink}/files/${file.file_id}/download`
+  : ''
+
   return (
     <div className="flex flex-col gap-8 rounded-xl border border-gray-100 bg-white p-4 shadow-sm transition-shadow hover:shadow-md w-full">
       
       <div className="flex items-start justify-between">
-      { file.file_type == 'folder' && 
+      { file.file_type == 'folder' ?   
         (<Link to={`/folders/${file.file_id}`} >
           <Thumbnail 
             type={file.file_type} 
@@ -21,8 +24,7 @@ const Card = ({ file, onRefresh } :
             className="size-12 mt-3" 
             imageClassName={"size-14"}
           />
-        </Link>) : 
-        (<a to={file.url || ""} target="_blank" rel="noopener noreferrer">
+        </Link>) : (<a href={file_link || ""} target="_blank" rel="noopener noreferrer">
           <Thumbnail 
             type={file.file_type} 
             extension={file.extension} 
