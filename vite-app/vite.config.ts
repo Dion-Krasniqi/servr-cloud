@@ -7,17 +7,6 @@ export default defineConfig({
   root: '.',
   plugins: [react(),
             tailwindcss(),
-	    {
-		name: 'configure-headers',
-		configureServer(server) {
-			server.middleware.use((_, res, next) => {
-				rest.setHeader('Content-Security-Policy',
-				"default-src 'self'; img-src 'self' http://localhost:8000 blobl: data:; media-src 'self' http://localhost:8000"
-					      )
-				next()
-			})
-		}
-	    }
   ],
   server: {
     proxy: {
